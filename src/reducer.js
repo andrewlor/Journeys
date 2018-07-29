@@ -5,6 +5,7 @@ import {
   LOGIN_RESPONSE,
   LOGIN_ERROR,
   AUTH_ERROR,
+  REAUTH
 } from "./constants.js";
 
 const initialState = {
@@ -42,7 +43,9 @@ export default function reducer(state = initialState, action) {
         user: action.user,
         authToken: action.authToken,
         client: action.client,
-        uid: action.uid
+        uid: action.uid,
+        email: null,
+        password: null
       };
     case LOGIN_ERROR:
       return {
@@ -54,6 +57,13 @@ export default function reducer(state = initialState, action) {
         ...state,
         isLoading: false,
         authError: true
+      }
+    case REAUTH:
+      return {
+        ...state,
+        authToken: action.authToken,
+        client: action.client,
+        uid: action.uid
       }
     default:
       return state;

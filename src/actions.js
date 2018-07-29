@@ -5,8 +5,10 @@ import {
   LOGIN_FETCH,
   LOGIN_RESPONSE,
   LOGIN_ERROR,
-  AUTH_ERROR
+  AUTH_ERROR,
+  REAUTH
 } from './constants';
+import { AsyncStorage } from 'react-native';
 
 export function setEmail(email) {
   return {
@@ -39,6 +41,11 @@ export function login(email, password) {
     }).then((response) => {
       if (response.status >= 200 && response.status < 300) {
         response.json().then((body) => {
+          const authToken = response.headers.get("access-token");
+          const client = response.headers.get("client");
+          const uid = response.headers.get("uid");
+          
+          storeAuth(authToken, client, uid);
           dispatch({
             type: LOGIN_RESPONSE,
             user: body.data,
@@ -59,4 +66,30 @@ export function login(email, password) {
       });
     })
   }
+}
+
+export function reauth(authToken, client, uid) {
+  return dispatch => {
+    dispatch({
+      type: REAUTH,
+      authToken: authToken,
+      client: client,
+      uid: uid
+    });
+  }
+}
+
+async function storeAuth(authToken, client, uid) {
+  const AUTH = {
+    authToken: authToken,
+    client: client,
+    uid: uid
+  };
+  try {
+    await AsyncStorage.setItem('@Journeys:AUTH', JSON.stringify(AUTH));
+  } catch (error) {
+    console.log("ERROR PERSISTING STORAGE");
+    return;
+  }
+  console.log("SUCCESSFUL PERSISTING STORAGE");
 }

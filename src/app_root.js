@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import Login from './views/login.js';
-import { NavigatorIOS } from 'react-native';
+import { NavigatorIOS, AsyncStorage } from 'react-native';
 import { Font } from 'expo';
 import { connect } from 'react-redux';
 
-export default class AppRoot extends Component {
+import { reauth } from './actions';
+
+class AppRoot extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fontLoaded: false
+      fontsLoaded: false
     };
   }
   
@@ -17,11 +19,23 @@ export default class AppRoot extends Component {
       'pacifico': require('../assets/fonts/Pacifico-Regular.ttf'),
     });
 
-    this.setState({ fontLoaded: true });
+    this.setState({ fontsLoaded: true });
+
+    try {
+      const value = await AsyncStorage.getItem('@Journeys:AUTH');
+      if (value !== null) {
+        console.log("SUCCESS FETCHING STORAGE");
+        console.log(value);
+        let AUTH = JSON.parse(value);
+        this.props.reauth(AUTH.authToken, AUTH.client, AUTH.uid);
+      }
+    } catch (error) {
+      console.log("ERROR FETCHING STORAGE: " + error);
+    }
   }
 
   render() {
-    if (this.state.fontLoaded) {
+    if (this.state.fontsLoaded) {
       return (
         <NavigatorIOS
           initialRoute={{
@@ -37,3 +51,15 @@ export default class AppRoot extends Component {
     }
   }
 }
+
+
+const mapStateToProps = state => {
+  return {
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  reauth: (authToken, client, uid) => dispatch(reauth(authToken, client, uid)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppRoot);

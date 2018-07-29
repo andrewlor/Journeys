@@ -7,3 +7,4 @@ export const LOGIN_FETCH = 'LOGIN_FETCH';
 export const LOGIN_RESPONSE = 'LOGIN_RESPONSE';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const AUTH_ERROR = 'AUTH_ERROR';
+export const REAUTH = 'REAUTH';
