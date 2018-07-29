@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Login from './views/login.js';
 import { NavigatorIOS } from 'react-native';
 import { Font } from 'expo';
+import { connect } from 'react-redux';
 
 export default class AppRoot extends Component {
   constructor(props) {

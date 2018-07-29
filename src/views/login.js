@@ -8,35 +8,18 @@ import {
   TextInput,
   Text
 } from 'react-native';
-//import Main from './Main.js';
-//import Title from '../Text/Title.js';
-//import TextInput from '../Input/Text.js';
-//import Button from '../Input/Button.js';
+import Main from './main';
 import { Button } from 'react-native-ios-kit';
+import { connect } from 'react-redux';
 
-export default class Login extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      username: '',
-      password: ''
-    };
-  }
-  
-  login = () => {
-    //if(this.state.username.length == 0 || this.state.password.length == 0) {
-    //  alert('Username or Password can not be empty.');
-    //} else {
+import { setEmail, setPassword, login } from '../actions';
+
+class Login extends React.Component {
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.isLoading && !nextProps.isLoading && nextProps.user) {
       this.props.navigator.push(nextRoute);
-    //}
-  }
-
-  updateUsername = (text) => {
-    this.setState({username: text});
-  }
-
-  updatePassword = (text) => {
-    this.setState({password: text});
+    }
   }
   
   render() {
@@ -56,7 +39,7 @@ export default class Login extends React.Component {
                 style={style.input}
                 placeholder={"Email"}
                 autoCapitalize='none'
-                onChangeText={this.updateUsername}
+                onChangeText={this.props.setEmail}
               />
             </View>
             <View style={style.element}>
@@ -65,7 +48,7 @@ export default class Login extends React.Component {
                 placeholder={"Password"}
                 autoCapitalize='none'
                 secureTextEntry    
-                onChangeText={this.updatePassword}
+                onChangeText={this.props.setPassword}
               />
             </View>
             <View style={style.element}>
@@ -74,7 +57,7 @@ export default class Login extends React.Component {
                 inverted
                 style={style.button}
                 innerStyle={{ fontSize: 20 }}
-                onPress={this.login}
+                onPress={() => this.props.login(this.props.email, this.props.password)}
               >
                 Login
               </Button>
@@ -118,6 +101,24 @@ const style = StyleSheet.create({
 });
 
 const nextRoute = {
-//  component: Main,
-//  title: 'main'
+  component: Main,
+  title: 'main'
 }
+
+
+const mapStateToProps = state => {
+  return {
+    email: state.email,
+    password: state.password,
+    isLoading: state.isLoading,
+    user: state.user
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  setEmail: (email) => dispatch(setEmail(email)),
+  setPassword: (password) => dispatch(setPassword(password)),
+  login: (email, password) => dispatch(login(email, password))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
