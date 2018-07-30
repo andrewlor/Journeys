@@ -1,18 +1,32 @@
 import React, { Component } from 'react';
 import { Text, ScrollView, View, StyleSheet } from 'react-native';
-//import Title from '../Text/Title.js';
-//import JourneyPartial from '../Partials/Journey.js';
-//import Journey from './Journey.js';
+import { connect } from 'react-redux';
+import { Headline, Body } from 'react-native-ios-kit';
+import { index } from '../actions';
 
-export default class Main extends Component {
-  
-  selectJourney = (title, author) => {
-    let route = nextRoute;
-    route.passProps = {
-      title: title,
-      author: author
-    };
-    this.props.navigator.push(route);
+class Main extends Component {
+
+  componentDidMount() {
+    this.props.index(this.props.authToken, this.props.client, this.props.uid);
+  }
+
+  renderJourneys() {
+    if (this.props.journeys.length > 0) {
+      return (
+        <ScrollView contentContainerStyle={{padding: 0, margin: 0}}>
+          {this.props.journeys.map((journey) => {
+             return (
+               <View style={style.journey} key={journey.id}>
+                 <Headline>{journey.title}</Headline>
+                 <Body>{journey.mission_statement}</Body>
+               </View>
+             );
+          })}
+        </ScrollView>
+      );
+    } else {
+      return null;
+    }
   }
   
   render() {
@@ -21,8 +35,7 @@ export default class Main extends Component {
         <View style={style.topBar}>
           <Text style={style.title}>Journeys</Text>
         </View>
-        <ScrollView contentContainerStyle={{padding: 0, margin: 0}}>
-        </ScrollView>
+        {this.renderJourneys()}
       </View>
     );
   }
@@ -31,12 +44,17 @@ export default class Main extends Component {
 const style = StyleSheet.create({
   topBar: {
     padding: 20,
-    alignItems: 'center'
+    alignItems: 'center',
+    borderBottomWidth: 1
   },
   title: {
     fontSize: 30,
     color: 'black',
     fontFamily: 'pacifico'
+  },
+  journey: {
+    padding: 10,
+    borderBottomWidth: 1
   }
 });
 
@@ -44,3 +62,18 @@ const nextRoute = {
 //  component: Journey,
 //  title: 'journey'
 };
+
+const mapStateToProps = state => {
+  return {
+    authToken: state.authToken,
+    client: state.client,
+    uid: state.uid,
+    journeys: state.indexJourneys
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  index: (authToken, client, uid) => dispatch(index(authToken, client, uid))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

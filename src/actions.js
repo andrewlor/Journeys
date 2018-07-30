@@ -5,6 +5,9 @@ import {
   LOGIN_FETCH,
   LOGIN_RESPONSE,
   LOGIN_ERROR,
+  INDEX_FETCH,
+  INDEX_RESPONSE,
+  INDEX_ERROR,
   AUTH_ERROR,
   REAUTH
 } from './constants';
@@ -25,7 +28,6 @@ export function setPassword(password) {
 }
 
 export function login(email, password) {
-  console.log("STARTING FETCH")
   return dispatch => {
     dispatch({ type: LOGIN_FETCH })
     
@@ -48,7 +50,6 @@ export function login(email, password) {
           storeAuth(authToken, client, uid);
           dispatch({
             type: LOGIN_RESPONSE,
-            user: body.data,
             authToken: response.headers.get("access-token"),
             client: response.headers.get("client"),
             uid: response.headers.get("uid")
@@ -63,6 +64,37 @@ export function login(email, password) {
       console.log(error)
       dispatch({
         type: LOGIN_ERROR
+      });
+    })
+  }
+}
+
+export function index(authToken, client, uid) {
+  return dispatch => {
+    dispatch({ type: INDEX_FETCH })
+    
+    fetch(BASE_URL + '/journeys', {
+      method: 'get',
+      headers: {
+        "access-token": authToken,
+        client: client,
+        uid: uid
+      }
+    }).then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        response.json().then((body) => {
+          dispatch({
+            type: INDEX_RESPONSE,
+            journeys: body
+          })
+        });
+      } else {
+        console.log(response.status)
+      }
+    }).catch((error) => {
+      console.log(error)
+      dispatch({
+        type: INDEX_ERROR
       });
     })
   }

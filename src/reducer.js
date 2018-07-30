@@ -5,6 +5,9 @@ import {
   LOGIN_RESPONSE,
   LOGIN_ERROR,
   AUTH_ERROR,
+  INDEX_FETCH,
+  INDEX_RESPONSE,
+  INDEX_ERROR,
   REAUTH
 } from "./constants.js";
 
@@ -16,7 +19,8 @@ const initialState = {
   authError: false,
   authToken: null,
   client: null,
-  uid: null
+  uid: null,
+  indexJourneys: []
 };
 
 export default function reducer(state = initialState, action) {
@@ -64,6 +68,22 @@ export default function reducer(state = initialState, action) {
         authToken: action.authToken,
         client: action.client,
         uid: action.uid
+      }
+    case INDEX_FETCH:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case INDEX_RESPONSE:
+      return {
+        ...state,
+        isLoading: false,
+        indexJourneys: action.journeys
+      }
+    case INDEX_ERROR:
+      return {
+        ...state,
+        isLoading: false
       }
     default:
       return state;

@@ -35,7 +35,7 @@ class Login extends React.Component {
       return (
         <View style={style.innerFrame}>
           <KeyboardAvoidingView style={{flex: 2}} behavior='position'>
-            <View style={[style.element, {padding: 10}]}>
+            <View style={[style.element, {padding: 20}]}>
               <Text style={style.title}>Journeys</Text>
             </View>
             <View style={style.element}>
@@ -90,7 +90,7 @@ class Login extends React.Component {
 */
 const style = StyleSheet.create({
   title: {
-    fontSize: 75,
+    fontSize: 50,
     color: 'white',
     fontFamily: 'pacifico'
   },
