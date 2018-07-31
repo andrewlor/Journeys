@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import { Text, ScrollView, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { Headline, Body } from 'react-native-ios-kit';
-import { index } from '../actions';
+import { Headline, Body, Button } from 'react-native-ios-kit';
+import { index, logout } from '../actions';
 
 class Main extends Component {
 
   componentDidMount() {
     this.props.index(this.props.authToken, this.props.client, this.props.uid);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.authToken) this.props.navigator.pop()
   }
 
   renderJourneys() {
@@ -36,6 +40,12 @@ class Main extends Component {
           <Text style={style.title}>Journeys</Text>
         </View>
         {this.renderJourneys()}
+        <Button
+          onPress={this.props.logout}
+          centered
+          rounded
+          inverted
+        >Logout</Button>
       </View>
     );
   }
@@ -73,7 +83,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  index: (authToken, client, uid) => dispatch(index(authToken, client, uid))
+  index: (authToken, client, uid) => dispatch(index(authToken, client, uid)),
+  logout: () => dispatch(logout())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

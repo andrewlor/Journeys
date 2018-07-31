@@ -11,6 +11,7 @@ import {
 import Main from './main';
 import { Button, Spinner } from 'react-native-ios-kit';
 import { connect } from 'react-redux';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 import { setEmail, setPassword, login } from '../actions';
 
@@ -22,10 +23,13 @@ class Login extends React.Component {
     if (isLoggingIn || wasLoggedIn) {
       this.props.navigator.push(nextRoute);
     }
+    if (nextProps.authError) {
+//      alert("Invalid Email or Password.");
+    }
   }
 
   renderMainContent() {
-    if (this.props.isLoading) {
+    if (this.props.isLoading || this.props.authToken) {
       return (
         <View style={[style.innerFrame, {alignItems: 'center', justifyContent: 'center'}]}>
           <Spinner animating={true} />
@@ -34,10 +38,11 @@ class Login extends React.Component {
     } else {
       return (
         <View style={style.innerFrame}>
+          <View style={{height: getStatusBarHeight()}}></View>
+          <View style={[style.element, {flex: 3}]}>
+            <Text style={style.title}>Journeys</Text>
+          </View>
           <KeyboardAvoidingView style={{flex: 2}} behavior='position'>
-            <View style={[style.element, {padding: 20}]}>
-              <Text style={style.title}>Journeys</Text>
-            </View>
             <View style={style.element}>
               <TextInput
                 style={style.input}
@@ -60,7 +65,6 @@ class Login extends React.Component {
                 rounded
                 inverted
                 style={style.button}
-                innerStyle={{ fontSize: 20 }}
                 onPress={() => this.props.login(this.props.email, this.props.password)}
               >
                 Login
@@ -95,7 +99,7 @@ const style = StyleSheet.create({
     fontFamily: 'pacifico'
   },
   element: {
-    padding: 10,
+    padding: 5,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -105,14 +109,14 @@ const style = StyleSheet.create({
   },
   input: {
     width: 250,
-    padding: 20,
-    fontSize: 20,
+    padding: 15,
+    fontSize: 15,
     backgroundColor: 'white',
     borderRadius: 5
   },
   button: {
     width: 250,
-    padding: 20
+    padding: 15
   }
 });
 
@@ -130,7 +134,8 @@ const mapStateToProps = state => {
     user: state.user,
     authToken: state.authToken,
     client: state.client,
-    uid: state.uid
+    uid: state.uid,
+    authError: state.authError
   };
 };
 

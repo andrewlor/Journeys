@@ -8,6 +8,7 @@ import {
   INDEX_FETCH,
   INDEX_RESPONSE,
   INDEX_ERROR,
+  DEAUTH,
   REAUTH
 } from "./constants.js";
 
@@ -85,6 +86,8 @@ export default function reducer(state = initialState, action) {
         ...state,
         isLoading: false
       }
+    case DEAUTH:
+      return initialState;
     default:
       return state;
   }

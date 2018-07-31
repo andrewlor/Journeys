@@ -11,3 +11,4 @@ export const INDEX_FETCH = 'INDEX_FETCH';
 export const INDEX_RESPONSE = 'INDEX_RESPONSE';
 export const INDEX_ERROR = 'INDEX_ERROR';
 export const REAUTH = 'REAUTH';
+export const DEAUTH = 'DEAUTH';

@@ -9,6 +9,7 @@ import {
   INDEX_RESPONSE,
   INDEX_ERROR,
   AUTH_ERROR,
+  DEAUTH,
   REAUTH
 } from './constants';
 import { AsyncStorage } from 'react-native';
@@ -47,7 +48,7 @@ export function login(email, password) {
           const client = response.headers.get("client");
           const uid = response.headers.get("uid");
           
-          storeAuth(authToken, client, uid);
+          setStore(authToken, client, uid);
           dispatch({
             type: LOGIN_RESPONSE,
             authToken: response.headers.get("access-token"),
@@ -66,6 +67,13 @@ export function login(email, password) {
         type: LOGIN_ERROR
       });
     })
+  }
+}
+
+export function logout() {
+  return dispatch => {
+    clearStore()
+    dispatch({ type: DEAUTH })
   }
 }
 
@@ -111,7 +119,7 @@ export function reauth(authToken, client, uid) {
   }
 }
 
-async function storeAuth(authToken, client, uid) {
+async function setStore(authToken, client, uid) {
   const AUTH = {
     authToken: authToken,
     client: client,
@@ -124,4 +132,14 @@ async function storeAuth(authToken, client, uid) {
     return;
   }
   console.log("SUCCESSFUL PERSISTING STORAGE");
+}
+
+async function clearStore() {
+  try {
+    await AsyncStorage.clear();
+  } catch (error) {
+    console.log("ERROR CLEARING STORAGE");
+    return;
+  }
+  console.log("SUCCESSFUL CLEARING STORAGE");
 }
