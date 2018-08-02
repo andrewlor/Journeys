@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, View, StyleSheet } from 'react-native';
+import { Text, ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { Headline, Body, Button } from 'react-native-ios-kit';
+import { Headline, Body, Button, Icon } from 'react-native-ios-kit';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { index, logout } from '../actions';
+import { index } from '../actions';
+import Settings from './settings'
 
 class Main extends Component {
 
   componentDidMount() {
     this.props.index(this.props.authToken, this.props.client, this.props.uid);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.authToken) this.props.navigator.pop()
   }
 
   renderJourneys() {
@@ -42,12 +39,16 @@ class Main extends Component {
           <Text style={style.title}>Journeys</Text>
         </View>
         {this.renderJourneys()}
-        <Button
-          onPress={this.props.logout}
-          centered
-          rounded
-          inverted
-        >Logout</Button>
+        <TouchableOpacity
+          onPress={() => this.props.navigator.push(settingsRoute)}
+          style={style.icon}
+        >
+          <Icon
+            name={'ios-settings'}
+            size={30}
+            color={'blue'}
+          />
+        </TouchableOpacity>
       </View>
     );
   }
@@ -69,12 +70,17 @@ const style = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: 'lightgray'
+  },
+  icon: {
+    position: 'absolute',
+    right: 10,
+    top: 20 + getStatusBarHeight(),
   }
 });
 
-const nextRoute = {
-//  component: Journey,
-//  title: 'journey'
+const settingsRoute = {
+  component: Settings,
+  title: 'settings'
 };
 
 const mapStateToProps = state => {
@@ -87,8 +93,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  index: (authToken, client, uid) => dispatch(index(authToken, client, uid)),
-  logout: () => dispatch(logout())
+  index: (authToken, client, uid) => dispatch(index(authToken, client, uid))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
