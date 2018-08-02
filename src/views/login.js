@@ -9,7 +9,7 @@ import {
   Text,
   Alert
 } from 'react-native';
-import Main from './main';
+import Tabs from './tabs';
 import { Button, Spinner } from 'react-native-ios-kit';
 import { connect } from 'react-redux';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
@@ -131,8 +131,8 @@ const style = StyleSheet.create({
 });
 
 const nextRoute = {
-  component: Main,
-  title: 'main'
+  component: Tabs,
+  title: 'tabs'
 }
 
 

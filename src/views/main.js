@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Text, ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { Headline, Body, Button, Icon } from 'react-native-ios-kit';
+import { Headline, Body, Button, Icon, TabBar } from 'react-native-ios-kit';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { index } from '../actions';
-import Settings from './settings'
 
 class Main extends Component {
 
@@ -34,54 +33,19 @@ class Main extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <View style={{height: getStatusBarHeight()}}></View>
-        <View style={style.topBar}>
-          <Text style={style.title}>Journeys</Text>
-        </View>
         {this.renderJourneys()}
-        <TouchableOpacity
-          onPress={() => this.props.navigator.push(settingsRoute)}
-          style={style.icon}
-        >
-          <Icon
-            name={'ios-settings'}
-            size={30}
-            color={'blue'}
-          />
-        </TouchableOpacity>
       </View>
     );
   }
 }
 
 const style = StyleSheet.create({
-  topBar: {
-    padding: 5,
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: 'lightgray'
-  },
-  title: {
-    fontSize: 30,
-    color: 'black',
-    fontFamily: 'pacifico'
-  },
   journey: {
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: 'lightgray'
-  },
-  icon: {
-    position: 'absolute',
-    right: 10,
-    top: 20 + getStatusBarHeight(),
   }
 });
-
-const settingsRoute = {
-  component: Settings,
-  title: 'settings'
-};
 
 const mapStateToProps = state => {
   return {
