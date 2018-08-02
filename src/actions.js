@@ -10,7 +10,8 @@ import {
   INDEX_ERROR,
   AUTH_ERROR,
   DEAUTH,
-  REAUTH
+  REAUTH,
+  CLEAR_AUTH_ERROR
 } from './constants';
 import { AsyncStorage } from 'react-native';
 
@@ -116,6 +117,14 @@ export function reauth(authToken, client, uid) {
       client: client,
       uid: uid
     });
+  }
+}
+
+export function clearAuthError() {
+  return dispatch => {
+    dispatch({
+      type: CLEAR_AUTH_ERROR
+    })
   }
 }
 

@@ -12,3 +12,4 @@ export const INDEX_RESPONSE = 'INDEX_RESPONSE';
 export const INDEX_ERROR = 'INDEX_ERROR';
 export const REAUTH = 'REAUTH';
 export const DEAUTH = 'DEAUTH';
+export const CLEAR_AUTH_ERROR = 'CLEAR_AUTH_ERROR';

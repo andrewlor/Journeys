@@ -9,7 +9,8 @@ import {
   INDEX_RESPONSE,
   INDEX_ERROR,
   DEAUTH,
-  REAUTH
+  REAUTH,
+  CLEAR_AUTH_ERROR
 } from "./constants.js";
 
 const initialState = {
@@ -88,6 +89,11 @@ export default function reducer(state = initialState, action) {
       }
     case DEAUTH:
       return initialState;
+    case CLEAR_AUTH_ERROR:
+      return {
+        ...state,
+        authError: false
+      }
     default:
       return state;
   }

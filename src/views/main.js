@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, ScrollView, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { Headline, Body, Button } from 'react-native-ios-kit';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { index, logout } from '../actions';
 
 class Main extends Component {
@@ -36,6 +37,7 @@ class Main extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
+        <View style={{height: getStatusBarHeight()}}></View>
         <View style={style.topBar}>
           <Text style={style.title}>Journeys</Text>
         </View>
@@ -53,9 +55,10 @@ class Main extends Component {
 
 const style = StyleSheet.create({
   topBar: {
-    padding: 20,
+    padding: 5,
     alignItems: 'center',
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    borderBottomColor: 'lightgray'
   },
   title: {
     fontSize: 30,
@@ -64,7 +67,8 @@ const style = StyleSheet.create({
   },
   journey: {
     padding: 10,
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    borderBottomColor: 'lightgray'
   }
 });
 

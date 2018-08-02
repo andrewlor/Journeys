@@ -6,14 +6,15 @@ import {
   StyleSheet,
   Form,
   TextInput,
-  Text
+  Text,
+  Alert
 } from 'react-native';
 import Main from './main';
 import { Button, Spinner } from 'react-native-ios-kit';
 import { connect } from 'react-redux';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
-import { setEmail, setPassword, login } from '../actions';
+import { setEmail, setPassword, login, clearAuthError } from '../actions';
 
 class Login extends React.Component {
 
@@ -24,7 +25,14 @@ class Login extends React.Component {
       this.props.navigator.push(nextRoute);
     }
     if (nextProps.authError) {
-//      alert("Invalid Email or Password.");
+      Alert.alert(
+        'Authentication Error',
+        'Invalid email or password.',
+        [
+          {text: 'Ok', onPress: () => this.props.clearAuthError()},
+        ],
+        { cancelable: false }
+      )
     }
   }
 
@@ -39,10 +47,11 @@ class Login extends React.Component {
       return (
         <View style={style.innerFrame}>
           <View style={{height: getStatusBarHeight()}}></View>
-          <View style={[style.element, {flex: 3}]}>
+          <View style={[style.element, {padding: 20}]}>
             <Text style={style.title}>Journeys</Text>
           </View>
-          <KeyboardAvoidingView style={{flex: 2}} behavior='position'>
+          <View style={{flex: 1}}></View>
+          <KeyboardAvoidingView behavior='position'>
             <View style={style.element}>
               <TextInput
                 style={style.input}
@@ -70,8 +79,9 @@ class Login extends React.Component {
                 Login
               </Button>
             </View>
+            <View style={{height: 20}}></View>
           </KeyboardAvoidingView>
-          <View style={{flex: 1}}></View>
+          <View style={{height: getStatusBarHeight()}}></View>
         </View>
       );
     }
@@ -142,7 +152,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   setEmail: (email) => dispatch(setEmail(email)),
   setPassword: (password) => dispatch(setPassword(password)),
-  login: (email, password) => dispatch(login(email, password))
+  login: (email, password) => dispatch(login(email, password)),
+  clearAuthError: () => dispatch(clearAuthError())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
