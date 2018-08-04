@@ -14,6 +14,7 @@ class Settings extends Component {
     return (
       <View style={{flex: 1}}>
         <View style={{height: getStatusBarHeight()}}></View>
+        <View></View>
         <Button
           onPress={() => this.props.logout()}
           centered
@@ -27,7 +28,8 @@ class Settings extends Component {
 
 const mapStateToProps = state => {
   return {
-    authToken: state.authToken
+    authToken: state.authToken,
+    
   };
 };
 

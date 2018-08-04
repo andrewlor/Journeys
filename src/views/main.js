@@ -4,11 +4,21 @@ import { connect } from 'react-redux';
 import { Headline, Body, Button, Icon, TabBar } from 'react-native-ios-kit';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { index } from '../actions';
+import Journey from './journey';
 
 class Main extends Component {
 
   componentDidMount() {
     this.props.index(this.props.authToken, this.props.client, this.props.uid);
+  }
+
+  pushJourney(id) {
+    console.log(`PUSHING JOURNEY ${id}`)
+    this.props.navigator.push({
+      component: Journey,
+      name: 'journey',
+      passProps: { journeyId: id }
+    })
   }
 
   renderJourneys() {
@@ -17,10 +27,14 @@ class Main extends Component {
         <ScrollView contentContainerStyle={{padding: 0, margin: 0}}>
           {this.props.journeys.map((journey) => {
              return (
-               <View style={style.journey} key={journey.id}>
-                 <Headline>{journey.title}</Headline>
-                 <Body>{journey.mission_statement}</Body>
-               </View>
+               <TouchableOpacity
+                 key={journey.id}
+                 onPress={() => this.pushJourney(journey.id)}>
+                 <View style={style.journey} key={journey.id}>
+                   <Headline>{journey.title}</Headline>
+                   <Body>{journey.mission_statement}</Body>
+                 </View>
+               </TouchableOpacity>
              );
           })}
         </ScrollView>

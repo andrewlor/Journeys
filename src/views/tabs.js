@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { NavigatorIOS, Text, ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { TabBar, Icon } from 'react-native-ios-kit';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
@@ -11,16 +11,7 @@ export default class Tabs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: 0
-    }
-  }
-
-  renderContent() {
-    switch(this.state.activeTab) {
-      case 0:
-        return <Main/>;
-      default:
-        return null;
+      activeTab: 0,
     }
   }
   
@@ -31,7 +22,7 @@ export default class Tabs extends Component {
         <View style={style.topBar}>
           <Text style={style.title}>Journeys</Text>
         </View>
-        {this.renderContent()}
+        <Main navigator={this.props.navigator}/>
         <TabBar
           tabs={[
             {

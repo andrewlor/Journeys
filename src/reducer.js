@@ -46,7 +46,6 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        user: action.user,
         authToken: action.authToken,
         client: action.client,
         uid: action.uid,
