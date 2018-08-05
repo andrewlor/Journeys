@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Text, ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { Title2, Headline, Body, Icon } from 'react-native-ios-kit';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { Title2, Headline, Body } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
+import Topbar from './ui/topbar';
 
 class Journey extends Component {
   
@@ -33,45 +33,23 @@ class Journey extends Component {
     let journey = this.props.journeys.find((j) => {return j.id == this.props.journeyId});
     return (
       <View style={{flex: 1}}>
-        <View style={style.topBar}></View>
+        <Topbar back/>
         <View style={style.journey}>
           <Title2>{journey.title}</Title2>
-          <Headline>{journey.user.email} on {new Date(journey.created_at).toLocaleDateString("en-US")}</Headline>
+          <Headline style={{alignSelf: 'flex-start'}}>Mission Statement</Headline>
           <Body>{journey.mission_statement}</Body>
         </View>
         {this.renderJourneyLogs()}
-        <TouchableOpacity
-          onPress={Actions.pop}
-          style={style.icon}
-        >
-          <Icon
-            name={'ios-arrow-back'}
-            size={30}
-            color={'blue'}
-          />
-        </TouchableOpacity>
       </View>
     );
   }
 }
 
 const style = StyleSheet.create({
-  topBar: {
-    marginTop: getStatusBarHeight(),
-    height: 40,
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: 'lightgray'
-  },
   journey: {
-    padding: 10,
+    padding: 20,
     borderBottomWidth: 1,
     borderBottomColor: 'lightgray'
-  },
-  icon: {
-    position: 'absolute',
-    left: 10,
-    top: getStatusBarHeight(),
   }
 });
 

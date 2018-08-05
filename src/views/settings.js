@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { Headline, Body, Button, Icon } from 'react-native-ios-kit';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { logout } from '../actions';
+import { Headline, Button } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
+import { logout } from '../actions';
+import Topbar from './ui/topbar';
 
 class Settings extends Component {
   componentWillReceiveProps(nextProps) {
@@ -14,14 +14,18 @@ class Settings extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <View style={{height: getStatusBarHeight()}}></View>
-        <View></View>
-        <Button
-          onPress={() => this.props.logout()}
-          centered
-          inverted
-          rounded
-        >Logout</Button>
+        <Topbar back/>
+        <View style={{padding: 20, alignItems: 'center'}}>
+          <Headline>{this.props.uid}</Headline>
+        </View>
+        <View style={{paddingHorizontal: 20}}>
+          <Button
+            onPress={() => this.props.logout()}
+            centered
+            inverted
+            rounded
+          >Logout</Button>
+        </View>
       </View>
     );
   }
@@ -30,7 +34,7 @@ class Settings extends Component {
 const mapStateToProps = state => {
   return {
     authToken: state.authToken,
-    
+    uid: state.uid
   };
 };
 

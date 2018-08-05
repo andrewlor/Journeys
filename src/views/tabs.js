@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { Text, ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon } from 'react-native-ios-kit';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { index } from '../actions';
-import Settings from './settings';
-import Main from './main'
 import { Actions } from 'react-native-router-flux';
 import TabNavigator from 'react-native-tab-navigator';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+
+import Topbar from './ui/topbar';
+import { index } from '../actions';
+import Settings from './settings';
+import Main from './main';
+import NewJourney from './new_journey';
 
 export default class Tabs extends Component {
   constructor(props) {
@@ -20,10 +23,7 @@ export default class Tabs extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <View style={{height: getStatusBarHeight()}}></View>
-        <View style={style.topBar}>
-          <Text style={style.title}>Journeys</Text>
-        </View>
+        <Topbar title/>
         <TabNavigator>
           <TabNavigator.Item
             selected={this.state.selectedTab === 'main'}
@@ -39,7 +39,7 @@ export default class Tabs extends Component {
             renderIcon={() => <Icon name='ios-add' size={25} color='grey'/>}
             renderSelectedIcon={() => <Icon name='ios-add' size={25}/>}
             onPress={() => this.setState({ selectedTab: 'add' })}>
-            <Main/>
+            <NewJourney/>
           </TabNavigator.Item>
         </TabNavigator>
         <TouchableOpacity
@@ -57,23 +57,7 @@ export default class Tabs extends Component {
   }
 }
 
-const settingsRoute = {
-  component: Settings,
-  title: 'settings'
-}
-
 const style = StyleSheet.create({
-  topBar: {
-    padding: 5,
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: 'lightgray'
-  },
-  title: {
-    fontSize: 30,
-    color: 'black',
-    fontFamily: 'pacifico'
-  },
   icon: {
     position: 'absolute',
     right: 10,

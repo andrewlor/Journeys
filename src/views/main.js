@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { Headline, Body, Button, Icon, TabBar } from 'react-native-ios-kit';
+import { Title2, Headline, Body, Button, Icon } from 'react-native-ios-kit';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { index } from '../actions';
 import Journey from './journey';
@@ -28,8 +28,8 @@ class Main extends Component {
                  key={journey.id}
                  onPress={() => this.pushJourney(journey.id)}>
                  <View style={style.journey} key={journey.id}>
-                   <Headline>{journey.title}</Headline>
-                   <Body>{journey.user.email} on {new Date(journey.created_at).toLocaleDateString("en-US")}</Body>
+                   <Title2>{journey.title}</Title2>
+                   <Headline>{new Date(journey.created_at).toLocaleDateString("en-US")}</Headline>
                  </View>
                </TouchableOpacity>
              );
@@ -52,7 +52,7 @@ class Main extends Component {
 
 const style = StyleSheet.create({
   journey: {
-    padding: 10,
+    padding: 20,
     borderBottomWidth: 1,
     borderBottomColor: 'lightgray'
   }
