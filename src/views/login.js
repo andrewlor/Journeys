@@ -10,7 +10,7 @@ import {
   Alert
 } from 'react-native';
 import Tabs from './tabs';
-import { Button, Spinner } from 'react-native-ios-kit';
+import { Button, Spinner, Body, DefaultTheme } from 'react-native-ios-kit';
 import { connect } from 'react-redux';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
@@ -69,7 +69,7 @@ class Login extends React.Component {
                 onChangeText={this.props.setPassword}
               />
             </View>
-            <View style={style.element}>
+            <View style={[style.element, { paddingBottom: 10}]}>
               <Button
                 rounded
                 inverted
@@ -79,9 +79,20 @@ class Login extends React.Component {
                 Login
               </Button>
             </View>
-            <View style={{height: 20}}></View>
           </KeyboardAvoidingView>
-          <View style={{height: getStatusBarHeight()}}></View>
+          <View style={[style.element, { paddingBottom: 10, paddingTop: 0}]}>
+            <Body style={{color: DefaultTheme.primaryColor}}>or</Body>
+          </View>
+          <View style={style.element}>
+            <Button
+              rounded
+              style={style.button}
+              onPress={null}
+            >
+              Sign Up
+            </Button>
+          </View>
+          <View style={{height: 30}}></View>
         </View>
       );
     }
@@ -110,6 +121,7 @@ const style = StyleSheet.create({
   },
   element: {
     padding: 5,
+    paddingHorizontal: 30,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -118,14 +130,14 @@ const style = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, .5)'
   },
   input: {
-    width: 250,
+    width: '100%',
     padding: 15,
     fontSize: 15,
     backgroundColor: 'white',
     borderRadius: 5
   },
   button: {
-    width: 250,
+    width: '100%',
     padding: 15
   }
 });

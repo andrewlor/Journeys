@@ -32,7 +32,7 @@ class Main extends Component {
                  onPress={() => this.pushJourney(journey.id)}>
                  <View style={style.journey} key={journey.id}>
                    <Headline>{journey.title}</Headline>
-                   <Body>{journey.mission_statement}</Body>
+                   <Body>{journey.user.email} on {new Date(journey.created_at).toLocaleDateString("en-US")}</Body>
                  </View>
                </TouchableOpacity>
              );

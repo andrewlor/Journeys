@@ -1,19 +1,44 @@
 import React, { Component } from 'react';
 import { Text, ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { Headline, Body, Button, Icon, TabBar } from 'react-native-ios-kit';
+import { Title2, Headline, Body, Icon } from 'react-native-ios-kit';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 class Journey extends Component {
+  
+  renderJourneyLogs() {
+    journey = this.props.journeys.find((j) => {return j.id == this.props.journeyId});
+    if (journey.journey_logs.length > 0) {
+      return (
+        <ScrollView contentContainerStyle={{padding: 0, margin: 0}}>
+          {journey.journey_logs.map((journeyLog) => {
+             return (
+               <TouchableOpacity key={journeyLog.id}>
+                 <View style={style.journey}>
+                   <Headline>{new Date(journeyLog.created_at).toLocaleDateString("en-US")}</Headline>
+                   <Body>{journeyLog.log}</Body>
+                 </View>
+               </TouchableOpacity>
+             );
+          })}
+        </ScrollView>
+      );
+    } else {
+      return null;
+    }
+  }
+  
   render() {
-    let journey = this.props.journeys.find((j) => {return j.id == this.props.journeyId})
+    let journey = this.props.journeys.find((j) => {return j.id == this.props.journeyId});
     return (
       <View style={{flex: 1}}>
         <View style={style.topBar}></View>
         <View style={style.journey}>
-          <Headline>{journey.title}</Headline>
+          <Title2>{journey.title}</Title2>
+          <Headline>{journey.user.email} on {new Date(journey.created_at).toLocaleDateString("en-US")}</Headline>
           <Body>{journey.mission_statement}</Body>
         </View>
+        {this.renderJourneyLogs()}
         <TouchableOpacity
           onPress={() => this.props.navigator.pop()}
           style={style.icon}
