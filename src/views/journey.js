@@ -3,6 +3,7 @@ import { Text, ScrollView, View, StyleSheet, TouchableOpacity } from 'react-nati
 import { connect } from 'react-redux';
 import { Title2, Headline, Body, Icon } from 'react-native-ios-kit';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { Actions } from 'react-native-router-flux';
 
 class Journey extends Component {
   
@@ -40,7 +41,7 @@ class Journey extends Component {
         </View>
         {this.renderJourneyLogs()}
         <TouchableOpacity
-          onPress={() => this.props.navigator.pop()}
+          onPress={Actions.pop}
           style={style.icon}
         >
           <Icon

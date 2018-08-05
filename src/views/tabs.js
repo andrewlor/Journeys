@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
-import { NavigatorIOS, Text, ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { TabBar, Icon } from 'react-native-ios-kit';
+import { Icon } from 'react-native-ios-kit';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { index } from '../actions';
 import Settings from './settings';
 import Main from './main'
+import { Actions } from 'react-native-router-flux';
+import TabNavigator from 'react-native-tab-navigator';
 
 export default class Tabs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: 0,
+      selectedTab: 'main',
     }
   }
   
@@ -22,31 +24,26 @@ export default class Tabs extends Component {
         <View style={style.topBar}>
           <Text style={style.title}>Journeys</Text>
         </View>
-        <Main navigator={this.props.navigator}/>
-        <TabBar
-          tabs={[
-            {
-              icon: 'ios-paper-outline',
-              title: 'All Journeys',
-              onPress: () => this.setState({activeTab: 0}),
-              isActive: this.state.activeTab === 0,
-            },
-            {
-              icon: 'ios-add',
-              title: 'New Journey',
-              onPress: () => this.setState({activeTab: 1}),
-              isActive: this.state.activeTab === 1,
-            },
-            {
-              icon: 'ios-people',
-              title: 'Me',
-              onPress: () => this.setState({activeTab: 2}),
-              isActive: this.state.activeTab === 2,
-            },
-          ]}
-        />
+        <TabNavigator>
+          <TabNavigator.Item
+            selected={this.state.selectedTab === 'main'}
+            title="My Journeys"
+            renderIcon={() => <Icon name='ios-paper-outline' size={25} color='grey'/>}
+            renderSelectedIcon={() => <Icon name='ios-paper-outline' size={25}/>}
+            onPress={() => this.setState({ selectedTab: 'main' })}>
+            <Main/>
+          </TabNavigator.Item>
+          <TabNavigator.Item
+            selected={this.state.selectedTab === 'add'}
+            title="Add Journey"
+            renderIcon={() => <Icon name='ios-add' size={25} color='grey'/>}
+            renderSelectedIcon={() => <Icon name='ios-add' size={25}/>}
+            onPress={() => this.setState({ selectedTab: 'add' })}>
+            <Main/>
+          </TabNavigator.Item>
+        </TabNavigator>
         <TouchableOpacity
-          onPress={() => this.props.navigator.push(settingsRoute)}
+          onPress={Actions.settings}
           style={style.icon}
         >
           <Icon

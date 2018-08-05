@@ -5,6 +5,7 @@ import { Headline, Body, Button, Icon, TabBar } from 'react-native-ios-kit';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { index } from '../actions';
 import Journey from './journey';
+import { Actions } from 'react-native-router-flux';
 
 class Main extends Component {
 
@@ -14,11 +15,7 @@ class Main extends Component {
 
   pushJourney(id) {
     console.log(`PUSHING JOURNEY ${id}`)
-    this.props.navigator.push({
-      component: Journey,
-      name: 'journey',
-      passProps: { journeyId: id }
-    })
+    Actions.journey({journeyId: id})
   }
 
   renderJourneys() {

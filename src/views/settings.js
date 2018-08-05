@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { Headline, Body, Button, Icon } from 'react-native-ios-kit';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { logout } from '../actions';
+import { Actions } from 'react-native-router-flux';
 
 class Settings extends Component {
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.authToken) this.props.navigator.popN(2)
+    if (!nextProps.authToken) Actions.popTo('login')
   }
   
   render() {

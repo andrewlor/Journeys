@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import Login from './views/login.js';
-import { NavigatorIOS, AsyncStorage } from 'react-native';
+import { AsyncStorage } from 'react-native';
 import { Font } from 'expo';
 import { connect } from 'react-redux';
+import { Router, Scene } from 'react-native-router-flux';
 
 import { reauth } from './actions';
+import Login from './views/login';
+import Tabs from './views/tabs';
+import Journey from './views/journey';
+import Settings from './views/settings';
 
 class AppRoot extends Component {
   constructor(props) {
@@ -35,16 +39,21 @@ class AppRoot extends Component {
   }
 
   render() {
+    var sceneConfig = {
+      panHandlers: null,
+      hideNavBar: true
+    };
+    
     if (this.state.fontsLoaded) {
       return (
-        <NavigatorIOS
-          initialRoute={{
-            component: Login,
-            title: 'login'
-          }}
-          style={{flex: 1}}
-          navigationBarHidden={true}
-        />
+        <Router>
+          <Scene key="root">
+            <Scene key="login" component={Login} initial={true} {...sceneConfig} />
+            <Scene key="tabs" component={Tabs} {...sceneConfig} />
+            <Scene key="journey" component={Journey} {...sceneConfig} />
+            <Scene key="settings" component={Settings} {...sceneConfig} />
+          </Scene>
+        </Router>
       );
     } else {
       return null;

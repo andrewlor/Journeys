@@ -13,6 +13,7 @@ import Tabs from './tabs';
 import { Button, Spinner, Body, DefaultTheme } from 'react-native-ios-kit';
 import { connect } from 'react-redux';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { Actions } from 'react-native-router-flux';
 
 import { setEmail, setPassword, login, clearAuthError } from '../actions';
 
@@ -22,7 +23,7 @@ class Login extends React.Component {
     let isLoggingIn = this.props.isLoading && !nextProps.isLoading && nextProps.user;
     let wasLoggedIn = nextProps.authToken && nextProps.client && nextProps.uid;
     if (isLoggingIn || wasLoggedIn) {
-      this.props.navigator.push(nextRoute);
+      Actions.tabs();
     }
     if (nextProps.authError) {
       Alert.alert(

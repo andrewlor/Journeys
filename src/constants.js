@@ -1,5 +1,4 @@
-export const BASE_URL = 'https://40c3df93.ngrok.io/api/v1'
-
+export const BASE_URL = 'http://localhost:3000/api/v1';
 
 export const SET_EMAIL = 'SET_EMAIL';
 export const SET_PASSWORD = 'SET_PASSWORD';
