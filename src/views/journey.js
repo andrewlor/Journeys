@@ -49,7 +49,8 @@ const style = StyleSheet.create({
   journey: {
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: 'lightgray'
+    borderBottomColor: 'lightgray',
+    backgroundColor: 'white'
   }
 });
 

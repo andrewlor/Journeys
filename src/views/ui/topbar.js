@@ -38,12 +38,14 @@ export default Topbar = props => {
 
 const style = StyleSheet.create({
   topBar: {
-    marginTop: getStatusBarHeight(),
+    borderTopWidth: getStatusBarHeight(),
+    borderTopColor: 'white',
     minHeight: 40,
     justifyContent: 'center',
     borderBottomWidth: 1,
     borderBottomColor: 'lightgray',
-    padding: 10
+    padding: 10,
+    backgroundColor: 'white'
   },
   icon: {
     position: 'absolute',
