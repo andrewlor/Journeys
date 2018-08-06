@@ -51,7 +51,6 @@ class AppRoot extends Component {
             <Scene key="login" component={Login} initial={true} {...sceneConfig} />
             <Scene key="tabs" component={Tabs} {...sceneConfig} />
             <Scene key="journey" component={Journey} {...sceneConfig} />
-            <Scene key="settings" component={Settings} {...sceneConfig} />
           </Scene>
         </Router>
       );

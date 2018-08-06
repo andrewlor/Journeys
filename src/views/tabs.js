@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Text, ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon } from 'react-native-ios-kit';
-import { Actions } from 'react-native-router-flux';
 import TabNavigator from 'react-native-tab-navigator';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
@@ -39,19 +38,17 @@ export default class Tabs extends Component {
             renderIcon={() => <Icon name='ios-add' size={25} color='grey'/>}
             renderSelectedIcon={() => <Icon name='ios-add' size={25}/>}
             onPress={() => this.setState({ selectedTab: 'add' })}>
-            <NewJourney/>
+            <NewJourney switchTab={() => this.setState({ selectedTab: 'main' })}/>
+          </TabNavigator.Item>
+          <TabNavigator.Item
+            selected={this.state.selectedTab === 'account'}
+            title="Account"
+            renderIcon={() => <Icon name='ios-person' size={25} color='grey'/>}
+            renderSelectedIcon={() => <Icon name='ios-person' size={25}/>}
+            onPress={() => this.setState({ selectedTab: 'account' })}>
+            <Settings/>
           </TabNavigator.Item>
         </TabNavigator>
-        <TouchableOpacity
-          onPress={Actions.settings}
-          style={style.icon}
-        >
-          <Icon
-            name={'ios-settings'}
-            size={30}
-            color={'blue'}
-          />
-        </TouchableOpacity>
       </View>
     );
   }

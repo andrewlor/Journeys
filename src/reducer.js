@@ -8,6 +8,9 @@ import {
   INDEX_FETCH,
   INDEX_RESPONSE,
   INDEX_ERROR,
+  CREATE_JOURNEY_FETCH,
+  CREATE_JOURNEY_RESPONSE,
+  CREATE_JOURNEY_ERROR,
   DEAUTH,
   REAUTH,
   CLEAR_AUTH_ERROR
@@ -82,6 +85,22 @@ export default function reducer(state = initialState, action) {
         indexJourneys: action.journeys
       }
     case INDEX_ERROR:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case CREATE_JOURNEY_FETCH:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case CREATE_JOURNEY_RESPONSE:
+      return {
+        ...state,
+        isLoading: false,
+        createdJourney: true
+      }
+    case CREATE_JOURNEY_ERROR:
       return {
         ...state,
         isLoading: false

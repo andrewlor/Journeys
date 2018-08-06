@@ -1,46 +1,112 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Alert, TextInput, Text, ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { Title2, Headline, Body, Icon } from 'react-native-ios-kit';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { Actions } from 'react-native-router-flux';
+import { Button, Title2, Headline, Body, Icon } from 'react-native-ios-kit';
+
+import { createJourney, index } from '../actions';
 
 class NewJourney extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: '',
+      missionStatement: ''
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.createdJourney) {
+      this.props.switchTab();
+      this.props.index(this.props.authToken, this.props.client, this.props.uid);
+    }
+  }
+
+  _submit = () => {
+    let title = this.state.title;
+    let missionStatement = this.state.missionStatement;
+
+    let errors = [];
+    if (title.length < 1) errors.push('Please enter a title.');
+    if (missionStatement.length < 1) errors.push('Please enter a mission statement.');
+    if (missionStatement.split(' ').length < 10) errors.push('Your mission statement should be a bit longer.');
+
+    if (errors.length > 0) {
+      Alert.alert(
+        errors[0],
+        null,
+        [
+          {text: 'Ok'},
+        ],
+        { cancelable: false }
+      );
+    } else {
+      this.props.createJourney(this.props.authToken, this.props.client, this.props.uid, title, missionStatement);
+    }
+  }
   
   render() {
     return (
       <View style={{flex: 1}}>
+        <ScrollView>
+          <View style={style.element}>
+            <Headline>My Journey to ...</Headline>
+            <TextInput
+              placeholder='learn Ruby'
+              autoCapitalize='none'
+              onChangeText={(t) => this.setState({title: t})}
+              style={style.input}
+            />
+          </View>
+          <View style={style.element}>
+            <Headline>Misson statement:</Headline>
+            <TextInput
+              placeholder='I want to learn to develop and maintain Ruby web apps.'
+              autoCapitalize='none'
+              onChangeText={(t) => this.setState({missionStatement: t})}
+              style={style.input}
+            />
+          </View>
+          <View style={style.element}>
+            <Button
+              rounded
+              inverted
+              onPress={this._submit}
+            >
+              Start Journey
+            </Button>
+          </View>
+        </ScrollView>
       </View>
     );
   }
 }
 
 const style = StyleSheet.create({
-  topBar: {
-    marginTop: getStatusBarHeight(),
-    height: 40,
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: 'lightgray'
+  input: {
+    width: '100%',
+    padding: 15,
+    fontSize: 15,
+    backgroundColor: 'white',
+    borderRadius: 5,
+    marginVertical: 5
   },
-  journey: {
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: 'lightgray'
+  element: {
+    padding: 10
   },
-  icon: {
-    position: 'absolute',
-    left: 10,
-    top: getStatusBarHeight(),
-  }
 });
 
 const mapStateToProps = state => {
   return {
+    authToken: state.authToken,
+    client: state.client,
+    uid: state.uid,
+    createdJourney: state.createdJourney
   };
 };
 
 const mapDispatchToProps = dispatch => ({
+  createJourney: (authToken, client, uid, title, missionStatement) => dispatch(createJourney(authToken, client, uid, title, missionStatement)),
+  index: (authToken, client, uid) => dispatch(index(authToken, client, uid))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewJourney);

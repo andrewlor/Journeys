@@ -9,13 +9,13 @@ import {
   Text,
   Alert
 } from 'react-native';
-import Tabs from './tabs';
 import { Button, Spinner, Body, DefaultTheme } from 'react-native-ios-kit';
 import { connect } from 'react-redux';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Actions } from 'react-native-router-flux';
 
 import { setEmail, setPassword, login, clearAuthError } from '../actions';
+import Tabs from './tabs';
 
 class Login extends React.Component {
 
@@ -33,7 +33,7 @@ class Login extends React.Component {
           {text: 'Ok', onPress: () => this.props.clearAuthError()},
         ],
         { cancelable: false }
-      )
+      );
     }
   }
 
@@ -111,9 +111,7 @@ class Login extends React.Component {
     );
   }
 }
-/*
 
-*/
 const style = StyleSheet.create({
   title: {
     fontSize: 50,
@@ -142,12 +140,6 @@ const style = StyleSheet.create({
     padding: 15
   }
 });
-
-const nextRoute = {
-  component: Tabs,
-  title: 'tabs'
-}
-
 
 const mapStateToProps = state => {
   return {

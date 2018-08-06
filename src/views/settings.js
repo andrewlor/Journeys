@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Headline, Button } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
 import { logout } from '../actions';
-import Topbar from './ui/topbar';
 
 class Settings extends Component {
   componentWillReceiveProps(nextProps) {
@@ -14,7 +13,6 @@ class Settings extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Topbar back/>
         <View style={{padding: 20, alignItems: 'center'}}>
           <Headline>{this.props.uid}</Headline>
         </View>

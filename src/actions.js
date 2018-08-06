@@ -8,6 +8,9 @@ import {
   INDEX_FETCH,
   INDEX_RESPONSE,
   INDEX_ERROR,
+  CREATE_JOURNEY_FETCH,
+  CREATE_JOURNEY_RESPONSE,
+  CREATE_JOURNEY_ERROR,
   AUTH_ERROR,
   DEAUTH,
   REAUTH,
@@ -104,6 +107,41 @@ export function index(authToken, client, uid) {
       console.log(error)
       dispatch({
         type: INDEX_ERROR
+      });
+    })
+  }
+}
+
+export function createJourney(authToken, client, uid, title, missionStatement) {
+  return dispatch => {
+    dispatch({ type: CREATE_JOURNEY_FETCH })
+    
+    fetch(BASE_URL + '/journeys', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json",
+        "access-token": authToken,
+        client: client,
+        uid: uid
+      },
+      body: JSON.stringify({
+        title: title,
+        mission_statement: missionStatement
+      })
+    }).then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        response.json().then((body) => {
+          dispatch({
+            type: CREATE_JOURNEY_RESPONSE
+          });
+        });
+      } else {
+        console.log(response.status)
+      }
+    }).catch((error) => {
+      console.log(error)
+      dispatch({
+        type: CREATE_JOURNEY_ERROR
       });
     })
   }
