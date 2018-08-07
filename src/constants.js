@@ -1,7 +1,5 @@
 export const BASE_URL = 'http://localhost:3000/api/v1';
 
-export const SET_EMAIL = 'SET_EMAIL';
-export const SET_PASSWORD = 'SET_PASSWORD';
 export const LOGIN_FETCH = 'LOGIN_FETCH';
 export const LOGIN_RESPONSE = 'LOGIN_RESPONSE';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
@@ -12,6 +10,10 @@ export const INDEX_ERROR = 'INDEX_ERROR';
 export const CREATE_JOURNEY_FETCH = 'CREATE_JOURNEY_FETCH';
 export const CREATE_JOURNEY_RESPONSE = 'CREATE_JOURNEY_RESPONSE';
 export const CREATE_JOURNEY_ERROR = 'CREATE_JOURNEY_ERROR';
+export const SIGNUP_FETCH = 'SIGNUP_FETCH';
+export const SIGNUP_RESPONSE = 'SIGNUP_RESPONSE';
+export const SIGNUP_ERROR = 'SIGNUP_ERROR';
 export const REAUTH = 'REAUTH';
 export const DEAUTH = 'DEAUTH';
 export const CLEAR_AUTH_ERROR = 'CLEAR_AUTH_ERROR';
+export const CLEAR_SIGNUP_ERROR = 'CLEAR_SIGNUP_ERROR';

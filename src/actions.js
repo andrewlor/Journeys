@@ -1,7 +1,5 @@
 import {
   BASE_URL,
-  SET_EMAIL,
-  SET_PASSWORD,
   LOGIN_FETCH,
   LOGIN_RESPONSE,
   LOGIN_ERROR,
@@ -11,26 +9,16 @@ import {
   CREATE_JOURNEY_FETCH,
   CREATE_JOURNEY_RESPONSE,
   CREATE_JOURNEY_ERROR,
+  SIGNUP_FETCH,
+  SIGNUP_RESPONSE,
+  SIGNUP_ERROR,
   AUTH_ERROR,
   DEAUTH,
   REAUTH,
+  CLEAR_SIGNUP_ERROR,
   CLEAR_AUTH_ERROR
 } from './constants';
 import { AsyncStorage } from 'react-native';
-
-export function setEmail(email) {
-  return {
-    type: SET_EMAIL,
-    email: email
-  }
-}
-
-export function setPassword(password) {
-  return {
-    type: SET_PASSWORD,
-    password: password
-  }
-}
 
 export function login(email, password) {
   return dispatch => {
@@ -55,9 +43,9 @@ export function login(email, password) {
           setStore(authToken, client, uid);
           dispatch({
             type: LOGIN_RESPONSE,
-            authToken: response.headers.get("access-token"),
-            client: response.headers.get("client"),
-            uid: response.headers.get("uid")
+            authToken: authToken,
+            client: client,
+            uid: uid
           })
         });
       } else {
@@ -147,6 +135,50 @@ export function createJourney(authToken, client, uid, title, missionStatement) {
   }
 }
 
+export function signup(email, password, confirm_password) {
+  return dispatch => {
+    dispatch({ type: SIGNUP_FETCH })
+    
+    fetch(BASE_URL + '/users', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        password_confirmation: confirm_password
+      })
+    }).then((response) => {
+      response.json().then((body) => {
+        if (response.status >= 200 && response.status < 300) {
+          const authToken = response.headers.get("access-token");
+          const client = response.headers.get("client");
+          const uid = response.headers.get("uid");
+          
+          setStore(authToken, client, uid);
+          dispatch({
+            type: SIGNUP_RESPONSE,
+            authToken: authToken,
+            client: client,
+            uid: uid
+          });
+        } else {
+          dispatch({
+            type: SIGNUP_RESPONSE,
+            signupError: body.errors.full_messages
+          });
+        }
+      });
+    }).catch((error) => {
+      console.log(error)
+      dispatch({
+        type: SIGNUP_ERROR
+      });
+    })
+  }
+}
+
 export function reauth(authToken, client, uid) {
   return dispatch => {
     dispatch({
@@ -162,6 +194,14 @@ export function clearAuthError() {
   return dispatch => {
     dispatch({
       type: CLEAR_AUTH_ERROR
+    })
+  }
+}
+
+export function clearSignUpError() {
+  return dispatch => {
+    dispatch({
+      type: CLEAR_SIGNUP_ERROR
     })
   }
 }

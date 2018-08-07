@@ -9,15 +9,23 @@ import {
   Text,
   Alert
 } from 'react-native';
-import { Button, Spinner, Body, DefaultTheme } from 'react-native-ios-kit';
+import { Title1, Button, Spinner, Body, DefaultTheme } from 'react-native-ios-kit';
 import { connect } from 'react-redux';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Actions } from 'react-native-router-flux';
 
-import { setEmail, setPassword, login, clearAuthError } from '../actions';
+import { login, clearAuthError } from '../actions';
 import Tabs from './tabs';
 
 class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log(DefaultTheme);
+    this.state = {
+      email: '',
+      password: ''
+    };
+  }
 
   componentWillReceiveProps(nextProps) {
     let isLoggingIn = this.props.isLoading && !nextProps.isLoading && nextProps.user;
@@ -35,6 +43,29 @@ class Login extends React.Component {
         { cancelable: false }
       );
     }
+    this.setState({ email: '', password: '' });
+  }
+
+  _submit = () => {
+    let email = this.state.email;
+    let password = this.state.password;
+
+    let errors = [];
+    if (email.length < 1) errors.push('Please enter an email.');
+    if (password.length < 1) errors.push('Please enter a password.');
+
+    if (errors.length > 0) {
+      Alert.alert(
+        errors[0],
+        null,
+        [
+          {text: 'Ok'},
+        ],
+        { cancelable: false }
+      );
+    } else {
+      this.props.login(email, password);
+    }
   }
 
   renderMainContent() {
@@ -50,6 +81,7 @@ class Login extends React.Component {
           <View style={{height: getStatusBarHeight()}}></View>
           <View style={[style.element, {padding: 20}]}>
             <Text style={style.title}>Journeys</Text>
+            <Title1 style={{color: 'white', marginTop: 10}}>Your journey begins here.</Title1>
           </View>
           <View style={{flex: 1}}></View>
           <KeyboardAvoidingView behavior='position'>
@@ -58,7 +90,7 @@ class Login extends React.Component {
                 style={style.input}
                 placeholder={"Email"}
                 autoCapitalize='none'
-                onChangeText={this.props.setEmail}
+                onChangeText={(t) => this.setState({ email: t })}
               />
             </View>
             <View style={style.element}>
@@ -67,7 +99,7 @@ class Login extends React.Component {
                 placeholder={"Password"}
                 autoCapitalize='none'
                 secureTextEntry
-                onChangeText={this.props.setPassword}
+                onChangeText={(t) => this.setState({ password: t })}
               />
             </View>
             <View style={[style.element, { paddingBottom: 10}]}>
@@ -75,7 +107,7 @@ class Login extends React.Component {
                 rounded
                 inverted
                 style={style.button}
-                onPress={() => this.props.login(this.props.email, this.props.password)}
+                onPress={this._submit}
               >
                 Login
               </Button>
@@ -88,7 +120,7 @@ class Login extends React.Component {
             <Button
               rounded
               style={style.button}
-              onPress={null}
+              onPress={Actions.signup}
             >
               Sign Up
             </Button>
@@ -143,8 +175,6 @@ const style = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    email: state.email,
-    password: state.password,
     isLoading: state.isLoading,
     user: state.user,
     authToken: state.authToken,
@@ -155,8 +185,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  setEmail: (email) => dispatch(setEmail(email)),
-  setPassword: (password) => dispatch(setPassword(password)),
   login: (email, password) => dispatch(login(email, password)),
   clearAuthError: () => dispatch(clearAuthError())
 });

@@ -9,6 +9,7 @@ import Login from './views/login';
 import Tabs from './views/tabs';
 import Journey from './views/journey';
 import Settings from './views/settings';
+import Signup from './views/signup';
 
 class AppRoot extends Component {
   constructor(props) {
@@ -51,6 +52,7 @@ class AppRoot extends Component {
             <Scene key="login" component={Login} initial={true} {...sceneConfig} />
             <Scene key="tabs" component={Tabs} {...sceneConfig} />
             <Scene key="journey" component={Journey} {...sceneConfig} />
+            <Scene key="signup" component={Signup} {...sceneConfig} />
           </Scene>
         </Router>
       );
