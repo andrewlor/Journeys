@@ -13,6 +13,12 @@ class Main extends Component {
     this.props.index(this.props.authToken, this.props.client, this.props.uid);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.journeys && nextProps.newMember) {
+      setTimeout(() => Actions.welcome(), 750)
+    }
+  }
+
   pushJourney(id) {
     console.log(`PUSHING JOURNEY ${id}`)
     Actions.journey({journeyId: id})
@@ -64,7 +70,8 @@ const mapStateToProps = state => {
     authToken: state.authToken,
     client: state.client,
     uid: state.uid,
-    journeys: state.indexJourneys
+    journeys: state.indexJourneys,
+    newMember: state.newMember
   };
 };
 

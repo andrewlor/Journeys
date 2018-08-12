@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://localhost:3000/api/v1';
+export const BASE_URL = 'https://180bbc9a.ngrok.io/api/v1';
 
 export const LOGIN_FETCH = 'LOGIN_FETCH';
 export const LOGIN_RESPONSE = 'LOGIN_RESPONSE';
@@ -17,3 +17,4 @@ export const REAUTH = 'REAUTH';
 export const DEAUTH = 'DEAUTH';
 export const CLEAR_AUTH_ERROR = 'CLEAR_AUTH_ERROR';
 export const CLEAR_SIGNUP_ERROR = 'CLEAR_SIGNUP_ERROR';
+export const CLEAR_NEW_MEMBER = 'CLEAR_NEW_MEMBER';

@@ -15,7 +15,8 @@ import {
   DEAUTH,
   REAUTH,
   CLEAR_SIGNUP_ERROR,
-  CLEAR_AUTH_ERROR
+  CLEAR_AUTH_ERROR,
+  CLEAR_NEW_MEMBER
 } from "./constants.js";
 
 const initialState = {
@@ -105,6 +106,7 @@ export default function reducer(state = initialState, action) {
         authToken: action.authToken,
         client: action.client,
         uid: action.uid,
+        newMember: (action.authToken ? true : null),
         signupError: action.signupError
       }
     case SIGNUP_ERROR:
@@ -123,6 +125,11 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         signupError: null
+      }
+    case CLEAR_NEW_MEMBER:
+      return {
+        ...state,
+        newMember: false
       }
     default:
       return state;

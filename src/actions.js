@@ -16,7 +16,8 @@ import {
   DEAUTH,
   REAUTH,
   CLEAR_SIGNUP_ERROR,
-  CLEAR_AUTH_ERROR
+  CLEAR_AUTH_ERROR,
+  CLEAR_NEW_MEMBER
 } from './constants';
 import { AsyncStorage } from 'react-native';
 
@@ -202,6 +203,14 @@ export function clearSignUpError() {
   return dispatch => {
     dispatch({
       type: CLEAR_SIGNUP_ERROR
+    })
+  }
+}
+
+export function clearNewMember() {
+  return dispatch => {
+    dispatch({
+      type: CLEAR_NEW_MEMBER
     })
   }
 }

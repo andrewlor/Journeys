@@ -9,7 +9,7 @@ import {
   Alert,
   Image
 } from 'react-native';
-import { Title3, Button } from 'react-native-ios-kit';
+import { Title1, Button } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
 
 import Topbar from './ui/topbar';
@@ -72,14 +72,14 @@ class Signup extends Component {
     return (
       <View style={{ flex: 1 }}>
         <Topbar back style={{ zIndex: 100}}/>
+        {/*<View style={[style.element, {paddingTop: 30}]}>
+          <Image source={require('../../assets/images/signup.png')} style={style.image}/>
+            </View>*/}
+        <View style={[style.element, {padding: 20}]}>
+          <Title1 style={{ textAlign: 'center' }}>Sign up for Journeys today to start your self improvement journey.</Title1>
+        </View>
         <View style={{flex: 1}}></View>
         <KeyboardAvoidingView behavior='position'>
-          <View style={[style.element, {paddingTop: 30}]}>
-            <Image source={require('../../assets/images/signup.png')} style={style.image}/>
-          </View>
-          <View style={[style.element, {padding: 20}]}>
-            <Title3 style={{ textAlign: 'center' }}>Sign up for Journeys today to start your self improvement journey.</Title3>
-          </View>
           <View style={style.element}>
             <TextInput
               style={style.input}

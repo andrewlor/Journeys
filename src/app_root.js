@@ -10,6 +10,7 @@ import Tabs from './views/tabs';
 import Journey from './views/journey';
 import Settings from './views/settings';
 import Signup from './views/signup';
+import Welcome from './views/welcome';
 
 class AppRoot extends Component {
   constructor(props) {
@@ -48,11 +49,14 @@ class AppRoot extends Component {
     if (this.state.fontsLoaded) {
       return (
         <Router>
-          <Scene key="root">
-            <Scene key="login" component={Login} initial={true} {...sceneConfig} />
-            <Scene key="tabs" component={Tabs} {...sceneConfig} />
-            <Scene key="journey" component={Journey} {...sceneConfig} />
-            <Scene key="signup" component={Signup} {...sceneConfig} />
+          <Scene key="modal" modal {...sceneConfig}>
+            <Scene key="welcome" component={Welcome} {...sceneConfig} />
+            <Scene key="root" initial>
+              <Scene key="login" component={Login} initial {...sceneConfig} />
+              <Scene key="tabs" component={Tabs} {...sceneConfig} />
+              <Scene key="journey" component={Journey} {...sceneConfig} />
+              <Scene key="signup" component={Signup} {...sceneConfig} />
+            </Scene>
           </Scene>
         </Router>
       );
