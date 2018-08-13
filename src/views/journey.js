@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { Title2, Headline, Body } from 'react-native-ios-kit';
+import { Title2, Headline, Body, DefaultTheme } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
 import Topbar from './ui/topbar';
 
@@ -11,7 +11,7 @@ class Journey extends Component {
     journey = this.props.journeys.find((j) => {return j.id == this.props.journeyId});
     if (journey.journey_logs.length > 0) {
       return (
-        <ScrollView contentContainerStyle={{padding: 0, margin: 0}}>
+        <View>
           {journey.journey_logs.map((journeyLog) => {
              return (
                <TouchableOpacity key={journeyLog.id}>
@@ -22,10 +22,14 @@ class Journey extends Component {
                </TouchableOpacity>
              );
           })}
-        </ScrollView>
+        </View>
       );
     } else {
-      return null;
+      return (
+        <View style={[style.journey, {backgroundColor: DefaultTheme.footnoteBackgroundColor}]}>
+          <Headline>No logs yet.</Headline>
+        </View>
+      );
     }
   }
   
@@ -33,13 +37,19 @@ class Journey extends Component {
     let journey = this.props.journeys.find((j) => {return j.id == this.props.journeyId});
     return (
       <View style={{flex: 1}}>
-        <Topbar back/>
-        <View style={style.journey}>
-          <Title2>{journey.title}</Title2>
-          <Headline style={{alignSelf: 'flex-start'}}>Mission Statement</Headline>
-          <Body>{journey.mission_statement}</Body>
-        </View>
-        {this.renderJourneyLogs()}
+        <Topbar
+          back
+          rightButtonPress={Actions.newJourneyLog}
+          rightButtonIcon="ios-create"
+        />
+        <ScrollView contentContainerStyle={{padding: 0, margin: 0}}>
+          <View style={style.journey}>
+            <Title2>{journey.title}</Title2>
+            <Headline style={{alignSelf: 'flex-start'}}>Mission Statement</Headline>
+            <Body>{journey.mission_statement}</Body>
+          </View>
+          {this.renderJourneyLogs()}
+        </ScrollView>
       </View>
     );
   }
@@ -49,7 +59,7 @@ const style = StyleSheet.create({
   journey: {
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: 'lightgray',
+    borderBottomColor: DefaultTheme.dividerColor,
     backgroundColor: 'white'
   }
 });

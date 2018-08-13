@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
-import { Icon } from 'react-native-ios-kit';
+import { Icon, DefaultTheme } from 'react-native-ios-kit';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Actions } from 'react-native-router-flux';
 
@@ -28,10 +28,29 @@ export default Topbar = props => {
       </View>
     );
   }
+
+  let rightButton = null;
+  if (props.rightButtonPress) {
+    rightButton = (
+      <TouchableOpacity
+        onPress={props.rightButtonPress}
+      >
+        <Icon
+          name={props.rightButtonIcon}
+          size={30}
+          color={'blue'}
+        />
+      </TouchableOpacity>
+    );
+  }
   
   return (
     <View style={style.topBar}>
-      {innerContent}
+      <View style={{ flexDirection: 'row' }}>
+        {innerContent}
+        <View style={{ flex: 1 }}/>
+        {rightButton}
+      </View>
     </View>
   );
 }
@@ -43,9 +62,9 @@ const style = StyleSheet.create({
     minHeight: 40,
     justifyContent: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: 'lightgray',
+    borderBottomColor: DefaultTheme.dividerColor,
     padding: 10,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   icon: {
     position: 'absolute',

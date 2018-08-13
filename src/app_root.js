@@ -11,6 +11,7 @@ import Journey from './views/journey';
 import Settings from './views/settings';
 import Signup from './views/signup';
 import Welcome from './views/welcome';
+import NewJourneyLog from './views/new_journey_log';
 
 class AppRoot extends Component {
   constructor(props) {
@@ -51,6 +52,7 @@ class AppRoot extends Component {
         <Router>
           <Scene key="modal" modal {...sceneConfig}>
             <Scene key="welcome" component={Welcome} {...sceneConfig} />
+            <Scene key="newJourneyLog" component={NewJourneyLog} {...sceneConfig} />
             <Scene key="root" initial>
               <Scene key="login" component={Login} initial {...sceneConfig} />
               <Scene key="tabs" component={Tabs} {...sceneConfig} />

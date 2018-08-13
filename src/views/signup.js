@@ -72,9 +72,6 @@ class Signup extends Component {
     return (
       <View style={{ flex: 1 }}>
         <Topbar back style={{ zIndex: 100}}/>
-        {/*<View style={[style.element, {paddingTop: 30}]}>
-          <Image source={require('../../assets/images/signup.png')} style={style.image}/>
-            </View>*/}
         <View style={[style.element, {padding: 20}]}>
           <Title1 style={{ textAlign: 'center' }}>Sign up for Journeys today to start your self improvement journey.</Title1>
         </View>
