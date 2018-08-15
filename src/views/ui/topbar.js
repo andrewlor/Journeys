@@ -5,14 +5,17 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Actions } from 'react-native-router-flux';
 
 export default Topbar = props => {
-  let innerContent = null;
-  if (props.back) {
-    innerContent = (
+  let leftButton = null;
+  let title = null;
+  let rightButton = null;
+  
+  if (props.back || props.down) {
+    leftButton = (
       <TouchableOpacity
         onPress={Actions.pop}
       >
         <Icon
-          name={'ios-arrow-back'}
+          name={props.back ? 'ios-arrow-back' : 'ios-arrow-down'}
           size={30}
           color={'blue'}
         />
@@ -21,15 +24,15 @@ export default Topbar = props => {
   }
 
   if (props.title) {
-    innerContent = (
-      <View>
-        {innerContent}
-        <Text style={style.title}>Journeys</Text>
+    title = (
+      <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'center' }}>
+          <Text style={style.title}>Journeys</Text>
+        </View>
       </View>
     );
   }
 
-  let rightButton = null;
   if (props.rightButtonPress) {
     rightButton = (
       <TouchableOpacity
@@ -43,14 +46,23 @@ export default Topbar = props => {
       </TouchableOpacity>
     );
   }
-  
-  return (
-    <View style={style.topBar}>
+
+  let innerContent = null;
+  if (title) {
+    innerContent = title;
+  } else {
+    innerContent = (
       <View style={{ flexDirection: 'row' }}>
-        {innerContent}
+        {leftButton}
         <View style={{ flex: 1 }}/>
         {rightButton}
       </View>
+    );
+  }
+  
+  return (
+    <View style={style.topBar}>
+      {innerContent}
     </View>
   );
 }
@@ -64,12 +76,8 @@ const style = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: DefaultTheme.dividerColor,
     padding: 10,
+    paddingHorizontal: 20,
     backgroundColor: 'white',
-  },
-  icon: {
-    position: 'absolute',
-    left: 10,
-    top: getStatusBarHeight(),
   },
   title: {
     fontSize: 30,

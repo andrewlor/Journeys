@@ -3,6 +3,7 @@ import { Alert, TextInput, Text, ScrollView, View, StyleSheet, TouchableOpacity 
 import { connect } from 'react-redux';
 import { Button, Title2, Headline, Body, Icon } from 'react-native-ios-kit';
 
+import Topbar from './ui/topbar';
 import { createJourney, index } from '../actions';
 
 class NewJourney extends Component {
@@ -17,6 +18,7 @@ class NewJourney extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.createdJourney) {
       this.props.switchTab();
+      Actions.pop();
       this.props.index(this.props.authToken, this.props.client, this.props.uid);
     }
   }
@@ -47,7 +49,9 @@ class NewJourney extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
+        <Topbar down/>
         <ScrollView>
+          <View style={{ height: 10 }}/>
           <View style={style.element}>
             <Headline>My Journey to ...</Headline>
             <TextInput
@@ -91,7 +95,8 @@ const style = StyleSheet.create({
     marginVertical: 5
   },
   element: {
-    padding: 10
+    padding: 10,
+    paddingHorizontal: 20
   },
 });
 

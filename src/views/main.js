@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { Title2, Headline, Body, Button, Icon, DefaultTheme } from 'react-native-ios-kit';
+import { Title2, Headline, Body, Button, Icon, DefaultTheme, Spinner } from 'react-native-ios-kit';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { index } from '../actions';
 import Journey from './journey';
@@ -15,19 +15,24 @@ class Main extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.journeys && nextProps.newMember) {
-      setTimeout(() => Actions.welcome(), 750)
+      setTimeout(() => Actions.welcome(), 750);
     }
   }
 
   pushJourney(id) {
-    console.log(`PUSHING JOURNEY ${id}`)
-    Actions.journey({journeyId: id})
+    Actions.journey({journeyId: id});
   }
 
   renderJourneys() {
-    if (this.props.journeys.length > 0) {
+    if (this.props.isLoading) {
       return (
-        <ScrollView contentContainerStyle={{padding: 0, margin: 0}}>
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <Spinner animating={true} />
+        </View>
+      );
+    } else if (this.props.journeys.length > 0) {
+      return (
+        <View>
           {this.props.journeys.map((journey) => {
              return (
                <TouchableOpacity
@@ -40,17 +45,23 @@ class Main extends Component {
                </TouchableOpacity>
              );
           })}
-        </ScrollView>
+        </View>
       );
     } else {
-      return null;
+      return (
+        <View style={[style.journey, {backgroundColor: DefaultTheme.footnoteBackgroundColor}]}>
+          <Headline>No journeys yet.</Headline>
+        </View>
+      );
     }
   }
   
   render() {
     return (
       <View style={{flex: 1}}>
-        {this.renderJourneys()}
+        <ScrollView contentContainerStyle={{padding: 0, margin: 0}}>
+          {this.renderJourneys()}
+        </ScrollView>
       </View>
     );
   }
@@ -70,6 +81,7 @@ const mapStateToProps = state => {
     authToken: state.authToken,
     client: state.client,
     uid: state.uid,
+    isLoading: state.isLoading,
     journeys: state.indexJourneys,
     newMember: state.newMember
   };

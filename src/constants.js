@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://180bbc9a.ngrok.io/api/v1';
+export const BASE_URL = 'http://localhost:3000/api/v1';
 
 export const LOGIN_FETCH = 'LOGIN_FETCH';
 export const LOGIN_RESPONSE = 'LOGIN_RESPONSE';
