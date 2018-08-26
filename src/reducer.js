@@ -9,6 +9,9 @@ import {
   CREATE_JOURNEY_FETCH,
   CREATE_JOURNEY_RESPONSE,
   CREATE_JOURNEY_ERROR,
+  CREATE_JOURNEY_LOG_FETCH,
+  CREATE_JOURNEY_LOG_RESPONSE,
+  CREATE_JOURNEY_LOG_ERROR,
   SIGNUP_FETCH,
   SIGNUP_RESPONSE,
   SIGNUP_ERROR,
@@ -130,6 +133,21 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         newMember: false
+      }
+    case CREATE_JOURNEY_LOG_FETCH:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case CREATE_JOURNEY_LOG_RESPONSE:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case CREATE_JOURNEY_LOG_ERROR:
+      return {
+        ...state,
+        isLoading: false
       }
     default:
       return state;

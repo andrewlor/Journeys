@@ -9,14 +9,14 @@ import { Actions } from 'react-native-router-flux';
 import Topbar from './ui/topbar';
 import { index } from '../actions';
 import Settings from './settings';
-import Main from './main';
+import MyJourneys from './my_journeys';
 import NewJourney from './new_journey';
 
 export default class Tabs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedTab: 'main',
+      selectedTab: 'my_journeys',
     }
   }
   
@@ -26,12 +26,12 @@ export default class Tabs extends Component {
         <Topbar title/>
         <TabNavigator>
           <TabNavigator.Item
-            selected={this.state.selectedTab === 'main'}
+            selected={this.state.selectedTab === 'my_journeys'}
             title="My Journeys"
             renderIcon={() => <Icon name='ios-paper-outline' size={25} color='grey'/>}
             renderSelectedIcon={() => <Icon name='ios-paper-outline' size={25}/>}
-            onPress={() => this.setState({ selectedTab: 'main' })}>
-            <Main/>
+            onPress={() => this.setState({ selectedTab: 'my_journeys' })}>
+            <MyJourneys/>
           </TabNavigator.Item>
           <TabNavigator.Item
             selected={this.state.selectedTab === 'add'}
@@ -39,7 +39,6 @@ export default class Tabs extends Component {
             renderIcon={() => <Icon name='ios-add' size={25} color='grey'/>}
             renderSelectedIcon={() => <Icon name='ios-add' size={25}/>}
             onPress={() => {
-                //this.setState({ selectedTab: 'add' });
                 Actions.newJourney();
             }}>
           </TabNavigator.Item>

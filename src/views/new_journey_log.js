@@ -12,7 +12,7 @@ import {
 import { connect } from 'react-redux';
 import { Button, Title2, Headline, Body, Icon } from 'react-native-ios-kit';
 
-import { createJourney, index } from '../actions';
+import { createJourneyLog, index } from '../actions';
 
 class NewJourneyLog extends Component {
   constructor() {
@@ -20,13 +20,73 @@ class NewJourneyLog extends Component {
     this.state = {
       log: '',
       data: null,
-      unit: null
+      unit: null,
+      renderDataPointFields: false
     };
   }
 
-  _onPress = () => {
-    this.props.clearNewMember();
-    Actions.pop();
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.createdLog) {
+      Actions.pop();
+      this.props.index(this.props.authToken, this.props.client, this.props.uid);
+    }
+  }
+  
+  _submit = () => {
+    let log = this.state.log;
+
+    let errors = [];
+    if (log.length < 1) errors.push('Please enter a log.');
+    if (log.split(' ').length < 10) errors.push('Your log should be a bit longer.');
+
+    if (errors.length > 0) {
+      Alert.alert(
+        errors[0],
+        null,
+        [
+          {text: 'Ok'},
+        ],
+        { cancelable: false }
+      );
+    } else {
+      this.props.createJourneyLog(this.props.authToken, this.props.client, this.props.uid, this.props.journeyId, log);
+    }
+  }
+
+  renderDataPointFields() {
+    if (this.state.renderDataPointFields) {
+      return (
+        <View style={style.element}>
+          <TextInput
+            placeholder='5'
+            keyboardType='numeric'
+            autoCapitalize='none'
+            onChangeText={(t) => this.setState({data: t})}
+            style={style.input}
+          />
+          <Picker
+            selectedValue={this.state.unit}
+            onValueChange={(val, idx) => this.setState({unit: val})}>
+            <Picker.Item label="km" value="km" />
+            <Picker.Item label="mi" value="mi" />
+            <Picker.Item label="lbs" value="lbs" />
+            <Picker.Item label="kg" value="kg" />
+          </Picker>
+        </View>
+      );
+    } else {
+      return (
+        <View style={style.element}>
+          <Button
+            rounded
+            inverted
+            onPress={() => this.setState({renderDataPointFields: true})}
+          >
+            Add Data Point
+          </Button>
+        </View>
+      );
+    }
   }
   
   render() {
@@ -36,7 +96,6 @@ class NewJourneyLog extends Component {
         <ScrollView>
           <View style={{ height: 10 }}/>
           <View style={style.element}>
-            <Headline>Log Entry</Headline>
             <TextInput
               placeholder='Today I did ...'
               autoCapitalize='none'
@@ -44,33 +103,14 @@ class NewJourneyLog extends Component {
               style={style.input}
             />
           </View>
-          <View style={style.element}>
-            <Headline>Data</Headline>
-            <TextInput
-              keyboardType='numeric'
-              autoCapitalize='none'
-              onChangeText={(t) => this.setState({data: t})}
-              style={style.input}
-            />
-          </View>
-          <View style={style.element}>
-            <Headline>Unit</Headline>
-            <Picker
-              selectedValue={this.state.unit}
-              onValueChange={(val, idx) => this.setState({unit: val})}>
-              <Picker.Item label="km" value="km" />
-              <Picker.Item label="mi" value="mi" />
-              <Picker.Item label="lbs" value="lbs" />
-              <Picker.Item label="kg" value="kg" />
-            </Picker>
-          </View>
+          {this.renderDataPointFields()}
           <View style={style.element}>
             <Button
               rounded
               inverted
               onPress={this._submit}
             >
-              Add Log
+              Submit Journey Log
             </Button>
           </View>
         </ScrollView>
@@ -97,10 +137,15 @@ const style = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
+    authToken: state.authToken,
+    client: state.client,
+    uid: state.uid,
+    createdLog: state.createdLog
   };
 };
 
 const mapDispatchToProps = dispatch => ({
+  createJourneyLog: (authToken, client, uid, journeyId, log) => dispatch(createJourneyLog(authToken, client, uid, journeyId, log))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewJourneyLog);

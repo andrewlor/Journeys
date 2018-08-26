@@ -9,6 +9,9 @@ import {
   CREATE_JOURNEY_FETCH,
   CREATE_JOURNEY_RESPONSE,
   CREATE_JOURNEY_ERROR,
+  CREATE_JOURNEY_LOG_FETCH,
+  CREATE_JOURNEY_LOG_RESPONSE,
+  CREATE_JOURNEY_LOG_ERROR,
   SIGNUP_FETCH,
   SIGNUP_RESPONSE,
   SIGNUP_ERROR,
@@ -131,6 +134,40 @@ export function createJourney(authToken, client, uid, title, missionStatement) {
       console.log(error)
       dispatch({
         type: CREATE_JOURNEY_ERROR
+      });
+    })
+  }
+}
+
+export function createJourneyLog(authToken, client, uid, journeyId, log, dataPoint) {
+  return dispatch => {
+    dispatch({ type: CREATE_JOURNEY_LOG_FETCH })
+    
+    fetch(BASE_URL + '/journeys/' + journeyId + '/journey_logs', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json",
+        "access-token": authToken,
+        client: client,
+        uid: uid
+      },
+      body: JSON.stringify({
+        log: log,
+      })
+    }).then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        response.json().then((body) => {
+          dispatch({
+            type: CREATE_JOURNEY_LOG_RESPONSE
+          });
+        });
+      } else {
+        console.log(response.status)
+      }
+    }).catch((error) => {
+      console.log(error)
+      dispatch({
+        type: CREATE_JOURNEY_LOG_ERROR
       });
     })
   }

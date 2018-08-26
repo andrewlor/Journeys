@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Alert, TextInput, Text, ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Button, Title2, Headline, Body, Icon } from 'react-native-ios-kit';
+import { Actions } from 'react-native-router-flux';
 
 import Topbar from './ui/topbar';
 import { createJourney, index } from '../actions';
@@ -17,7 +18,6 @@ class NewJourney extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.createdJourney) {
-      this.props.switchTab();
       Actions.pop();
       this.props.index(this.props.authToken, this.props.client, this.props.uid);
     }

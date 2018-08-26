@@ -7,7 +7,7 @@ import { index } from '../actions';
 import Journey from './journey';
 import { Actions } from 'react-native-router-flux';
 
-class Main extends Component {
+class MyJourneys extends Component {
 
   componentDidMount() {
     this.props.index(this.props.authToken, this.props.client, this.props.uid);
@@ -40,7 +40,7 @@ class Main extends Component {
                  onPress={() => this.pushJourney(journey.id)}>
                  <View style={style.journey} key={journey.id}>
                    <Title2>{journey.title}</Title2>
-                   <Headline>{new Date(journey.created_at).toLocaleDateString("en-US")}</Headline>
+                   <Headline>Started on {new Date(journey.created_at).toLocaleDateString("en-CA", {month: 'long', day: 'numeric', year: 'numeric' })}</Headline>
                  </View>
                </TouchableOpacity>
              );
@@ -91,4 +91,4 @@ const mapDispatchToProps = dispatch => ({
   index: (authToken, client, uid) => dispatch(index(authToken, client, uid))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(MyJourneys);
