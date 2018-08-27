@@ -1,11 +1,16 @@
 import {
   BASE_URL,
+  FETCH,
+  ERROR,
   LOGIN_FETCH,
   LOGIN_RESPONSE,
   LOGIN_ERROR,
   INDEX_FETCH,
   INDEX_RESPONSE,
   INDEX_ERROR,
+  MY_INDEX_FETCH,
+  MY_INDEX_RESPONSE,
+  MY_INDEX_ERROR,
   CREATE_JOURNEY_FETCH,
   CREATE_JOURNEY_RESPONSE,
   CREATE_JOURNEY_ERROR,
@@ -20,7 +25,8 @@ import {
   REAUTH,
   CLEAR_SIGNUP_ERROR,
   CLEAR_AUTH_ERROR,
-  CLEAR_NEW_MEMBER
+  CLEAR_NEW_MEMBER,
+  GET_JOURNEY_RESPONSE
 } from './constants';
 import { AsyncStorage } from 'react-native';
 
@@ -99,6 +105,68 @@ export function index(authToken, client, uid) {
       console.log(error)
       dispatch({
         type: INDEX_ERROR
+      });
+    })
+  }
+}
+
+export function myJourneys(authToken, client, uid) {
+  return dispatch => {
+    dispatch({ type: MY_INDEX_FETCH })
+    
+    fetch(BASE_URL + '/my_journeys', {
+      method: 'get',
+      headers: {
+        "access-token": authToken,
+        client: client,
+        uid: uid
+      }
+    }).then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        response.json().then((body) => {
+          dispatch({
+            type: MY_INDEX_RESPONSE,
+            myJourneys: body
+          })
+        });
+      } else {
+        console.log(response.status)
+      }
+    }).catch((error) => {
+      console.log(error)
+      dispatch({
+        type: MY_INDEX_ERROR
+      });
+    })
+  }
+}
+
+export function getJourney(authToken, client, uid, journeyId) {
+  return dispatch => {
+    dispatch({ type: FETCH })
+    
+    fetch(BASE_URL + '/journeys/' + journeyId, {
+      method: 'get',
+      headers: {
+        "access-token": authToken,
+        client: client,
+        uid: uid
+      }
+    }).then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        response.json().then((body) => {
+          dispatch({
+            type: GET_JOURNEY_RESPONSE,
+            journey: body
+          })
+        });
+      } else {
+        console.log(response.status)
+      }
+    }).catch((error) => {
+      console.log(error)
+      dispatch({
+        type: ERROR
       });
     })
   }

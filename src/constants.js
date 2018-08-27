@@ -1,5 +1,7 @@
-export const BASE_URL = 'http://localhost:3000/api/v1';
+export const BASE_URL = 'https://1d255dfc.ngrok.io/api/v1';
 
+export const FETCH = 'FETCH';
+export const ERROR = 'ERROR';
 export const LOGIN_FETCH = 'LOGIN_FETCH';
 export const LOGIN_RESPONSE = 'LOGIN_RESPONSE';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
@@ -7,6 +9,9 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const INDEX_FETCH = 'INDEX_FETCH';
 export const INDEX_RESPONSE = 'INDEX_RESPONSE';
 export const INDEX_ERROR = 'INDEX_ERROR';
+export const MY_INDEX_FETCH = 'MY_INDEX_FETCH';
+export const MY_INDEX_RESPONSE = 'MY_INDEX_RESPONSE';
+export const MY_INDEX_ERROR = 'MY_INDEX_ERROR';
 export const CREATE_JOURNEY_FETCH = 'CREATE_JOURNEY_FETCH';
 export const CREATE_JOURNEY_RESPONSE = 'CREATE_JOURNEY_RESPONSE';
 export const CREATE_JOURNEY_ERROR = 'CREATE_JOURNEY_ERROR';
@@ -21,3 +26,6 @@ export const DEAUTH = 'DEAUTH';
 export const CLEAR_AUTH_ERROR = 'CLEAR_AUTH_ERROR';
 export const CLEAR_SIGNUP_ERROR = 'CLEAR_SIGNUP_ERROR';
 export const CLEAR_NEW_MEMBER = 'CLEAR_NEW_MEMBER';
+export const GET_JOURNEY_RESPONSE = 'GET_JOURNEY_RESPONSE';
+export const CLEAR_CREATED_JOURNEY = 'CLEAR_CREATED_JOURNEY';
+export const CLEAR_CREATED_JOURNEY_LOG = 'CLEAR_CREATED_JOURNEY_LOG';

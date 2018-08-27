@@ -6,13 +6,13 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Journey from './journey';
 import { Actions } from 'react-native-router-flux';
 
-import { myJourneys } from '../actions';
+import { index } from '../actions';
 import Spinner from './ui/spinner';
 
-class MyJourneys extends Component {
+class AllJourneys extends Component {
 
   componentDidMount() {
-    this.props.myJourneys(this.props.authToken, this.props.client, this.props.uid);
+    this.props.index(this.props.authToken, this.props.client, this.props.uid);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -40,7 +40,7 @@ class MyJourneys extends Component {
                  onPress={() => this.pushJourney(journey.id)}>
                  <View style={style.journey} key={journey.id}>
                    <Title2>{journey.title}</Title2>
-                   <Headline>Started on {new Date(journey.created_at).toLocaleDateString("en-CA", {month: 'long', day: 'numeric', year: 'numeric' })}</Headline>
+                   <Headline>Started on {new Date(journey.created_at).toLocaleDateString("en-CA", {month: 'long', day: 'numeric', year: 'numeric' })} by {journey.user_email}</Headline>
                  </View>
                </TouchableOpacity>
              );
@@ -82,13 +82,13 @@ const mapStateToProps = state => {
     client: state.client,
     uid: state.uid,
     isLoading: state.isLoading,
-    journeys: state.myJourneys,
+    journeys: state.indexJourneys,
     newMember: state.newMember
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  myJourneys: (authToken, client, uid) => dispatch(myJourneys(authToken, client, uid))
+  index: (authToken, client, uid) => dispatch(index(authToken, client, uid))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyJourneys);
+export default connect(mapStateToProps, mapDispatchToProps)(AllJourneys);

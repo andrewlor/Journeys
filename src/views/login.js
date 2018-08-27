@@ -31,7 +31,7 @@ class Login extends React.Component {
     let isLoggingIn = this.props.isLoading && !nextProps.isLoading && nextProps.user;
     let wasLoggedIn = nextProps.authToken && nextProps.client && nextProps.uid;
     if (isLoggingIn || wasLoggedIn) {
-      Actions.tabs();
+      Actions.replace('tabs');
     }
     if (nextProps.authError) {
       Alert.alert(

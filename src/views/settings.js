@@ -7,7 +7,7 @@ import { logout } from '../actions';
 
 class Settings extends Component {
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.authToken) Actions.popTo('login')
+    if (!nextProps.authToken) Actions.replace('login');
   }
   
   render() {

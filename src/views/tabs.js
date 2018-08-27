@@ -13,6 +13,7 @@ import Settings from './settings';
 import MyJourneys from './my_journeys';
 import NewJourney from './new_journey';
 import Quotes from './quotes';
+import AllJourneys from './all_journeys';
 
 export default class Tabs extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ export default class Tabs extends Component {
             renderIcon={() => <Icon name='ios-globe' size={25} color='grey'/>}
             renderSelectedIcon={() => <Icon name='ios-globe' size={25}/>}
             onPress={() => this.setState({ selectedTab: 'all_journeys' })}>
-            <MyJourneys/>
+            <AllJourneys/>
           </TabNavigator.Item>
           <TabNavigator.Item
             selected={this.state.selectedTab === 'my_journeys'}

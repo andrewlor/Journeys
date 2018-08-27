@@ -11,8 +11,10 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Button, Title2, Headline, Body, Icon } from 'react-native-ios-kit';
+import { Actions } from 'react-native-router-flux';
 
-import { createJourneyLog, index } from '../actions';
+import { CLEAR_CREATED_JOURNEY_LOG } from '../constants';
+import { createJourneyLog, getJourney } from '../actions';
 
 class NewJourneyLog extends Component {
   constructor() {
@@ -26,9 +28,10 @@ class NewJourneyLog extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.createdLog) {
+    if (nextProps.createdJourneyLog) {
       Actions.pop();
-      this.props.index(this.props.authToken, this.props.client, this.props.uid);
+      this.props.getJourney(this.props.authToken, this.props.client, this.props.uid, this.props.journeyId);
+      this.props.clearCreatedJourneyLog();
     }
   }
   
@@ -140,12 +143,14 @@ const mapStateToProps = state => {
     authToken: state.authToken,
     client: state.client,
     uid: state.uid,
-    createdLog: state.createdLog
+    createdJourneyLog: state.createdJourneyLog
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  createJourneyLog: (authToken, client, uid, journeyId, log) => dispatch(createJourneyLog(authToken, client, uid, journeyId, log))
+  createJourneyLog: (authToken, client, uid, journeyId, log) => dispatch(createJourneyLog(authToken, client, uid, journeyId, log)),
+  getJourney: (authToken, client, uid, journeyId) => dispatch(getJourney(authToken, client, uid, journeyId)),
+  clearCreatedJourneyLog: () => dispatch({ type: CLEAR_CREATED_JOURNEY_LOG })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewJourneyLog);

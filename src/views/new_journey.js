@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import { Button, Title2, Headline, Body, Icon } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
 
+import { CLEAR_CREATED_JOURNEY } from '../constants';
 import Topbar from './ui/topbar';
-import { createJourney, index } from '../actions';
+import { createJourney, index, myJourneys } from '../actions';
 
 class NewJourney extends Component {
   constructor(props) {
@@ -20,6 +21,8 @@ class NewJourney extends Component {
     if (nextProps.createdJourney) {
       Actions.pop();
       this.props.index(this.props.authToken, this.props.client, this.props.uid);
+      this.props.myJourneys(this.props.authToken, this.props.client, this.props.uid);
+      this.props.clearCreatedJourney();
     }
   }
 
@@ -111,7 +114,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   createJourney: (authToken, client, uid, title, missionStatement) => dispatch(createJourney(authToken, client, uid, title, missionStatement)),
-  index: (authToken, client, uid) => dispatch(index(authToken, client, uid))
+  index: (authToken, client, uid) => dispatch(index(authToken, client, uid)),
+  myJourneys: (authToken, client, uid) => dispatch(myJourneys(authToken, client, uid)),
+  clearCreatedJourney: () => dispatch({ type: CLEAR_CREATED_JOURNEY })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewJourney);
