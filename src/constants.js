@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://1d255dfc.ngrok.io/api/v1';
+export const BASE_URL = 'https://42606139.ngrok.io/api/v1';
 
 export const FETCH = 'FETCH';
 export const ERROR = 'ERROR';

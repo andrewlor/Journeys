@@ -32,20 +32,22 @@ class MyJourneys extends Component {
       );
     } else if (this.props.journeys.length > 0) {
       return (
-        <View>
-          {this.props.journeys.map((journey) => {
-             return (
-               <TouchableOpacity
-                 key={journey.id}
-                 onPress={() => this.pushJourney(journey.id)}>
-                 <View style={style.journey} key={journey.id}>
-                   <Title2>{journey.title}</Title2>
-                   <Headline>Started on {new Date(journey.created_at).toLocaleDateString("en-CA", {month: 'long', day: 'numeric', year: 'numeric' })}</Headline>
-                 </View>
-               </TouchableOpacity>
-             );
-          })}
-        </View>
+        <ScrollView contentContainerStyle={{padding: 0, margin: 0}}>
+          <View>
+            {this.props.journeys.map((journey) => {
+               return (
+                 <TouchableOpacity
+                   key={journey.id}
+                   onPress={() => this.pushJourney(journey.id)}>
+                   <View style={style.journey} key={journey.id}>
+                     <Title2>{journey.title}</Title2>
+                     <Headline>Started on {new Date(journey.created_at).toLocaleDateString("en-CA", {month: 'long', day: 'numeric', year: 'numeric' })}</Headline>
+                   </View>
+                 </TouchableOpacity>
+               );
+            })}
+          </View>
+        </ScrollView>
       );
     } else {
       return (
@@ -59,9 +61,7 @@ class MyJourneys extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <ScrollView contentContainerStyle={{padding: 0, margin: 0}}>
-          {this.renderJourneys()}
-        </ScrollView>
+        {this.renderJourneys()}
       </View>
     );
   }

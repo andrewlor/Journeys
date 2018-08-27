@@ -62,6 +62,7 @@ class NewJourney extends Component {
               autoCapitalize='none'
               onChangeText={(t) => this.setState({title: t})}
               style={style.input}
+              underlineColorAndroid={'rgba(0,0,0,0)'} 
             />
           </View>
           <View style={style.element}>
@@ -71,6 +72,7 @@ class NewJourney extends Component {
               autoCapitalize='none'
               onChangeText={(t) => this.setState({missionStatement: t})}
               style={style.input}
+              underlineColorAndroid={'rgba(0,0,0,0)'}
             />
           </View>
           <View style={style.element}>

@@ -20,10 +20,7 @@ class NewJourneyLog extends Component {
   constructor() {
     super();
     this.state = {
-      log: '',
-      data: null,
-      unit: null,
-      renderDataPointFields: false
+      log: ''
     };
   }
 
@@ -104,9 +101,9 @@ class NewJourneyLog extends Component {
               autoCapitalize='none'
               onChangeText={(t) => this.setState({log: t})}
               style={style.input}
+              underlineColorAndroid={'rgba(0,0,0,0)'}
             />
           </View>
-          {this.renderDataPointFields()}
           <View style={style.element}>
             <Button
               rounded

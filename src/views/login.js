@@ -84,13 +84,14 @@ class Login extends React.Component {
             <Title1 style={{color: 'white', marginTop: 10}}>Your journey begins here.</Title1>
           </View>
           <View style={{flex: 1}}></View>
-          <KeyboardAvoidingView behavior='position'>
+          <KeyboardAvoidingView behavior='padding'>
             <View style={style.element}>
               <TextInput
                 style={style.input}
                 placeholder={"Email"}
                 autoCapitalize='none'
                 onChangeText={(t) => this.setState({ email: t })}
+                underlineColorAndroid={'rgba(0,0,0,0)'}
               />
             </View>
             <View style={style.element}>
@@ -100,6 +101,7 @@ class Login extends React.Component {
                 autoCapitalize='none'
                 secureTextEntry
                 onChangeText={(t) => this.setState({ password: t })}
+                underlineColorAndroid={'rgba(0,0,0,0)'}
               />
             </View>
             <View style={[style.element, { paddingBottom: 10}]}>
