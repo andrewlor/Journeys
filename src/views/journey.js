@@ -62,7 +62,7 @@ class Journey extends Component {
   }
 
   renderAddCommitmentsLink() {
-    return this.canEditJourney() ? <Button onPress={() => {}}>Add commitments</Button> : null;
+    return this.canEditJourney() ? <Button onPress={Actions.newCommitment}>Add commitments</Button> : null;
   }
 
   renderCommitments(journey) {
@@ -98,7 +98,7 @@ class Journey extends Component {
           <ScrollView contentContainerStyle={{padding: 0, margin: 0}}>
             <View style={style.journey}>
               <Title2>{journey.title}</Title2>
-              <Headline>Started on {new Date(journey.created_at).toLocaleDateString("en-CA", {month: 'long', day: 'numeric', year: 'numeric' })}</Headline>
+              <Body>Started on {new Date(journey.created_at).toLocaleDateString("en-CA", {month: 'long', day: 'numeric', year: 'numeric' })}</Body>
               <View style={{height: 10}}></View>
               <Headline>Mission Statement: <Body>{journey.mission_statement}</Body></Headline>
             </View>

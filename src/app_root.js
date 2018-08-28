@@ -13,6 +13,7 @@ import Signup from './views/signup';
 import Welcome from './views/welcome';
 import NewJourneyLog from './views/new_journey_log';
 import NewJourney from './views/new_journey';
+import NewCommitment from './views/new_commitment';
 
 class AppRoot extends Component {
   constructor(props) {
@@ -55,6 +56,7 @@ class AppRoot extends Component {
             <Scene key="welcome" component={Welcome} {...sceneConfig} />
             <Scene key="newJourneyLog" component={NewJourneyLog} {...sceneConfig} />
             <Scene key="newJourney" component={NewJourney} {...sceneConfig} />
+            <Scene key="newCommitment" component={NewCommitment} {...sceneConfig} />
             <Scene key="root" initial>
               <Scene key="login" component={Login} initial {...sceneConfig} />
               <Scene key="tabs" component={Tabs} {...sceneConfig} />

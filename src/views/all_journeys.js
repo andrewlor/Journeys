@@ -41,7 +41,7 @@ class AllJourneys extends Component {
                    onPress={() => this.pushJourney(journey.id)}>
                    <View style={style.journey} key={journey.id}>
                      <Title2>{journey.title}</Title2>
-                     <Headline>Started on {new Date(journey.created_at).toLocaleDateString("en-CA", {month: 'long', day: 'numeric', year: 'numeric' })} by {journey.user_email}</Headline>
+                     <Body>Started on {new Date(journey.created_at).toLocaleDateString("en-CA", {month: 'long', day: 'numeric', year: 'numeric' })} by {journey.user_email}</Body>
                    </View>
                  </TouchableOpacity>
                );
