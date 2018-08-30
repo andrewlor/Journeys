@@ -37,7 +37,7 @@ class NewJourneyLog extends Component {
 
     let errors = [];
     if (log.length < 1) errors.push('Please enter a log.');
-    if (log.split(' ').length < 10) errors.push('Your log should be a bit longer.');
+    if (log.split(' ').length < 5) errors.push('Your log should be a bit longer.');
 
     if (errors.length > 0) {
       Alert.alert(

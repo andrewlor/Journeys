@@ -32,14 +32,14 @@ class Welcome extends Component {
         imageStyle: { width: 256, height: 180 },
         bigTitle: "How it works",
         title: "Set your aim.",
-        body: "Envision what you want to accomplish in the long term. This is your long term goal for 2 - 5 years. You should be overly ambitious, because you can accomplish more than you think."
+        body: "Envision what you want to accomplish in the long term. This is your long term goal for 2 - 5 years. You should be overly ambitious."
       },
       {
         image: require('../../assets/images/workout.png'),
         imageStyle: { width: 255, height: 167 },
         bigTitle: "How it works",
         title: "Commit.",
-        body: "Commit to taking specific actions that lead you towards your goal. These are short term goals that you are going to do tomorrow and should be easy enough that you will actually stick to the plan. You're not as awesome as you think you are right now."
+        body: "Commit to taking specific actions that lead you towards your goal. These are short term goals that you are going to do tomorrow and should be easy enough that you will actually stick to the plan."
       },
       {
         image: require('../../assets/images/peace.png'),

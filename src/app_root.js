@@ -14,6 +14,7 @@ import Welcome from './views/welcome';
 import NewJourneyLog from './views/new_journey_log';
 import NewJourney from './views/new_journey';
 import NewCommitment from './views/new_commitment';
+import CommitPeriods from './views/commit_periods';
 
 class AppRoot extends Component {
   constructor(props) {
@@ -62,6 +63,7 @@ class AppRoot extends Component {
               <Scene key="tabs" component={Tabs} {...sceneConfig} />
               <Scene key="journey" component={Journey} {...sceneConfig} />
               <Scene key="signup" component={Signup} {...sceneConfig} />
+              <Scene key="commitPeriods" component={CommitPeriods} {...sceneConfig} />
             </Scene>
           </Scene>
         </Router>

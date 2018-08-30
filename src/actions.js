@@ -26,7 +26,8 @@ import {
   CLEAR_SIGNUP_ERROR,
   CLEAR_AUTH_ERROR,
   CLEAR_NEW_MEMBER,
-  GET_JOURNEY_RESPONSE
+  GET_JOURNEY_RESPONSE,
+  CREATE_COMMIT_PERIOD_RESPONSE
 } from './constants';
 import { AsyncStorage } from 'react-native';
 
@@ -236,6 +237,37 @@ export function createJourneyLog(authToken, client, uid, journeyId, log, dataPoi
       console.log(error)
       dispatch({
         type: CREATE_JOURNEY_LOG_ERROR
+      });
+    })
+  }
+}
+
+export function createCommitPeriod(authToken, client, uid, journeyId) {
+  return dispatch => {
+    dispatch({ type: FETCH });
+    
+    fetch(BASE_URL + '/journeys/' + journeyId + '/commit_periods', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json",
+        "access-token": authToken,
+        client: client,
+        uid: uid
+      }
+    }).then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        response.json().then((body) => {
+          dispatch({
+            type: CREATE_COMMIT_PERIOD_RESPONSE
+          });
+        });
+      } else {
+        console.log(response.status)
+      }
+    }).catch((error) => {
+      console.log(error)
+      dispatch({
+        type: ERROR
       });
     })
   }

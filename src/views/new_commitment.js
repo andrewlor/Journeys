@@ -18,15 +18,21 @@ import { CLEAR_CREATED_JOURNEY_LOG } from '../constants';
 import { createJourneyLog, getJourney } from '../actions';
 
 class NewCommitment extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       commits: [{}]
     };
   }
 
   componentDidMount() {
-    
+    if (this.props.commit_period) {
+      this.setState({
+        startdate: this.props.commit_period.startdate,
+        enddate: this.props.commit_period.enddate,
+        commits: this.props.commit_period.commits
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {

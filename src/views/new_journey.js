@@ -33,7 +33,7 @@ class NewJourney extends Component {
     let errors = [];
     if (title.length < 1) errors.push('Please enter a title.');
     if (missionStatement.length < 1) errors.push('Please enter a mission statement.');
-    if (missionStatement.split(' ').length < 10) errors.push('Your mission statement should be a bit longer.');
+    if (missionStatement.split(' ').length < 5) errors.push('Your mission statement should be a bit longer.');
 
     if (errors.length > 0) {
       Alert.alert(

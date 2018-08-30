@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://3de6db2f.ngrok.io/api/v1';
+export const BASE_URL = 'http://localhost:3000/api/v1';
 
 export const FETCH = 'FETCH';
 export const ERROR = 'ERROR';
@@ -29,3 +29,4 @@ export const CLEAR_NEW_MEMBER = 'CLEAR_NEW_MEMBER';
 export const GET_JOURNEY_RESPONSE = 'GET_JOURNEY_RESPONSE';
 export const CLEAR_CREATED_JOURNEY = 'CLEAR_CREATED_JOURNEY';
 export const CLEAR_CREATED_JOURNEY_LOG = 'CLEAR_CREATED_JOURNEY_LOG';
+export const CREATE_COMMIT_PERIOD_RESPONSE = 'CREATE_COMMIT_PERIOD_RESPONSE';

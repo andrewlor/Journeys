@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, ScrollView, View, StyleSheet, TouchableOpacity, Switch } from 'react-native';
 import { connect } from 'react-redux';
-import { Title2, Headline, Body, DefaultTheme, Button } from 'react-native-ios-kit';
+import { Title2, Headline, Body, DefaultTheme, Button, Icon } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
 import Topbar from './ui/topbar';
 
@@ -28,6 +28,9 @@ class Journey extends Component {
     if (journey.journey_logs.length > 0) {
       return (
         <View>
+          <View style={[style.journey, {backgroundColor: DefaultTheme.footnoteBackgroundColor}]}>
+            <Title2>Logs</Title2>
+          </View>
           {journey.journey_logs.map((journeyLog) => {
              return (
                <View style={style.journey} key={journeyLog.id}>
@@ -60,32 +63,6 @@ class Journey extends Component {
       return <Topbar back />;
     }
   }
-
-  renderAddCommitmentsLink() {
-    return this.canEditJourney() ? <Button onPress={Actions.newCommitment}>Add commitments</Button> : null;
-  }
-
-  renderCommitments(journey) {
-    if (journey.commit_periods.length > 1) {
-      <View>
-        {journey.commit_periods.map((commit_period) => {
-           return (
-             <View style={style.journey} key={commit_period.id}>
-               <Headline>{new Date(commit_period.startdate).toLocaleDateString("en-CA", {month: 'long', day: 'numeric', year: 'numeric' })} to {new Date(commit_period.enddate).toLocaleDateString("en-CA", {month: 'long', day: 'numeric', year: 'numeric' })}</Headline>
-               <Body>{commit_period.commits}</Body>
-             </View>
-           );
-        })}
-      </View>
-    } else {
-      return (
-        <View style={[style.journey, {backgroundColor: DefaultTheme.footnoteBackgroundColor}]}>
-          <Headline>No commitments yet.</Headline>
-          {this.renderAddCommitmentsLink()}
-        </View>
-      );
-    }
-  }
   
   render() {
     let journey = this.journey();
@@ -102,7 +79,20 @@ class Journey extends Component {
               <View style={{height: 10}}></View>
               <Headline>Mission Statement: <Body>{journey.mission_statement}</Body></Headline>
             </View>
-            {this.renderCommitments(journey)}
+            <TouchableOpacity onPress={() => {}}>
+              <View style={[style.journey, {flexDirection: 'row', alignItems: 'center'}]}>
+                <Headline>Milestones</Headline>
+                <View style={{flex: 1}}/>
+                <Icon size={30} name='ios-arrow-forward' />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => Actions.commitPeriods({ journeyId: this.props.journeyId })}>
+              <View style={[style.journey, {flexDirection: 'row', alignItems: 'center'}]}>
+                <Headline>Weekly Commitments</Headline>
+                <View style={{flex: 1}}/>
+                <Icon size={30} name='ios-arrow-forward' />
+              </View>
+            </TouchableOpacity>
             {this.renderJourneyLogs(journey)}
           </ScrollView>
         </View>
