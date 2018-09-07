@@ -1,6 +1,7 @@
 import {
   FETCH,
   ERROR,
+  RESPONSE,
   LOGIN_FETCH,
   LOGIN_RESPONSE,
   LOGIN_ERROR,
@@ -17,6 +18,7 @@ import {
   CREATE_JOURNEY_LOG_FETCH,
   CREATE_JOURNEY_LOG_RESPONSE,
   CREATE_JOURNEY_LOG_ERROR,
+  CREATE_COMMITS_RESPONSE,
   SIGNUP_FETCH,
   SIGNUP_RESPONSE,
   SIGNUP_ERROR,
@@ -29,7 +31,8 @@ import {
   CLEAR_CREATED_JOURNEY,
   CLEAR_CREATED_JOURNEY_LOG,
   CLEAR_CREATED_COMMITS,
-  CREATE_COMMITS_RESPONSE
+  EDIT_COMMIT_RESPONSE,
+  CLEAR_EDITED_COMMIT
 } from "./constants.js";
 
 const initialState = {
@@ -53,6 +56,11 @@ export default function reducer(state = initialState, action) {
         isLoading: true
       }
     case ERROR:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case RESPONSE:
       return {
         ...state,
         isLoading: false
@@ -217,6 +225,17 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         createdCommits: false
+      }
+    case EDIT_COMMIT_RESPONSE:
+      return {
+        ...state,
+        isLoading: false,
+        editedCommit: true
+      }
+    case CLEAR_EDITED_COMMIT:
+      return {
+        ...state,
+        editedCommit: false
       }
     default:
       return state;

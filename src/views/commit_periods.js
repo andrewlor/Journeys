@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import { DefaultTheme, Button, Body, Headline, Icon, Title2 } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
 
+import { CLEAR_EDITED_COMMIT } from '../constants';
 import Topbar from './ui/topbar';
+import { editCommit, getJourney } from '../actions';
+import Spinner from './ui/spinner';
 
 class CommitPeriods extends Component {
   constructor(props) {
@@ -12,6 +15,17 @@ class CommitPeriods extends Component {
     this.state = {
       expandedIndex: 0
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.editedCommit) {
+      this.props.getJourney(this.props.authToken, this.props.client, this.props.uid, this.props.journeyId);
+      this.props.clearEditedCommit();
+    }
+  }
+
+  _submit(commitId) {
+    this.props.editCommit(this.props.authToken, this.props.client, this.props.uid, this.props.journeyId, commitId);
   }
 
   toggleExpansion(index) {
@@ -26,35 +40,63 @@ class CommitPeriods extends Component {
     return this.props.journeyCache[String(this.props.journeyId)]
   }
 
+  canEditJourney() {
+    return this.props.uid === this.journey().user_email;
+  }
+
   renderAddCommitsLink(commitPeriod) {
-    return <Button onPress={() => { Actions.newCommitment({ commitPeriod: commitPeriod, journeyId: this.props.journeyId }) }}>Add commitments</Button>;
+    if (this.canEditJourney()) {
+      return <Button onPress={() => { Actions.newCommitment({ commitPeriod: commitPeriod, journeyId: this.props.journeyId }) }}>Add commitments</Button>;
+    } else { return null; }
+  }
+
+  renderCommit(commit, completed, repetitionNumber) {
+    let renderRepetitionNumber = repetitionNumber ? `(${repetitionNumber})` : null;
+    if (completed) {
+      return (
+        <View style={{flexDirection: 'row', alignItems: 'center'}} key={commit.id}>
+          <Icon size={50} style={{ color: DefaultTheme.positiveColor }} name='ios-checkmark-circle'/>
+          <Body style={{margin: 10}}>{commit.description} {renderRepetitionNumber}</Body>
+        </View>
+      );
+    } else {
+      return (
+        <View style={{flexDirection: 'row', alignItems: 'center'}} key={commit.id}>
+          {this.canEditJourney() ?
+           <TouchableOpacity
+             onPress={() => this._submit(commit.id)}
+             >
+             <Icon size={50} name='ios-checkmark-circle-outline'/>
+           </TouchableOpacity>
+           :
+           <Icon size={50} name='ios-checkmark-circle-outline'/>
+          }
+          <Body style={{margin: 10}}>{commit.description} {renderRepetitionNumber}</Body>
+        </View>
+      );
+    }
+      
   }
 
   renderCommits(commit_period) {
     if (commit_period.commits.length > 0) {
       return (
         <View>
-          {commit_period.commits.map((commit) => {
+          {commit_period.commits.sort((a, b) => { return a.id - b.id }).map((commit) => {
              if (commit.repetitions > 1) {
                return (
                  <View key={commit.id}>
                    {Array.from(Array(commit.repetitions).keys()).map((index) => {
                       return (
-                        <View style={{flexDirection: 'row', alignItems: 'center'}} key={index}>
-                          <Icon size={50} name='ios-checkmark-circle-outline'/>
-                          <Body style={{margin: 10}}>{commit.description} {index + 1}</Body>
+                        <View key={index}>
+                          {this.renderCommit(commit, index < commit.repetitions_completed, index + 1)}
                         </View>
                       );
                    })}
                  </View>
                );
              } else {
-               return (
-                 <View style={{flexDirection: 'row', alignItems: 'center'}} key={commit.id}>
-                   <Icon size={50} name='ios-checkmark-circle-outline'/>
-                   <Body style={{margin: 10}}>{commit.description}</Body>
-                 </View>
-               );
+               return this.renderCommit(commit, commit.repetitions === commit.repetitions_completed);
              }
           })}
           {this.renderAddCommitsLink(commit_period)}
@@ -107,12 +149,16 @@ class CommitPeriods extends Component {
     return (
       <View style={{flex: 1}}>
         <Topbar back />
-        <ScrollView>
-          <View style={[style.journey, {backgroundColor: DefaultTheme.footnoteBackgroundColor}]}>
-            <Title2>Weekly Commitments</Title2>
-          </View>
-          {this.renderCommitPeriods(journey)}
-        </ScrollView>
+        {this.props.isLoading ?
+         <Spinner/>
+         :
+         <ScrollView>
+           <View style={[style.journey, {backgroundColor: DefaultTheme.footnoteBackgroundColor}]}>
+             <Title2>Weekly Commitments</Title2>
+           </View>
+           {this.renderCommitPeriods(journey)}
+         </ScrollView>
+        }
       </View>
     );
   }
@@ -132,11 +178,16 @@ const mapStateToProps = state => {
     authToken: state.authToken,
     client: state.client,
     uid: state.uid,
-    journeyCache: state.journeyCache
+    journeyCache: state.journeyCache,
+    isLoading: state.isLoading,
+    editedCommit: state.editedCommit
   };
 };
 
 const mapDispatchToProps = dispatch => ({
+  editCommit: (authToken, client, uid, journeyId, commitId) => dispatch(editCommit(authToken, client, uid, journeyId, commitId)),
+  clearEditedCommit: () => dispatch({type: CLEAR_EDITED_COMMIT}),
+  getJourney: (authToken, client, uid, journeyId) => dispatch(getJourney(authToken, client, uid, journeyId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommitPeriods);
