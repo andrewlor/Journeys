@@ -27,7 +27,7 @@ import {
   CLEAR_AUTH_ERROR,
   CLEAR_NEW_MEMBER,
   GET_JOURNEY_RESPONSE,
-  CREATE_COMMIT_PERIOD_RESPONSE
+  CREATE_COMMITS_RESPONSE
 } from './constants';
 import { AsyncStorage } from 'react-native';
 
@@ -242,23 +242,26 @@ export function createJourneyLog(authToken, client, uid, journeyId, log, dataPoi
   }
 }
 
-export function createCommitPeriod(authToken, client, uid, journeyId) {
+export function createCommits(authToken, client, uid, journeyId, commitPeriodId, commits) {
   return dispatch => {
     dispatch({ type: FETCH });
     
-    fetch(BASE_URL + '/journeys/' + journeyId + '/commit_periods', {
+    fetch(BASE_URL + '/journeys/' + journeyId + '/commit_periods/' + commitPeriodId + '/commits', {
       method: 'post',
       headers: {
         "Content-Type": "application/json",
         "access-token": authToken,
         client: client,
         uid: uid
-      }
+      },
+      body: JSON.stringify({
+        commits: commits
+      })
     }).then((response) => {
       if (response.status >= 200 && response.status < 300) {
         response.json().then((body) => {
           dispatch({
-            type: CREATE_COMMIT_PERIOD_RESPONSE
+            type: CREATE_COMMITS_RESPONSE
           });
         });
       } else {

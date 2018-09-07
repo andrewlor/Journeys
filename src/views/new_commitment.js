@@ -14,41 +14,33 @@ import { Button, Title2, Headline, Body, Icon } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
 import NumericInput from 'react-native-numeric-input';
 
-import { CLEAR_CREATED_JOURNEY_LOG } from '../constants';
-import { createJourneyLog, getJourney } from '../actions';
+import { CLEAR_CREATED_COMMITS } from '../constants';
+import { createCommits, getJourney } from '../actions';
 
 class NewCommitment extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      commits: [{}]
+      commits: [{description: ''}]
     };
   }
 
-  componentDidMount() {
-    if (this.props.commit_period) {
-      this.setState({
-        startdate: this.props.commit_period.startdate,
-        enddate: this.props.commit_period.enddate,
-        commits: this.props.commit_period.commits
-      });
-    }
-  }
-
   componentWillReceiveProps(nextProps) {
-    if (nextProps.createdJourneyLog) {
+    if (nextProps.createdCommits) {
       Actions.pop();
       this.props.getJourney(this.props.authToken, this.props.client, this.props.uid, this.props.journeyId);
-      this.props.clearCreatedJourneyLog();
+      this.props.clearCreatedCommits();
     }
   }
   
   _submit = () => {
-    let log = this.state.log;
+    let commits = this.state.commits;
 
     let errors = [];
-    if (log.length < 1) errors.push('Please enter a log.');
-    if (log.split(' ').length < 10) errors.push('Your log should be a bit longer.');
+    commits.forEach((commit) => {
+      if (commit.description.length < 1) errors.push('Please enter a commit description.');
+      if (commit.repetitions && commit.repetitions < 1) errors.push('Repetitions must be positive');
+    });
 
     if (errors.length > 0) {
       Alert.alert(
@@ -60,7 +52,10 @@ class NewCommitment extends Component {
         { cancelable: false }
       );
     } else {
-      this.props.createJourneyLog(this.props.authToken, this.props.client, this.props.uid, this.props.journeyId, log);
+      this.props.createCommits(
+        this.props.authToken, this.props.client, this.props.uid,
+        this.props.journeyId, this.props.commitPeriod.id, commits
+      );
     }
   }
 
@@ -73,7 +68,7 @@ class NewCommitment extends Component {
 
   addCommit() {
     let commits = this.state.commits;
-    commits.push({});
+    commits.push({ description: '' });
     this.setState({commits: commits})
   }
   
@@ -92,7 +87,7 @@ class NewCommitment extends Component {
                <View key={index}>
                  <View style={style.element}>
                    <TextInput
-                     value={commit.description ? commit.description : null}
+                     value={commit.description}
                      placeholder='eg. Run 5km.'
                      onChangeText={(t) => this.setCommit({ description: t }, index)}
                      style={style.input}
@@ -105,7 +100,7 @@ class NewCommitment extends Component {
                      value={commit.repetitions ? commit.repetitions : null}
                      initValue={1}
                      minValue={1}
-                     onChange={(x) => this.setCommit({ repetitions: x}, index)}
+                     onChange={(x) => this.setCommit({ repetitions: x }, index)}
                    />
                    <Body style={{margin: 10}}>repetitions</Body>
                    <TouchableOpacity
@@ -127,7 +122,9 @@ class NewCommitment extends Component {
       <View style={{ flex: 1 }}>
         <Topbar down />
         <ScrollView>
-          <View style={{ height: 10 }}/>
+          <View style={style.element}>
+            <Title2>Commits for {this.props.commitPeriod.startdate} - {this.props.commitPeriod.enddate}</Title2>
+          </View>
           {this.renderCommitFields()}
           <View style={style.element}>
             <Button
@@ -174,14 +171,14 @@ const mapStateToProps = state => {
     authToken: state.authToken,
     client: state.client,
     uid: state.uid,
-    createdJourneyLog: state.createdJourneyLog
+    createdCommits: state.createdCommits
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  createJourneyLog: (authToken, client, uid, journeyId, log) => dispatch(createJourneyLog(authToken, client, uid, journeyId, log)),
+  createCommits: (authToken, client, uid, journeyId, commitPeriodId, commits) => dispatch(createCommits(authToken, client, uid, journeyId, commitPeriodId, commits)),
   getJourney: (authToken, client, uid, journeyId) => dispatch(getJourney(authToken, client, uid, journeyId)),
-  clearCreatedJourneyLog: () => dispatch({ type: CLEAR_CREATED_JOURNEY_LOG })
+  clearCreatedCommits: () => dispatch({ type: CLEAR_CREATED_COMMITS })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewCommitment);

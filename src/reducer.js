@@ -28,7 +28,8 @@ import {
   GET_JOURNEY_RESPONSE,
   CLEAR_CREATED_JOURNEY,
   CLEAR_CREATED_JOURNEY_LOG,
-  CREATE_COMMIT_PERIOD_RESPONSE
+  CLEAR_CREATED_COMMITS,
+  CREATE_COMMITS_RESPONSE
 } from "./constants.js";
 
 const initialState = {
@@ -206,9 +207,16 @@ export default function reducer(state = initialState, action) {
         ...state,
         createdJourneyLog: false
       }
-    case CREATE_COMMIT_PERIOD_RESPONSE:
+    case CREATE_COMMITS_RESPONSE:
       return {
-        ...state
+        ...state,
+        isLoading: false,
+        createdCommits: true
+      }
+    case CLEAR_CREATED_COMMITS:
+      return {
+        ...state,
+        createdCommits: false
       }
     default:
       return state;

@@ -34,7 +34,7 @@ class Journey extends Component {
           {journey.journey_logs.map((journeyLog) => {
              return (
                <View style={style.journey} key={journeyLog.id}>
-                 <Headline>{new Date(journeyLog.created_at).toLocaleDateString("en-CA", {month: 'long', day: 'numeric', year: 'numeric' })}</Headline>
+                 <Headline>{journeyLog.created_at}</Headline>
                  <Body>{journeyLog.log}</Body>
                </View>
              );
@@ -75,7 +75,7 @@ class Journey extends Component {
           <ScrollView contentContainerStyle={{padding: 0, margin: 0}}>
             <View style={style.journey}>
               <Title2>{journey.title}</Title2>
-              <Body>Started on {new Date(journey.created_at).toLocaleDateString("en-CA", {month: 'long', day: 'numeric', year: 'numeric' })}</Body>
+              <Body>Started on {journey.created_at}</Body>
               <View style={{height: 10}}></View>
               <Headline>Mission Statement: <Body>{journey.mission_statement}</Body></Headline>
             </View>
