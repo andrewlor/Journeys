@@ -86,10 +86,10 @@ class CommitPeriods extends Component {
              if (commit.repetitions > 1) {
                return (
                  <View key={commit.id}>
-                   {Array.from(Array(commit.repetitions).keys()).map((index) => {
+                   {Array(commit.repetitions).fill(0).map((e,i)=>i+1).map((index) => {
                       return (
                         <View key={index}>
-                          {this.renderCommit(commit, index < commit.repetitions_completed, index + 1)}
+                          {this.renderCommit(commit, index <= commit.repetitions_completed, index)}
                         </View>
                       );
                    })}
