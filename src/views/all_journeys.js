@@ -41,7 +41,7 @@ class AllJourneys extends Component {
                    onPress={() => this.pushJourney(journey.id)}>
                    <View style={style.journey} key={journey.id}>
                      <Title2>{journey.title}</Title2>
-                     <Body>Started on {journey.created_at} by {journey.user_email}</Body>
+                     <Body>{journey.created_at} <Headline>{journey.username}</Headline></Body>
                    </View>
                  </TouchableOpacity>
                );

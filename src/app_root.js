@@ -37,7 +37,7 @@ class AppRoot extends Component {
         console.log("SUCCESS FETCHING STORAGE");
         console.log(value);
         let AUTH = JSON.parse(value);
-        this.props.reauth(AUTH.authToken, AUTH.client, AUTH.uid);
+        this.props.reauth(AUTH.authToken, AUTH.client, AUTH.uid, AUTH.user);
       }
     } catch (error) {
       console.log("ERROR FETCHING STORAGE: " + error);
@@ -81,7 +81,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  reauth: (authToken, client, uid) => dispatch(reauth(authToken, client, uid)),
+  reauth: (authToken, client, uid, user) => dispatch(reauth(authToken, client, uid, user)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppRoot);

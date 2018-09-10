@@ -52,12 +52,13 @@ export function login(email, password) {
           const client = response.headers.get("client");
           const uid = response.headers.get("uid");
           
-          setStore(authToken, client, uid);
+          setStore(authToken, client, uid, body.data);
           dispatch({
             type: LOGIN_RESPONSE,
             authToken: authToken,
             client: client,
-            uid: uid
+            uid: uid,
+            user: body.data
           })
         });
       } else {
@@ -308,7 +309,7 @@ export function editCommit(authToken, client, uid, journeyId, commitId) {
   }
 }
 
-export function signup(email, password, confirm_password) {
+export function signup(email, password, confirm_password, nickname) {
   return dispatch => {
     dispatch({ type: SIGNUP_FETCH })
     
@@ -320,7 +321,8 @@ export function signup(email, password, confirm_password) {
       body: JSON.stringify({
         email: email,
         password: password,
-        password_confirmation: confirm_password
+        password_confirmation: confirm_password,
+        nickname: nickname
       })
     }).then((response) => {
       response.json().then((body) => {
@@ -329,12 +331,13 @@ export function signup(email, password, confirm_password) {
           const client = response.headers.get("client");
           const uid = response.headers.get("uid");
           
-          setStore(authToken, client, uid);
+          setStore(authToken, client, uid, body.data);
           dispatch({
             type: SIGNUP_RESPONSE,
             authToken: authToken,
             client: client,
-            uid: uid
+            uid: uid,
+            user: body.data
           });
         } else {
           dispatch({
@@ -352,13 +355,14 @@ export function signup(email, password, confirm_password) {
   }
 }
 
-export function reauth(authToken, client, uid) {
+export function reauth(authToken, client, uid, user) {
   return dispatch => {
     dispatch({
       type: REAUTH,
       authToken: authToken,
       client: client,
-      uid: uid
+      uid: uid,
+      user: user
     });
   }
 }
@@ -387,11 +391,12 @@ export function clearNewMember() {
   }
 }
 
-async function setStore(authToken, client, uid) {
+async function setStore(authToken, client, uid, user) {
   const AUTH = {
     authToken: authToken,
     client: client,
-    uid: uid
+    uid: uid,
+    user: user
   };
   try {
     await AsyncStorage.setItem('@Journeys:AUTH', JSON.stringify(AUTH));

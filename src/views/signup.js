@@ -21,13 +21,14 @@ class Signup extends Component {
     this.state = {
       email: '',
       password: '',
-      confirm_password: ''
+      confirm_password: '',
+      nickname: ''
     };
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.authToken) {
-      this.setState({ email: '', password: '', confirm_password: '' });
+      this.setState({ email: '', password: '', confirm_password: '', nickname: '' });
       Actions.pop();
     }
     
@@ -47,10 +48,12 @@ class Signup extends Component {
     let email = this.state.email;
     let password = this.state.password;
     let confirm_password = this.state.confirm_password;
+    let nickname = this.state.nickname;
 
     let errors = [];
     if (email.length < 1) errors.push('Please enter an email.');
     if (password.length < 1) errors.push('Please enter a password.');
+    if (nickname.length < 1) errors.push('Please enter a nickname.');
     if (confirm_password.length < 1) errors.push('Please enter a password confirmation.');
     if (confirm_password !== password) errors.push('Passwords do not match.');
 
@@ -64,7 +67,7 @@ class Signup extends Component {
         { cancelable: false }
       );
     } else {
-      this.props.signup(email, password, confirm_password);
+      this.props.signup(email, password, confirm_password, nickname);
     }
   }
 
@@ -83,6 +86,15 @@ class Signup extends Component {
               placeholder={"Email"}
               autoCapitalize='none'
               onChangeText={(t) => this.setState({ email: t })}
+              underlineColorAndroid={'rgba(0,0,0,0)'}
+            />
+          </View>
+          <View style={style.element}>
+            <TextInput
+              style={style.input}
+              placeholder={"Username"}
+              autoCapitalize='none'
+              onChangeText={(t) => this.setState({ nickname: t })}
               underlineColorAndroid={'rgba(0,0,0,0)'}
             />
           </View>
@@ -156,7 +168,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  signup: (email, password, confirm_password) => dispatch(signup(email, password, confirm_password)),
+  signup: (email, password, confirm_password, nickname) => dispatch(signup(email, password, confirm_password, nickname)),
   clearSignUpError: () => dispatch(clearSignUpError())
 });
 

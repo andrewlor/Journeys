@@ -77,6 +77,7 @@ export default function reducer(state = initialState, action) {
         authToken: action.authToken,
         client: action.client,
         uid: action.uid,
+        user: action.user
       };
     case LOGIN_ERROR:
       return {
@@ -94,7 +95,8 @@ export default function reducer(state = initialState, action) {
         ...state,
         authToken: action.authToken,
         client: action.client,
-        uid: action.uid
+        uid: action.uid,
+        user: action.user
       }
     case INDEX_FETCH:
       return {
@@ -157,7 +159,8 @@ export default function reducer(state = initialState, action) {
         client: action.client,
         uid: action.uid,
         newMember: (action.authToken ? true : null),
-        signupError: action.signupError
+        signupError: action.signupError,
+        user: action.user
       }
     case SIGNUP_ERROR:
       return {
