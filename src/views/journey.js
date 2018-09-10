@@ -75,7 +75,7 @@ class Journey extends Component {
           <ScrollView contentContainerStyle={{padding: 0, margin: 0}}>
             <View style={style.journey}>
               <Title2>{journey.title}</Title2>
-              <Body>Started on {journey.created_at}</Body>
+              <Body>{journey.created_at} <Headline>{journey.username}</Headline></Body>
               <View style={{height: 10}}></View>
               <Headline>Mission Statement: <Body>{journey.mission_statement}</Body></Headline>
             </View>
