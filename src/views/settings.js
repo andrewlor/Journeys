@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { Headline, Body, Button } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
+
 import { logout } from '../actions';
+import ProfilePicture from './ui/profile_picture';
 
 class Settings extends Component {
   componentWillReceiveProps(nextProps) {
@@ -11,9 +13,12 @@ class Settings extends Component {
   }
   
   render() {
+    if (!this.props.user) return null;
     return (
       <View style={{flex: 1}}>
         <View style={{padding: 20, alignItems: 'center'}}>
+          <ProfilePicture uri={this.props.user.image.url}/>
+          <View style={{height: 20}}/>
           <Headline>{this.props.user.nickname}</Headline>
           <Body>{this.props.user.email}</Body>
         </View>

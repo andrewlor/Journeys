@@ -77,7 +77,8 @@ class Journey extends Component {
               <Title2>{journey.title}</Title2>
               <Body>{journey.created_at} <Headline>{journey.username}</Headline></Body>
               <View style={{height: 10}}></View>
-              <Headline>Mission Statement: <Body>{journey.mission_statement}</Body></Headline>
+              <Headline>Mission Statement</Headline>
+              <Body>{journey.mission_statement}</Body>
             </View>
             <TouchableOpacity onPress={() => {}}>
               <View style={[style.journey, {flexDirection: 'row', alignItems: 'center'}]}>
