@@ -32,7 +32,8 @@ import {
   CLEAR_CREATED_JOURNEY_LOG,
   CLEAR_CREATED_COMMITS,
   EDIT_COMMIT_RESPONSE,
-  CLEAR_EDITED_COMMIT
+  CLEAR_EDITED_COMMIT,
+  UPLOAD_PROFILE_PICTURE_RESPONSE
 } from "./constants.js";
 
 const initialState = {
@@ -239,6 +240,12 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         editedCommit: false
+      }
+    case UPLOAD_PROFILE_PICTURE_RESPONSE:
+      return {
+        ...state,
+        isLoading: false,
+        user: action.user
       }
     default:
       return state;

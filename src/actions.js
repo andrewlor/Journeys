@@ -28,7 +28,8 @@ import {
   CLEAR_NEW_MEMBER,
   GET_JOURNEY_RESPONSE,
   CREATE_COMMITS_RESPONSE,
-  EDIT_COMMIT_RESPONSE
+  EDIT_COMMIT_RESPONSE,
+  UPLOAD_PROFILE_PICTURE_RESPONSE
 } from './constants';
 import { AsyncStorage } from 'react-native';
 
@@ -302,9 +303,7 @@ export function editCommit(authToken, client, uid, journeyId, commitId) {
       }
     }).catch((error) => {
       console.log(error)
-      dispatch({
-        type: ERROR
-      });
+      dispatch({ type: ERROR });
     })
   }
 }
@@ -351,6 +350,41 @@ export function signup(email, password, confirm_password, nickname) {
       dispatch({
         type: SIGNUP_ERROR
       });
+    })
+  }
+}
+
+export function uploadProfilePicture(authToken, client, uid, image) {
+  return dispatch => {
+    dispatch({ type: FETCH });
+    
+    fetch(BASE_URL + '/profile_picture', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json",
+        "access-token": authToken,
+        client: client,
+        uid: uid
+      },
+      body: JSON.stringify({
+        image: image
+      })
+    }).then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        response.json().then((body) => {
+          setStore(authToken, client, uid, body);
+          dispatch({
+            type: UPLOAD_PROFILE_PICTURE_RESPONSE,
+            user: body
+          });
+        });
+      } else {
+        console.log(response.status)
+        dispatch({ type: ERROR });
+      }
+    }).catch((error) => {
+      console.log(error)
+      dispatch({ type: ERROR });
     })
   }
 }

@@ -74,8 +74,13 @@ class Journey extends Component {
           {this.renderTopBar()}
           <ScrollView contentContainerStyle={{padding: 0, margin: 0}}>
             <View style={style.journey}>
-              <Title2>{journey.title}</Title2>
-              <Body>{journey.created_at} <Headline>{journey.username}</Headline></Body>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <ProfilePicture uri={journey.user_image} size={50}/>
+                <View style={{paddingLeft: 10}}>
+                  <Title2>{journey.title}</Title2>
+                  <Body>{journey.created_at} <Headline>{journey.username}</Headline></Body>
+                </View>
+              </View>
               <View style={{height: 10}}></View>
               <Headline>Mission Statement</Headline>
               <Body>{journey.mission_statement}</Body>

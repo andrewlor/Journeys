@@ -8,6 +8,7 @@ import { Actions } from 'react-native-router-flux';
 
 import { index } from '../actions';
 import Spinner from './ui/spinner';
+import ProfilePicture from './ui/profile_picture';
 
 class AllJourneys extends Component {
 
@@ -40,8 +41,13 @@ class AllJourneys extends Component {
                    key={journey.id}
                    onPress={() => this.pushJourney(journey.id)}>
                    <View style={style.journey} key={journey.id}>
-                     <Title2>{journey.title}</Title2>
-                     <Body>{journey.created_at} <Headline>{journey.username}</Headline></Body>
+                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                       <ProfilePicture uri={journey.user_image} size={50}/>
+                       <View style={{paddingLeft: 10}}>
+                         <Title2>{journey.title}</Title2>
+                         <Body><Headline>{journey.username}</Headline> {journey.created_at}</Body>
+                       </View>
+                     </View>
                    </View>
                  </TouchableOpacity>
                );

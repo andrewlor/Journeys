@@ -1,9 +1,9 @@
 import React from 'react';
-import { Image } from 'react-native';
-import { Icon } from 'react-native-ios-kit';
+import { Image, View } from 'react-native';
+import { Icon, DefaultTheme } from 'react-native-ios-kit';
 
 export default ProfilePicture = props => {
-  const IMAGE_SIZE = 100;
+  const IMAGE_SIZE = props.size ? props.size : 100;
   if (props.uri) {
     return (
       <Image
@@ -14,10 +14,19 @@ export default ProfilePicture = props => {
     );
   } else {
     return (
-      <Icon
-        size={IMAGE_SIZE}
-        name='ios-person'
-      />
+      <View style={{
+        height: IMAGE_SIZE,
+        width: IMAGE_SIZE,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: DefaultTheme.primaryLightColor,
+        borderRadius: IMAGE_SIZE / 2
+      }}>
+        <Icon
+          size={IMAGE_SIZE}
+          name='ios-person'
+        />
+      </View>
     );
   }
 }
