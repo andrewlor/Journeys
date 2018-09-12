@@ -33,7 +33,6 @@ class NewJourney extends Component {
     let errors = [];
     if (title.length < 1) errors.push('Please enter a title.');
     if (missionStatement.length < 1) errors.push('Please enter a mission statement.');
-    if (missionStatement.split(' ').length < 5) errors.push('Your mission statement should be a bit longer.');
 
     if (errors.length > 0) {
       Alert.alert(
@@ -68,10 +67,11 @@ class NewJourney extends Component {
           <View style={style.element}>
             <Headline>Misson statement:</Headline>
             <TextInput
+              multiline
               placeholder='I want to learn to develop and maintain Ruby web apps.'
               autoCapitalize='none'
               onChangeText={(t) => this.setState({missionStatement: t})}
-              style={style.input}
+              style={[style.input, { height: 150, padding: 5 }]}
               underlineColorAndroid={'rgba(0,0,0,0)'}
             />
           </View>

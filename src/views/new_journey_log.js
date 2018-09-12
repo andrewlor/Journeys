@@ -54,7 +54,6 @@ class NewJourneyLog extends Component {
 
     let errors = [];
     if (log.length < 1) errors.push('Please enter a log.');
-    if (log.split(' ').length < 5) errors.push('Your log should be a bit longer.');
 
     if (errors.length > 0) {
       Alert.alert(
@@ -79,7 +78,7 @@ class NewJourneyLog extends Component {
             keyboardType='numeric'
             autoCapitalize='none'
             onChangeText={(t) => this.setState({data: t})}
-            style={style.input}
+            style={[style.input, { height: 150, padding: 5 }]}
           />
           <Picker
             selectedValue={this.state.unit}
@@ -114,10 +113,11 @@ class NewJourneyLog extends Component {
           <View style={{ height: 10 }}/>
           <View style={style.element}>
             <TextInput
+              multiline
               placeholder='Today I did ...'
               autoCapitalize='none'
               onChangeText={(t) => this.setState({log: t})}
-              style={style.input}
+              style={[style.input, { height: 150, padding: 5 }]}
               underlineColorAndroid={'rgba(0,0,0,0)'}
             />
           </View>
