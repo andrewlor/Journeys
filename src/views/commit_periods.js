@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { ScrollView, View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { DefaultTheme, Button, Body, Headline, Icon, Title2 } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
@@ -24,8 +24,27 @@ class CommitPeriods extends Component {
     }
   }
 
-  _submit(commitId) {
-    this.props.editCommit(this.props.authToken, this.props.client, this.props.uid, this.props.journeyId, commitId);
+  _submit(commitId, description) {
+    Alert.alert(
+      'Confirm',
+      `Confirm that you have completed your commitment: ${description}.`,
+      [
+        {
+          text: 'Confirm',
+          onPress: () => {
+            this.props.editCommit(
+              this.props.authToken,
+              this.props.client,
+              this.props.uid,
+              this.props.journeyId,
+              commitId
+            );
+          }
+        },
+        {text: 'Cancel', onPress: () => {}, style: 'cancel'},
+      ],
+      { cancelable: true }
+    )
   }
 
   toggleExpansion(index) {
@@ -64,7 +83,7 @@ class CommitPeriods extends Component {
         <View style={{flexDirection: 'row', alignItems: 'center'}} key={commit.id}>
           {this.canEditJourney() ?
            <TouchableOpacity
-             onPress={() => this._submit(commit.id)}
+             onPress={() => this._submit(commit.id, commit.description)}
              >
              <Icon size={50} name='ios-checkmark-circle-outline'/>
            </TouchableOpacity>
