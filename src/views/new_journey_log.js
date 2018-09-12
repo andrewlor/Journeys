@@ -7,11 +7,14 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Picker
+  Picker,
+  Image
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Button, Title2, Headline, Body, Icon } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
+import { ImagePicker, Permissions } from 'expo';
+import FlexImage from 'react-native-flex-image';
 
 import { CLEAR_CREATED_JOURNEY_LOG } from '../constants';
 import { createJourneyLog, getJourney } from '../actions';
@@ -31,9 +34,23 @@ class NewJourneyLog extends Component {
       this.props.clearCreatedJourneyLog();
     }
   }
+
+  _pickPhoto = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (status === 'granted') {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaType: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        base64: true,
+        quality: 0
+      });
+      if (!result.cancelled) this.setState({imageBase64: result.base64, imagePath: result.uri});
+    }
+  }
   
   _submit = () => {
     let log = this.state.log;
+    let imageBase64 = this.state.imageBase64;
 
     let errors = [];
     if (log.length < 1) errors.push('Please enter a log.');
@@ -49,7 +66,7 @@ class NewJourneyLog extends Component {
         { cancelable: false }
       );
     } else {
-      this.props.createJourneyLog(this.props.authToken, this.props.client, this.props.uid, this.props.journeyId, log);
+      this.props.createJourneyLog(this.props.authToken, this.props.client, this.props.uid, this.props.journeyId, log, imageBase64);
     }
   }
 
@@ -104,6 +121,25 @@ class NewJourneyLog extends Component {
               underlineColorAndroid={'rgba(0,0,0,0)'}
             />
           </View>
+          {this.state.imagePath ?
+           <View>
+             <View style={style.element}>
+               <FlexImage
+                 source={{uri: this.state.imagePath}}
+               />
+             </View>
+             <View style={style.element}>
+               <Button
+                 onPress={this._pickPhoto}
+               >Edit Photo</Button>
+             </View>
+           </View>
+           :
+           <View style={style.element}>
+             <Button
+               onPress={this._pickPhoto}
+             >Add Photo</Button>
+           </View>}
           <View style={style.element}>
             <Button
               rounded
@@ -145,7 +181,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  createJourneyLog: (authToken, client, uid, journeyId, log) => dispatch(createJourneyLog(authToken, client, uid, journeyId, log)),
+  createJourneyLog: (authToken, client, uid, journeyId, log, image) => dispatch(createJourneyLog(authToken, client, uid, journeyId, log, image)),
   getJourney: (authToken, client, uid, journeyId) => dispatch(getJourney(authToken, client, uid, journeyId)),
   clearCreatedJourneyLog: () => dispatch({ type: CLEAR_CREATED_JOURNEY_LOG })
 });

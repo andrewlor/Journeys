@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, View, StyleSheet, TouchableOpacity, Switch } from 'react-native';
+import { Text, ScrollView, View, StyleSheet, TouchableOpacity, Switch, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { Title2, Headline, Body, DefaultTheme, Button, Icon } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
 import Topbar from './ui/topbar';
+import FlexImage from 'react-native-flex-image';
 
 import { getJourney } from '../actions';
 import Spinner from './ui/spinner';
@@ -36,6 +37,12 @@ class Journey extends Component {
                <View style={style.journey} key={journeyLog.id}>
                  <Headline>{journeyLog.created_at}</Headline>
                  <Body>{journeyLog.log}</Body>
+                 {journeyLog.image.url ?
+                  <FlexImage
+                    source={{uri: journeyLog.image.url}}
+                    style={{marginTop: 10}}
+                  />
+                  : null }
                </View>
              );
           })}

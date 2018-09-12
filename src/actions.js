@@ -211,9 +211,12 @@ export function createJourney(authToken, client, uid, title, missionStatement) {
   }
 }
 
-export function createJourneyLog(authToken, client, uid, journeyId, log, dataPoint) {
+export function createJourneyLog(authToken, client, uid, journeyId, log, image) {
   return dispatch => {
     dispatch({ type: CREATE_JOURNEY_LOG_FETCH })
+
+    let body = { log: log };
+    if (image) body.image = image;
     
     fetch(BASE_URL + '/journeys/' + journeyId + '/journey_logs', {
       method: 'post',
@@ -223,9 +226,7 @@ export function createJourneyLog(authToken, client, uid, journeyId, log, dataPoi
         client: client,
         uid: uid
       },
-      body: JSON.stringify({
-        log: log,
-      })
+      body: JSON.stringify(body)
     }).then((response) => {
       if (response.status >= 200 && response.status < 300) {
         response.json().then((body) => {

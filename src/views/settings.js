@@ -3,7 +3,6 @@ import { View, StyleSheet, Image, ImageStore } from 'react-native';
 import { connect } from 'react-redux';
 import { Headline, Body, Button } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
-import CameraRollPicker from 'react-native-camera-roll-picker';
 import { ImagePicker, Permissions } from 'expo';
 
 import { logout, uploadProfilePicture } from '../actions';
@@ -22,7 +21,8 @@ class Settings extends Component {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaType: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        base64: true
+        base64: true,
+        quality: 0
       });
       if (!result.cancelled) this.props.uploadProfilePicture(this.props.authToken, this.props.client, this.props.uid, result.base64);
     }
