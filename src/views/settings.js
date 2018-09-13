@@ -15,16 +15,19 @@ class Settings extends Component {
     if (!nextProps.authToken) Actions.replace('login');
   }
 
-  _pickPhoto = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    if (status === 'granted') {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaType: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        base64: true
-      });
-      if (!result.cancelled) this.props.uploadProfilePicture(this.props.authToken, this.props.client, this.props.uid, result.base64);
-    }
+  _pickPhoto = () => {
+    Permissions.askAsync(Permissions.CAMERA_ROLL).then(async (result) => {
+      if (result.status === 'granted') {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaType: ImagePicker.MediaTypeOptions.Images,
+          allowsEditing: true,
+          base64: true
+        });
+        if (!result.cancelled) this.props.uploadProfilePicture(this.props.authToken, this.props.client, this.props.uid, result.base64);
+      }
+    }).catch((err) => {
+      console.log(err);
+    })
   }
 
   render() {

@@ -5,6 +5,7 @@ import { Title2, Headline, Body, Button, Icon, DefaultTheme } from 'react-native
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Journey from './journey';
 import { Actions } from 'react-native-router-flux';
+import Dimensions from 'Dimensions';
 
 import { index } from '../actions';
 import Spinner from './ui/spinner';
@@ -34,16 +35,16 @@ class AllJourneys extends Component {
     } else if (this.props.journeys.length > 0) {
       return (
         <ScrollView contentContainerStyle={{padding: 0, margin: 0}}>
-          <View>
+          <View style={{width: Dimensions.get('window').width }}>
             {this.props.journeys.map((journey) => {
                return (
                  <TouchableOpacity
                    key={journey.id}
                    onPress={() => this.pushJourney(journey.id)}>
                    <View style={style.journey} key={journey.id}>
-                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                     <View style={{flexDirection: 'row', alignItems: 'center', flex: 1}}>
                        <ProfilePicture uri={journey.user_image} size={50}/>
-                       <View style={{paddingLeft: 10}}>
+                       <View style={{paddingHorizontal: 20, paddingRight: 40}}>
                          <Title2>{journey.title}</Title2>
                          <Body><Headline>{journey.username}</Headline> {journey.created_at}</Body>
                        </View>

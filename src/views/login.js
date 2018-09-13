@@ -7,7 +7,8 @@ import {
   Form,
   TextInput,
   Text,
-  Alert
+  Alert,
+  Platform
 } from 'react-native';
 import { Title1, Button, Spinner, Body, DefaultTheme } from 'react-native-ios-kit';
 import { connect } from 'react-redux';
@@ -83,8 +84,8 @@ class Login extends React.Component {
             <Text style={style.title}>Journeys</Text>
             <Title1 style={{color: 'white', marginTop: 10}}>Your journey begins here.</Title1>
           </View>
-          <View style={{flex: 1}}></View>
-          <KeyboardAvoidingView behavior='padding'>
+          <View style={{flex: 1}}/>
+          <KeyboardAvoidingView behavior={(Platform.OS === 'ios') ? "position" : 'padding'}>
             <View style={style.element}>
               <TextInput
                 style={style.input}

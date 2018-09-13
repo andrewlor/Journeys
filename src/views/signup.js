@@ -7,7 +7,8 @@ import {
   StyleSheet,
   TextInput,
   Alert,
-  Image
+  Image,
+  Platform
 } from 'react-native';
 import { Title1, Button } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
@@ -79,7 +80,7 @@ class Signup extends Component {
           <Title1 style={{ textAlign: 'center' }}>Sign up for Journeys today to start your self improvement journey.</Title1>
         </View>
         <View style={{flex: 1}}></View>
-        <KeyboardAvoidingView behavior='padding'>
+        <KeyboardAvoidingView behavior={(Platform.OS === 'ios') ? "position" : 'padding'}>
           <View style={style.element}>
             <TextInput
               style={style.input}

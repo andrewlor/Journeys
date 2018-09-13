@@ -103,7 +103,8 @@ export function index(authToken, client, uid) {
           })
         });
       } else {
-        console.log(response.status)
+        console.log(response.status);
+        console.log(response);
       }
     }).catch((error) => {
       console.log(error)

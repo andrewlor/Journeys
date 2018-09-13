@@ -83,7 +83,7 @@ class Journey extends Component {
             <View style={style.journey}>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <ProfilePicture uri={journey.user_image} size={50}/>
-                <View style={{paddingLeft: 10}}>
+                <View style={{paddingHorizontal: 20, paddingRight: 40}}>
                   <Title2>{journey.title}</Title2>
                   <Body>{journey.created_at} <Headline>{journey.username}</Headline></Body>
                 </View>

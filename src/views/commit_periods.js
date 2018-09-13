@@ -179,7 +179,7 @@ class CommitPeriods extends Component {
              </View>
            {this.renderCommitPeriods(journey)}
            </ScrollView>
-           <InfoBubble text='Your weekly commitments are the tasks that you pledge to doing at the beginning of each week. Once you write these tasks down, you owe it to yourself to complete them.' />
+           {this.canEditJourney() ? <InfoBubble text='Your weekly commitments are the tasks that you pledge to doing at the beginning of each week. Once you write these tasks down, you owe it to yourself to complete them.' /> : null }
          </View>
         }
       </View>
