@@ -42,8 +42,7 @@ class NewJourneyLog extends Component {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaType: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        base64: true,
-        quality: 0
+        base64: true
       });
       if (!result.cancelled) this.setState({imageBase64: result.base64, imagePath: result.uri});
     }
