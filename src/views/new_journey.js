@@ -6,6 +6,7 @@ import { Actions } from 'react-native-router-flux';
 
 import { CLEAR_CREATED_JOURNEY } from '../constants';
 import Topbar from './ui/topbar';
+import InfoBubble from './ui/info_bubble';
 import { createJourney, index, myJourneys } from '../actions';
 
 class NewJourney extends Component {
@@ -85,6 +86,7 @@ class NewJourney extends Component {
             </Button>
           </View>
         </ScrollView>
+        <InfoBubble text='Summarize your journey in a short title. Your mission statement should outline what you want to accomplish in the long term and why.' />
       </View>
     );
   }

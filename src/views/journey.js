@@ -92,13 +92,6 @@ class Journey extends Component {
               <Headline>Mission Statement</Headline>
               <Body>{journey.mission_statement}</Body>
             </View>
-            <TouchableOpacity onPress={() => {}}>
-              <View style={[style.journey, {flexDirection: 'row', alignItems: 'center'}]}>
-                <Headline>Milestones</Headline>
-                <View style={{flex: 1}}/>
-                <Icon size={30} name='ios-arrow-forward' />
-              </View>
-            </TouchableOpacity>
             <TouchableOpacity onPress={() => Actions.commitPeriods({ journeyId: this.props.journeyId })}>
               <View style={[style.journey, {flexDirection: 'row', alignItems: 'center'}]}>
                 <Headline>Weekly Commitments</Headline>

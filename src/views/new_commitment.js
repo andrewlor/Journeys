@@ -16,6 +16,7 @@ import NumericInput from 'react-native-numeric-input';
 
 import { CLEAR_CREATED_COMMITS } from '../constants';
 import { createCommits, getJourney } from '../actions';
+import InfoBubble from './ui/info_bubble';
 
 class NewCommitment extends Component {
   constructor(props) {
@@ -141,10 +142,11 @@ class NewCommitment extends Component {
               inverted
               onPress={this._submit}
             >
-              Update Commitments
+              Make Commitments
             </Button>
           </View>
         </ScrollView>
+        <InfoBubble text='Make sure you aim low with your commitments, you will not beable to delete them after, but you can always add more later.' />
       </View>
     );
   }

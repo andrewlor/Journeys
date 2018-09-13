@@ -8,6 +8,7 @@ import { CLEAR_EDITED_COMMIT } from '../constants';
 import Topbar from './ui/topbar';
 import { editCommit, getJourney } from '../actions';
 import Spinner from './ui/spinner';
+import InfoBubble from './ui/info_bubble';
 
 class CommitPeriods extends Component {
   constructor(props) {
@@ -171,12 +172,15 @@ class CommitPeriods extends Component {
         {this.props.isLoading ?
          <Spinner/>
          :
-         <ScrollView>
-           <View style={[style.journey, {backgroundColor: DefaultTheme.footnoteBackgroundColor}]}>
-             <Title2>Weekly Commitments</Title2>
-           </View>
+         <View style={{flex: 1}}>
+           <ScrollView>
+             <View style={[style.journey, {backgroundColor: DefaultTheme.footnoteBackgroundColor}]}>
+               <Title2>Weekly Commitments</Title2>
+             </View>
            {this.renderCommitPeriods(journey)}
-         </ScrollView>
+           </ScrollView>
+           <InfoBubble text='Your weekly commitments are the tasks that you pledge to doing at the beginning of each week. Once you write these tasks down, you owe it to yourself to complete them.' />
+         </View>
         }
       </View>
     );

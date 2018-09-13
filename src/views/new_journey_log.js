@@ -16,6 +16,7 @@ import { Actions } from 'react-native-router-flux';
 import { ImagePicker, Permissions } from 'expo';
 import FlexImage from 'react-native-flex-image';
 
+import InfoBubble from './ui/info_bubble';
 import { CLEAR_CREATED_JOURNEY_LOG } from '../constants';
 import { createJourneyLog, getJourney } from '../actions';
 
@@ -150,6 +151,7 @@ class NewJourneyLog extends Component {
             </Button>
           </View>
         </ScrollView>
+        <InfoBubble text='Write a short description of any experiences you are having along your journey. This can include the completing of commitments, making progress or challanges you are facing.' />
       </View>
     );
   }
