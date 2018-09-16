@@ -2,6 +2,7 @@ import {
   BASE_URL,
   FETCH,
   ERROR,
+  RESPONSE,
   LOGIN_FETCH,
   LOGIN_RESPONSE,
   LOGIN_ERROR,
@@ -29,9 +30,33 @@ import {
   GET_JOURNEY_RESPONSE,
   CREATE_COMMITS_RESPONSE,
   EDIT_COMMIT_RESPONSE,
-  UPLOAD_PROFILE_PICTURE_RESPONSE
+  UPLOAD_PROFILE_PICTURE_RESPONSE,
+  CLEAR_ACTION_COMPLETED_FLAG,
+  EDIT_JOURNEY_RESPONSE
 } from './constants';
 import { AsyncStorage } from 'react-native';
+
+function apiResponseHandler(response) {
+  return new Promise(function(resolve, reject) {
+    if (response.status >= 200 && response.status < 300) {
+      response.json().then((body) => {
+        const authToken = response.headers.get("access-token");
+        const client = response.headers.get("client");
+        const uid = response.headers.get("uid");
+        resolve({
+          ...body,
+          authToken: authToken,
+          client: client,
+          uid: uid
+        });
+      });
+    } else if (response.status == 401) {
+      reject();
+    } else {
+      reject();
+    }
+  });
+}
 
 export function login(email, password) {
   return dispatch => {
@@ -238,12 +263,7 @@ export function createJourneyLog(authToken, client, uid, journeyId, log, image) 
       } else {
         console.log(response.status)
       }
-    }).catch((error) => {
-      console.log(error)
-      dispatch({
-        type: CREATE_JOURNEY_LOG_ERROR
-      });
-    })
+    }).catch((error) => dispatch({type: ERROR}));
   }
 }
 
@@ -389,6 +409,89 @@ export function uploadProfilePicture(authToken, client, uid, image) {
       dispatch({ type: ERROR });
     })
   }
+}
+
+export function deleteJourney(authToken, client, uid, id) {
+  return dispatch => {
+    dispatch({ type: FETCH });
+    
+    fetch(BASE_URL + '/journeys/' + id, {
+      method: 'delete',
+      headers: {
+        "Content-Type": "application/json",
+        "access-token": authToken,
+        client: client,
+        uid: uid
+      }
+    })
+      .then(apiResponseHandler)
+      .then((body) => {
+        dispatch({ type: EDIT_JOURNEY_RESPONSE });
+      })
+      .catch((error) => {
+        console.log(error)
+        dispatch({ type: ERROR });
+      })
+  }
+}
+
+export function deleteJourneyLog(authToken, client, uid, jid, id) {
+  return dispatch => {
+    dispatch({ type: FETCH });
+    
+    fetch(BASE_URL + '/journeys/' + jid + '/journey_logs/' + id, {
+      method: 'delete',
+      headers: {
+        "Content-Type": "application/json",
+        "access-token": authToken,
+        client: client,
+        uid: uid
+      }
+    })
+      .then(apiResponseHandler)
+      .then((body) => {
+        dispatch({ type: RESPONSE });
+      })
+      .catch((error) => {
+        console.log(error)
+        dispatch({ type: ERROR });
+      })
+  }
+}
+
+export function editJourney(authToken, client, uid, id, ms) {
+  return dispatch => {
+    dispatch({ type: FETCH });
+    
+    fetch(BASE_URL + '/journeys/' + id, {
+      method: 'put',
+      headers: {
+        "Content-Type": "application/json",
+        "access-token": authToken,
+        client: client,
+        uid: uid
+      },
+      body: JSON.stringify({
+        mission_statement: ms
+      })
+    })
+      .then(apiResponseHandler)
+      .then((body) => {
+        dispatch({ type: EDIT_JOURNEY_RESPONSE  });
+      })
+      .catch((error) => {
+        console.log(error)
+        dispatch({ type: ERROR });
+      })
+  }
+}
+
+export function clearActionCompletedFlag() {
+  return dispatch => {
+    dispatch({
+      type: CLEAR_ACTION_COMPLETED_FLAG
+    });
+  };
 }
 
 export function reauth(authToken, client, uid, user) {

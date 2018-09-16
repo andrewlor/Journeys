@@ -7,6 +7,7 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Actions } from 'react-native-router-flux';
 import { ifIphoneX } from 'react-native-iphone-x-helper';
 
+import Spinner from './ui/spinner';
 import Topbar from './ui/topbar';
 import { index } from '../actions';
 import Settings from './settings';
@@ -15,7 +16,7 @@ import NewJourney from './new_journey';
 import Quotes from './quotes';
 import AllJourneys from './all_journeys';
 
-export default class Tabs extends Component {
+class Tabs extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,7 +28,8 @@ export default class Tabs extends Component {
     return (
       <View style={{flex: 1}}>
         <Topbar title/>
-        <TabNavigator>
+        {this.props.isLoading ? <Spinner/> : null }
+        <TabNavigator style={this.props.isLoading ? { height: 0 } : {}}>
           <TabNavigator.Item
             selected={this.state.selectedTab === 'all_journeys'}
             title="All Journeys"
@@ -89,3 +91,13 @@ const style = StyleSheet.create({
     })
   }
 });
+
+const mapStateToProps = state => {
+  return {
+    isLoading: state.isLoading
+  };
+};
+
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tabs);

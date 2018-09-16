@@ -52,7 +52,7 @@ class NewJourney extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Topbar down/>
+        <Topbar down />
         <ScrollView>
           <View style={{ height: 10 }}/>
           <View style={style.element}>

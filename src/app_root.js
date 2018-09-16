@@ -15,6 +15,7 @@ import NewJourneyLog from './views/new_journey_log';
 import NewJourney from './views/new_journey';
 import NewCommitment from './views/new_commitment';
 import CommitPeriods from './views/commit_periods';
+import EditJourneyScreen from './views/edit_journey_screen';
 
 class AppRoot extends Component {
   constructor(props) {
@@ -58,6 +59,7 @@ class AppRoot extends Component {
             <Scene key="newJourneyLog" component={NewJourneyLog} {...sceneConfig} />
             <Scene key="newJourney" component={NewJourney} {...sceneConfig} />
             <Scene key="newCommitment" component={NewCommitment} {...sceneConfig} />
+            <Scene key="editJourney" component={EditJourneyScreen} {...sceneConfig} />
             <Scene key="root" initial>
               <Scene key="login" component={Login} initial {...sceneConfig} />
               <Scene key="tabs" component={Tabs} {...sceneConfig} />

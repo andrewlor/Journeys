@@ -5,8 +5,10 @@ import { Title2, Headline, Body, Button, Icon, DefaultTheme } from 'react-native
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Journey from './journey';
 import { Actions } from 'react-native-router-flux';
+import Swipeout from 'react-native-swipeout';
 
-import { myJourneys } from '../actions';
+import { CLEAR_ACTION_COMPLETED_FLAG } from '../constants';
+import { myJourneys, deleteJourney } from '../actions';
 import Spinner from './ui/spinner';
 
 class MyJourneys extends Component {
@@ -16,8 +18,9 @@ class MyJourneys extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.journeys && nextProps.newMember) {
-      setTimeout(() => Actions.welcome(), 750);
+    if (nextProps.actionCompleted) {
+      this.props.myJourneys(this.props.authToken, this.props.client, this.props.uid);
+      this.props.clearActionCompletedFlag();
     }
   }
 
@@ -26,6 +29,7 @@ class MyJourneys extends Component {
   }
 
   renderJourneys() {
+    
     if (this.props.isLoading) {
       return (
         <Spinner/>
@@ -35,15 +39,23 @@ class MyJourneys extends Component {
         <ScrollView contentContainerStyle={{padding: 0, margin: 0}}>
           <View>
             {this.props.journeys.map((journey) => {
+               const swipeoutBtns = [
+                 {
+                   text: 'Delete',
+                   onPress: () => { this.props.deleteJourney(this.props.authToken, this.props.client, this.props.uid, journey.id) },
+                   backgroundColor: 'red'
+                 }
+               ];
                return (
-                 <TouchableOpacity
-                   key={journey.id}
-                   onPress={() => this.pushJourney(journey.id)}>
-                   <View style={style.journey} key={journey.id}>
-                     <Title2>{journey.title}</Title2>
-                     <Body>{journey.created_at}</Body>
-                   </View>
-                 </TouchableOpacity>
+                 <Swipeout right={swipeoutBtns} key={journey.id}>
+                   <TouchableOpacity
+                     onPress={() => this.pushJourney(journey.id)}>
+                     <View style={style.journey} key={journey.id}>
+                       <Title2>{journey.title}</Title2>
+                       <Body>{journey.created_at}</Body>
+                     </View>
+                   </TouchableOpacity>
+                 </Swipeout>
                );
             })}
           </View>
@@ -83,12 +95,14 @@ const mapStateToProps = state => {
     uid: state.uid,
     isLoading: state.isLoading,
     journeys: state.myJourneys,
-    newMember: state.newMember
+    actionCompleted: state.actionCompleted
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  myJourneys: (authToken, client, uid) => dispatch(myJourneys(authToken, client, uid))
+  myJourneys: (authToken, client, uid) => dispatch(myJourneys(authToken, client, uid)),
+  deleteJourney: (authToken, client, uid, id) => dispatch(deleteJourney(authToken, client, uid, id)),
+  clearActionCompletedFlag: () => dispatch({ type: CLEAR_ACTION_COMPLETED_FLAG })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyJourneys);

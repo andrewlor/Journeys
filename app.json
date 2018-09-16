@@ -5,7 +5,7 @@
     "privacy": "public",
     "sdkVersion": "29.0.0",
     "platforms": ["ios", "android"],
-    "version": "0.0.1",
+    "version": "0.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "updates": {
@@ -18,7 +18,8 @@
       "bundleIdentifier": "com.journeys.mobile"
     },
     "android": {
-      "package": "com.journeys.mobile"
+        "package": "com.journeys.mobile",
+        "versionCode": 2
     }
   }
 }

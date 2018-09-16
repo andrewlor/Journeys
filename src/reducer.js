@@ -33,7 +33,10 @@ import {
   CLEAR_CREATED_COMMITS,
   EDIT_COMMIT_RESPONSE,
   CLEAR_EDITED_COMMIT,
-  UPLOAD_PROFILE_PICTURE_RESPONSE
+  UPLOAD_PROFILE_PICTURE_RESPONSE,
+  CLEAR_ACTION_COMPLETED_FLAG,
+  EDIT_JOURNEY_RESPONSE,
+  CLEAR_EDITED_JOURNEY
 } from "./constants.js";
 
 const initialState = {
@@ -64,7 +67,8 @@ export default function reducer(state = initialState, action) {
     case RESPONSE:
       return {
         ...state,
-        isLoading: false
+        isLoading: false,
+        actionCompleted: true
       }
     case LOGIN_FETCH:
       return {
@@ -247,6 +251,22 @@ export default function reducer(state = initialState, action) {
         isLoading: false,
         user: action.user
       }
+    case CLEAR_ACTION_COMPLETED_FLAG:
+      return {
+        ...state,
+        actionCompleted: false
+      };
+    case EDIT_JOURNEY_RESPONSE:
+      return {
+        ...state,
+        editedJourney: true,
+        isLoading: false
+      };
+    case CLEAR_EDITED_JOURNEY:
+      return {
+        ...state,
+        editedJourney: false
+      };
     default:
       return state;
   }

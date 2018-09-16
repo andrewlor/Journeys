@@ -5,8 +5,10 @@ import { Title2, Headline, Body, DefaultTheme, Button, Icon } from 'react-native
 import { Actions } from 'react-native-router-flux';
 import Topbar from './ui/topbar';
 import FlexImage from 'react-native-flex-image';
+import Swipeout from 'react-native-swipeout';
 
-import { getJourney } from '../actions';
+import { CLEAR_ACTION_COMPLETED_FLAG } from '../constants';
+import { getJourney, deleteJourneyLog } from '../actions';
 import Spinner from './ui/spinner';
 
 class Journey extends Component {
@@ -14,6 +16,13 @@ class Journey extends Component {
   componentDidMount() {
     if (!this.props.journeyCache[String(this.props.journeyId)]) {
       this.props.getJourney(this.props.authToken, this.props.client, this.props.uid, this.props.journeyId);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.actionCompleted) {
+      this.props.getJourney(this.props.authToken, this.props.client, this.props.uid, this.props.journeyId);
+      this.props.clearActionCompletedFlag();
     }
   }
 
@@ -33,17 +42,26 @@ class Journey extends Component {
             <Title2>Logs</Title2>
           </View>
           {journey.journey_logs.map((journeyLog) => {
+             const swipeoutBtns = [
+               {
+                 text: 'Delete',
+                 onPress: () => { this.props.deleteJourneyLog(this.props.authToken, this.props.client, this.props.uid, this.props.journeyId, journeyLog.id) },
+                 backgroundColor: 'red'
+               }
+             ];
              return (
-               <View style={style.journey} key={journeyLog.id}>
-                 <Headline>{journeyLog.created_at}</Headline>
-                 <Body>{journeyLog.log}</Body>
-                 {journeyLog.image.url ?
-                  <FlexImage
-                    source={{uri: journeyLog.image.url}}
-                    style={{marginTop: 10}}
-                  />
-                  : null }
-               </View>
+               <Swipeout key={journeyLog.id} right={swipeoutBtns} disable={!this.canEditJourney()}>
+                 <View style={style.journey}>
+                   <Headline>{journeyLog.created_at}</Headline>
+                   <Body>{journeyLog.log}</Body>
+                   {journeyLog.image.url ?
+                    <FlexImage
+                      source={{uri: journeyLog.image.url}}
+                      style={{marginTop: 10}}
+                    />
+                    : null }
+                 </View>
+               </Swipeout>
              );
           })}
         </View>
@@ -70,6 +88,10 @@ class Journey extends Component {
       return <Topbar back />;
     }
   }
+
+  editJourney = (ms) => {
+    Actions.editJourney({missionStatement: ms, journeyId: this.props.journeyId});
+  }
   
   render() {
     let journey = this.journey();
@@ -89,7 +111,11 @@ class Journey extends Component {
                 </View>
               </View>
               <View style={{height: 10}}></View>
-              <Headline>Mission Statement</Headline>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Headline>Mission Statement</Headline>
+                <View style={{flex:1}}/>
+                {this.canEditJourney() ? <Button onPress={() => this.editJourney(journey.mission_statement)}>Edit</Button> : null}
+              </View>
               <Body>{journey.mission_statement}</Body>
             </View>
             <TouchableOpacity onPress={() => Actions.commitPeriods({ journeyId: this.props.journeyId })}>
@@ -124,12 +150,15 @@ const mapStateToProps = state => {
     client: state.client,
     uid: state.uid,
     isLoading: state.isLoading,
-    journeyCache: state.journeyCache
+    journeyCache: state.journeyCache,
+    actionCompleted: state.actionCompleted
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  getJourney: (authToken, client, uid, journeyId) => dispatch(getJourney(authToken, client, uid, journeyId))
+  getJourney: (authToken, client, uid, journeyId) => dispatch(getJourney(authToken, client, uid, journeyId)),
+  deleteJourneyLog: (authToken, client, uid, journeyId, id) => dispatch(deleteJourneyLog(authToken, client, uid, journeyId, id)),
+  clearActionCompletedFlag: () => dispatch({ type: CLEAR_ACTION_COMPLETED_FLAG })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Journey);
