@@ -6,8 +6,7 @@ import { Actions } from 'react-native-router-flux';
 import { ImagePicker, Permissions } from 'expo';
 
 import { logout, uploadProfilePicture } from '../actions';
-import ProfilePicture from './ui/profile_picture';
-import Spinner from './ui/spinner';
+import { Spinner, ProfilePicture } from './ui';
 
 class Settings extends Component {
 

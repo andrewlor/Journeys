@@ -9,7 +9,7 @@ import Swipeout from 'react-native-swipeout';
 
 import { CLEAR_ACTION_COMPLETED_FLAG } from '../constants';
 import { myJourneys, deleteJourney } from '../actions';
-import Spinner from './ui/spinner';
+import { Spinner } from './ui';
 
 class MyJourneys extends Component {
 
@@ -29,12 +29,8 @@ class MyJourneys extends Component {
   }
 
   renderJourneys() {
-    
-    if (this.props.isLoading) {
-      return (
-        <Spinner/>
-      );
-    } else if (this.props.journeys.length > 0) {
+    if (this.props.isLoading) return <Spinner />;
+    if (this.props.journeys.length > 0) {
       return (
         <ScrollView contentContainerStyle={{padding: 0, margin: 0}}>
           <View>

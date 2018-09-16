@@ -16,7 +16,7 @@ import { Actions } from 'react-native-router-flux';
 import { ImagePicker, Permissions } from 'expo';
 import FlexImage from 'react-native-flex-image';
 
-import InfoBubble from './ui/info_bubble';
+import { Spinner, InfoBubble } from './ui';
 import { CLEAR_CREATED_JOURNEY_LOG } from '../constants';
 import { createJourneyLog, getJourney } from '../actions';
 
@@ -106,6 +106,7 @@ class NewJourneyLog extends Component {
   }
   
   render() {
+    if (this.props.isLoading) return <Spinner />;
     return (
       <View style={{ flex: 1 }}>
         <Topbar down />
@@ -177,7 +178,8 @@ const mapStateToProps = state => {
     authToken: state.authToken,
     client: state.client,
     uid: state.uid,
-    createdJourneyLog: state.createdJourneyLog
+    createdJourneyLog: state.createdJourneyLog,
+    isLoading: state.isLoading
   };
 };
 

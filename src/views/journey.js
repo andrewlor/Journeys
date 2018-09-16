@@ -3,13 +3,12 @@ import { Text, ScrollView, View, StyleSheet, TouchableOpacity, Switch, Image } f
 import { connect } from 'react-redux';
 import { Title2, Headline, Body, DefaultTheme, Button, Icon } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
-import Topbar from './ui/topbar';
 import FlexImage from 'react-native-flex-image';
 import Swipeout from 'react-native-swipeout';
 
 import { CLEAR_ACTION_COMPLETED_FLAG } from '../constants';
 import { getJourney, deleteJourneyLog } from '../actions';
-import Spinner from './ui/spinner';
+import { Topbar, Spinner } from './ui';
 
 class Journey extends Component {
 
@@ -95,9 +94,8 @@ class Journey extends Component {
   
   render() {
     let journey = this.journey();
-    if (this.props.isLoading) {
-      return <Spinner/>;
-    } else if (journey) {
+    if (this.props.isLoading) return <Spinner />;
+    if (journey) {
       return (
         <View style={{flex: 1}}>
           {this.renderTopBar()}

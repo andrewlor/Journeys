@@ -5,8 +5,7 @@ import { Button, Title2, Headline, Body, Icon } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
 
 import { CLEAR_CREATED_JOURNEY } from '../constants';
-import Topbar from './ui/topbar';
-import InfoBubble from './ui/info_bubble';
+import { Topbar, Spinner, InfoBubble } from './ui';
 import { createJourney, index, myJourneys } from '../actions';
 
 class NewJourney extends Component {
@@ -50,6 +49,7 @@ class NewJourney extends Component {
   }
   
   render() {
+    if (this.props.isLoading) return <Spinner />;
     return (
       <View style={{flex: 1}}>
         <Topbar down />
@@ -112,7 +112,8 @@ const mapStateToProps = state => {
     authToken: state.authToken,
     client: state.client,
     uid: state.uid,
-    createdJourney: state.createdJourney
+    createdJourney: state.createdJourney,
+    isLoading: state.isLoading
   };
 };
 

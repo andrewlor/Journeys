@@ -39,7 +39,8 @@ const style = StyleSheet.create({
     borderRadius: 10,
     padding: 15,
     paddingTop: 5,
-    margin: 15
+    margin: 15,
+    marginTop: 0
   },
   text: {
     color: 'white'

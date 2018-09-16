@@ -8,8 +8,7 @@ import { Actions } from 'react-native-router-flux';
 import Dimensions from 'Dimensions';
 
 import { index } from '../actions';
-import Spinner from './ui/spinner';
-import ProfilePicture from './ui/profile_picture';
+import { Spinner, ProfilePicture } from './ui';
 
 class AllJourneys extends Component {
 
@@ -28,11 +27,8 @@ class AllJourneys extends Component {
   }
 
   renderJourneys() {
-    if (this.props.isLoading) {
-      return (
-        <Spinner/>
-      );
-    } else if (this.props.journeys.length > 0) {
+    if (this.props.isLoading) return <Spinner />;
+    if (this.props.journeys.length > 0) {
       return (
         <ScrollView contentContainerStyle={{padding: 0, margin: 0}}>
           <View style={{width: Dimensions.get('window').width }}>

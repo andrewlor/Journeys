@@ -6,11 +6,13 @@ import { createStore, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger';
 import reducer from './src/reducer.js';
 import thunkMiddleware from "redux-thunk";
+import { StatusBar } from 'react-native';
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware, createLogger()));
 
 export default class App extends Component {
   render() {
+    StatusBar.setBarStyle('dark-content', true);
     return (
       <Provider store={store}>
         <ThemeProvider>

@@ -13,7 +13,7 @@ import {
 import { Title1, Button } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
 
-import Topbar from './ui/topbar';
+import { Spinner, Topbar } from './ui';
 import { signup, clearSignUpError } from '../actions';
 
 class Signup extends Component {
@@ -73,6 +73,7 @@ class Signup extends Component {
   }
 
   render() {
+    if (this.props.isLoading) return <Spinner />;
     return (
       <View style={{ flex: 1 }}>
         <Topbar back style={{ zIndex: 100}}/>

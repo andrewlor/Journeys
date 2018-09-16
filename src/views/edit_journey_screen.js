@@ -11,6 +11,7 @@ import { Actions } from 'react-native-router-flux';
 
 import { CLEAR_EDITED_JOURNEY } from '../constants';
 import { editJourney, getJourney } from '../actions';
+import { Spinner } from './ui';
 
 class EditJourneyScreen extends Component {
   constructor(props) {
@@ -49,7 +50,8 @@ class EditJourneyScreen extends Component {
     }
   }
   
-  render() {    
+  render() {
+    if (this.props.isLoading) return <Spinner />;
     return (
       <View style={style.background}>
         <Topbar down />
@@ -101,7 +103,8 @@ const mapStateToProps = state => {
     authToken: state.authToken,
     client: state.client,
     uid: state.uid,
-    editedJourney: state.editedJourney
+    editedJourney: state.editedJourney,
+    isLoading: state.isLoading
   };
 };
 

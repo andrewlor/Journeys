@@ -28,8 +28,7 @@ class Tabs extends Component {
     return (
       <View style={{flex: 1}}>
         <Topbar title/>
-        {this.props.isLoading ? <Spinner/> : null }
-        <TabNavigator style={this.props.isLoading ? { height: 0 } : {}}>
+        <TabNavigator>
           <TabNavigator.Item
             selected={this.state.selectedTab === 'all_journeys'}
             title="All Journeys"
@@ -94,7 +93,6 @@ const style = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    isLoading: state.isLoading
   };
 };
 

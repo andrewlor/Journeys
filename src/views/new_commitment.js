@@ -16,7 +16,7 @@ import NumericInput from 'react-native-numeric-input';
 
 import { CLEAR_CREATED_COMMITS } from '../constants';
 import { createCommits, getJourney } from '../actions';
-import InfoBubble from './ui/info_bubble';
+import { Spinner, InfoBubble } from './ui';
 
 class NewCommitment extends Component {
   constructor(props) {
@@ -119,6 +119,7 @@ class NewCommitment extends Component {
   }
   
   render() {
+    if (this.props.isLoading) return <Spinner />;
     return (
       <View style={{ flex: 1 }}>
         <Topbar down />
@@ -173,7 +174,8 @@ const mapStateToProps = state => {
     authToken: state.authToken,
     client: state.client,
     uid: state.uid,
-    createdCommits: state.createdCommits
+    createdCommits: state.createdCommits,
+    isLoading: state.isLoading
   };
 };
 

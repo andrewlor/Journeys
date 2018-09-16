@@ -5,10 +5,8 @@ import { DefaultTheme, Button, Body, Headline, Icon, Title2 } from 'react-native
 import { Actions } from 'react-native-router-flux';
 
 import { CLEAR_EDITED_COMMIT } from '../constants';
-import Topbar from './ui/topbar';
+import { Topbar, Spinner, InfoBubble } from './ui';
 import { editCommit, getJourney } from '../actions';
-import Spinner from './ui/spinner';
-import InfoBubble from './ui/info_bubble';
 
 class CommitPeriods extends Component {
   constructor(props) {
@@ -166,22 +164,19 @@ class CommitPeriods extends Component {
   
   render() {
     let journey = this.journey();
+    if (this.props.isLoading) return <Spinner />;
     return (
       <View style={{flex: 1}}>
         <Topbar back />
-        {this.props.isLoading ?
-         <Spinner/>
-         :
-         <View style={{flex: 1}}>
-           <ScrollView>
-             <View style={[style.journey, {backgroundColor: DefaultTheme.footnoteBackgroundColor}]}>
-               <Title2>Weekly Commitments</Title2>
-             </View>
-           {this.renderCommitPeriods(journey)}
-           </ScrollView>
-           {this.canEditJourney() ? <InfoBubble text='Your weekly commitments are the tasks that you pledge to doing at the beginning of each week. Once you write these tasks down, you owe it to yourself to complete them.' /> : null }
-         </View>
-        }
+        <View style={{flex: 1}}>
+          <ScrollView>
+            <View style={[style.journey, {backgroundColor: DefaultTheme.footnoteBackgroundColor}]}>
+              <Title2>Weekly Commitments</Title2>
+            </View>
+            {this.renderCommitPeriods(journey)}
+          </ScrollView>
+          {this.canEditJourney() ? <InfoBubble text='Your weekly commitments are the tasks that you pledge to doing at the beginning of each week. Once you write these tasks down, you owe it to yourself to complete them.' /> : null }
+        </View>
       </View>
     );
   }

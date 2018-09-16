@@ -10,13 +10,14 @@ import {
   Alert,
   Platform
 } from 'react-native';
-import { Title1, Button, Spinner, Body, DefaultTheme } from 'react-native-ios-kit';
+import { Title1, Button, Body, DefaultTheme } from 'react-native-ios-kit';
 import { connect } from 'react-redux';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Actions } from 'react-native-router-flux';
 
 import { login, clearAuthError } from '../actions';
 import Tabs from './tabs';
+import { Spinner } from './ui';
 
 class Login extends React.Component {
   constructor(props) {
@@ -70,68 +71,61 @@ class Login extends React.Component {
   }
 
   renderMainContent() {
-    if (this.props.isLoading || this.props.authToken) {
-      return (
-        <View style={[style.innerFrame, {alignItems: 'center', justifyContent: 'center'}]}>
-          <Spinner animating={true} />
+    if (this.props.isLoading || this.props.authToken) return <Spinner />;
+    return (
+      <View style={style.innerFrame}>
+        <View style={{height: getStatusBarHeight()}}></View>
+        <View style={[style.element, {padding: 20}]}>
+          <Text style={style.title}>Journeys</Text>
+          <Title1 style={{color: 'white', marginTop: 10}}>Your journey begins here.</Title1>
         </View>
-      );
-    } else {
-      return (
-        <View style={style.innerFrame}>
-          <View style={{height: getStatusBarHeight()}}></View>
-          <View style={[style.element, {padding: 20}]}>
-            <Text style={style.title}>Journeys</Text>
-            <Title1 style={{color: 'white', marginTop: 10}}>Your journey begins here.</Title1>
-          </View>
-          <View style={{flex: 1}}/>
-          <KeyboardAvoidingView behavior={(Platform.OS === 'ios') ? "position" : 'padding'}>
-            <View style={style.element}>
-              <TextInput
-                style={style.input}
-                placeholder={"Email"}
-                autoCapitalize='none'
-                onChangeText={(t) => this.setState({ email: t })}
-                underlineColorAndroid={'rgba(0,0,0,0)'}
-              />
-            </View>
-            <View style={style.element}>
-              <TextInput
-                style={style.input}
-                placeholder={"Password"}
-                autoCapitalize='none'
-                secureTextEntry
-                onChangeText={(t) => this.setState({ password: t })}
-                underlineColorAndroid={'rgba(0,0,0,0)'}
-              />
-            </View>
-            <View style={[style.element, { paddingBottom: 10}]}>
-              <Button
-                rounded
-                inverted
-                style={style.button}
-                onPress={this._submit}
-              >
-                Login
-              </Button>
-            </View>
-          </KeyboardAvoidingView>
-          <View style={[style.element, { paddingBottom: 10, paddingTop: 0}]}>
-            <Body style={{color: DefaultTheme.primaryColor}}>or</Body>
+        <View style={{flex: 1}}/>
+        <KeyboardAvoidingView behavior={(Platform.OS === 'ios') ? "position" : 'padding'}>
+          <View style={style.element}>
+            <TextInput
+              style={style.input}
+              placeholder={"Email"}
+              autoCapitalize='none'
+              onChangeText={(t) => this.setState({ email: t })}
+              underlineColorAndroid={'rgba(0,0,0,0)'}
+            />
           </View>
           <View style={style.element}>
+            <TextInput
+              style={style.input}
+              placeholder={"Password"}
+              autoCapitalize='none'
+              secureTextEntry
+              onChangeText={(t) => this.setState({ password: t })}
+              underlineColorAndroid={'rgba(0,0,0,0)'}
+            />
+          </View>
+          <View style={[style.element, { paddingBottom: 10}]}>
             <Button
               rounded
+              inverted
               style={style.button}
-              onPress={Actions.signup}
+              onPress={this._submit}
             >
-              Sign Up
+              Login
             </Button>
           </View>
-          <View style={{height: 30}}></View>
+        </KeyboardAvoidingView>
+        <View style={[style.element, { paddingBottom: 10, paddingTop: 0}]}>
+          <Body style={{color: DefaultTheme.primaryColor}}>or</Body>
         </View>
-      );
-    }
+        <View style={style.element}>
+          <Button
+            rounded
+            style={style.button}
+            onPress={Actions.signup}
+          >
+            Sign Up
+          </Button>
+        </View>
+        <View style={{height: 30}}></View>
+      </View>
+    );
   }
   
   render() {
