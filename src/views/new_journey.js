@@ -99,7 +99,8 @@ const style = StyleSheet.create({
     fontSize: 15,
     backgroundColor: 'white',
     borderRadius: 5,
-    marginVertical: 5
+    marginVertical: 5,
+    textAlignVertical: 'top'
   },
   element: {
     padding: 10,

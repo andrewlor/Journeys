@@ -5,9 +5,9 @@
     "privacy": "public",
     "sdkVersion": "29.0.0",
     "platforms": ["ios", "android"],
-    "version": "0.0.2",
+    "version": "0.1",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/hilogo.png",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -19,7 +19,7 @@
     },
     "android": {
         "package": "com.journeys.mobile",
-        "versionCode": 2
+        "versionCode": 3
     }
   }
 }
