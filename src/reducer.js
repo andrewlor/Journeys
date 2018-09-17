@@ -1,29 +1,17 @@
 import {
+  DEAUTH,
+  REAUTH,
   FETCH,
   ERROR,
   RESPONSE,
-  LOGIN_FETCH,
-  LOGIN_RESPONSE,
-  LOGIN_ERROR,
   AUTH_ERROR,
-  INDEX_FETCH,
+  LOGIN_RESPONSE,
   INDEX_RESPONSE,
-  INDEX_ERROR,
-  MY_INDEX_FETCH,
   MY_INDEX_RESPONSE,
-  MY_INDEX_ERROR,
-  CREATE_JOURNEY_FETCH,
   CREATE_JOURNEY_RESPONSE,
-  CREATE_JOURNEY_ERROR,
-  CREATE_JOURNEY_LOG_FETCH,
   CREATE_JOURNEY_LOG_RESPONSE,
-  CREATE_JOURNEY_LOG_ERROR,
   CREATE_COMMITS_RESPONSE,
-  SIGNUP_FETCH,
   SIGNUP_RESPONSE,
-  SIGNUP_ERROR,
-  DEAUTH,
-  REAUTH,
   CLEAR_SIGNUP_ERROR,
   CLEAR_AUTH_ERROR,
   CLEAR_NEW_MEMBER,
@@ -70,11 +58,6 @@ export default function reducer(state = initialState, action) {
         isLoading: false,
         actionCompleted: true
       }
-    case LOGIN_FETCH:
-      return {
-        ...state,
-        isLoading: true
-      };
     case LOGIN_RESPONSE:
       return {
         ...state,
@@ -83,11 +66,6 @@ export default function reducer(state = initialState, action) {
         client: action.client,
         uid: action.uid,
         user: action.user
-      };
-    case LOGIN_ERROR:
-      return {
-        ...state,
-        isLoading: false
       };
     case AUTH_ERROR:
       return {
@@ -103,26 +81,11 @@ export default function reducer(state = initialState, action) {
         uid: action.uid,
         user: action.user
       }
-    case INDEX_FETCH:
-      return {
-        ...state,
-        isLoading: true
-      }
     case INDEX_RESPONSE:
       return {
         ...state,
         isLoading: false,
         indexJourneys: action.journeys
-      }
-    case INDEX_ERROR:
-      return {
-        ...state,
-        isLoading: false
-      }
-    case MY_INDEX_FETCH:
-      return {
-        ...state,
-        isLoading: true
       }
     case MY_INDEX_RESPONSE:
       return {
@@ -130,31 +93,11 @@ export default function reducer(state = initialState, action) {
         isLoading: false,
         myJourneys: action.myJourneys
       }
-    case MY_INDEX_ERROR:
-      return {
-        ...state,
-        isLoading: false
-      }
-    case CREATE_JOURNEY_FETCH:
-      return {
-        ...state,
-        isLoading: true
-      }
     case CREATE_JOURNEY_RESPONSE:
       return {
         ...state,
         isLoading: false,
         createdJourney: true
-      }
-    case CREATE_JOURNEY_ERROR:
-      return {
-        ...state,
-        isLoading: false
-      }
-    case SIGNUP_FETCH:
-      return {
-        ...state,
-        isLoading: true
       }
     case SIGNUP_RESPONSE:
       return {
@@ -166,11 +109,6 @@ export default function reducer(state = initialState, action) {
         newMember: (action.authToken ? true : null),
         signupError: action.signupError,
         user: action.user
-      }
-    case SIGNUP_ERROR:
-      return {
-        ...state,
-        isLoading: false
       }
     case DEAUTH:
       return initialState;
@@ -189,21 +127,11 @@ export default function reducer(state = initialState, action) {
         ...state,
         newMember: false
       }
-    case CREATE_JOURNEY_LOG_FETCH:
-      return {
-        ...state,
-        isLoading: true
-      }
     case CREATE_JOURNEY_LOG_RESPONSE:
       return {
         ...state,
         isLoading: false,
         createdJourneyLog: true
-      }
-    case CREATE_JOURNEY_LOG_ERROR:
-      return {
-        ...state,
-        isLoading: false
       }
     case GET_JOURNEY_RESPONSE:
       let journeyCache = state.journeyCache;

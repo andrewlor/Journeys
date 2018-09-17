@@ -165,7 +165,8 @@ const style = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     authToken: state.authToken,
-    signupError: state.signupError
+    signupError: state.signupError,
+    isLoading: state.isLoading
   };
 };
 

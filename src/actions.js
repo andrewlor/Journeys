@@ -3,24 +3,12 @@ import {
   FETCH,
   ERROR,
   RESPONSE,
-  LOGIN_FETCH,
   LOGIN_RESPONSE,
-  LOGIN_ERROR,
-  INDEX_FETCH,
   INDEX_RESPONSE,
-  INDEX_ERROR,
-  MY_INDEX_FETCH,
   MY_INDEX_RESPONSE,
-  MY_INDEX_ERROR,
-  CREATE_JOURNEY_FETCH,
   CREATE_JOURNEY_RESPONSE,
-  CREATE_JOURNEY_ERROR,
-  CREATE_JOURNEY_LOG_FETCH,
   CREATE_JOURNEY_LOG_RESPONSE,
-  CREATE_JOURNEY_LOG_ERROR,
-  SIGNUP_FETCH,
   SIGNUP_RESPONSE,
-  SIGNUP_ERROR,
   AUTH_ERROR,
   DEAUTH,
   REAUTH,
@@ -32,35 +20,36 @@ import {
   EDIT_COMMIT_RESPONSE,
   UPLOAD_PROFILE_PICTURE_RESPONSE,
   CLEAR_ACTION_COMPLETED_FLAG,
-  EDIT_JOURNEY_RESPONSE
+  EDIT_JOURNEY_RESPONSE,
 } from './constants';
 import { AsyncStorage } from 'react-native';
 
 function apiResponseHandler(response) {
   return new Promise(function(resolve, reject) {
-    if (response.status >= 200 && response.status < 300) {
-      response.json().then((body) => {
+    if (response.status === 500) reject({ status: response.status });
+    response.json().then((body) => {
+      if (response.status >= 200 && response.status < 300) {
         const authToken = response.headers.get("access-token");
         const client = response.headers.get("client");
         const uid = response.headers.get("uid");
         resolve({
-          ...body,
-          authToken: authToken,
-          client: client,
-          uid: uid
+          body: body,
+          headers: {
+            authToken: authToken,
+            client: client,
+            uid: uid
+          }
         });
-      });
-    } else if (response.status == 401) {
-      reject();
-    } else {
-      reject();
-    }
+      } else {
+        reject({ status: response.status, body: body });
+      }
+    });
   });
 }
 
 export function login(email, password) {
   return dispatch => {
-    dispatch({ type: LOGIN_FETCH })
+    dispatch({ type: FETCH })
     
     fetch(BASE_URL + '/users/sign_in', {
       method: 'post',
@@ -71,46 +60,37 @@ export function login(email, password) {
         email: email,
         password: password
       })
-    }).then((response) => {
-      if (response.status >= 200 && response.status < 300) {
-        response.json().then((body) => {
-          const authToken = response.headers.get("access-token");
-          const client = response.headers.get("client");
-          const uid = response.headers.get("uid");
-          
-          setStore(authToken, client, uid, body.data);
-          dispatch({
-            type: LOGIN_RESPONSE,
-            authToken: authToken,
-            client: client,
-            uid: uid,
-            user: body.data
-          })
-        });
-      } else {
-        dispatch({
-          type: AUTH_ERROR
-        })
-      }
-    }).catch((error) => {
-      console.log(error)
+    }).then(apiResponseHandler).then((response) => {
+      let { body, headers } = response;
+      setStore(headers.authToken, headers.client, headers.uid, body);
       dispatch({
-        type: LOGIN_ERROR
+        type: LOGIN_RESPONSE,
+        authToken: headers.authToken,
+        client: headers.client,
+        uid: headers.uid,
+        user: body.data
       });
-    })
+    }).catch((error) => {
+      console.log(error);
+      if (error.status === 401) {
+        dispatch({ type: AUTH_ERROR });
+      } else {
+        dispatch({ type: ERROR });
+      }
+    });
   }
 }
 
 export function logout() {
   return dispatch => {
-    clearStore()
-    dispatch({ type: DEAUTH })
+    clearStore();
+    dispatch({ type: DEAUTH });
   }
 }
 
 export function index(authToken, client, uid) {
   return dispatch => {
-    dispatch({ type: INDEX_FETCH })
+    dispatch({ type: FETCH })
     
     fetch(BASE_URL + '/journeys', {
       method: 'get',
@@ -119,30 +99,25 @@ export function index(authToken, client, uid) {
         client: client,
         uid: uid
       }
-    }).then((response) => {
-      if (response.status >= 200 && response.status < 300) {
-        response.json().then((body) => {
-          dispatch({
-            type: INDEX_RESPONSE,
-            journeys: body
-          })
-        });
-      } else {
-        console.log(response.status);
-        console.log(response);
-      }
-    }).catch((error) => {
-      console.log(error)
+    }).then(apiResponseHandler).then((response) => {
+      let { body, headers } = response;
       dispatch({
-        type: INDEX_ERROR
+        type: INDEX_RESPONSE,
+        journeys: body
       });
-    })
+    }).catch((error) => {
+      if (error.status === 401) {
+        dispatch({ type: AUTH_ERROR });
+      } else {
+        dispatch({ type: ERROR });
+      }
+    });
   }
 }
 
 export function myJourneys(authToken, client, uid) {
   return dispatch => {
-    dispatch({ type: MY_INDEX_FETCH })
+    dispatch({ type: FETCH })
     
     fetch(BASE_URL + '/my_journeys', {
       method: 'get',
@@ -151,23 +126,19 @@ export function myJourneys(authToken, client, uid) {
         client: client,
         uid: uid
       }
-    }).then((response) => {
-      if (response.status >= 200 && response.status < 300) {
-        response.json().then((body) => {
-          dispatch({
-            type: MY_INDEX_RESPONSE,
-            myJourneys: body
-          })
-        });
-      } else {
-        console.log(response.status)
-      }
-    }).catch((error) => {
-      console.log(error)
+    }).then(apiResponseHandler).then((response) => {
+      let { body, headers } = response;
       dispatch({
-        type: MY_INDEX_ERROR
+        type: MY_INDEX_RESPONSE,
+        myJourneys: body
       });
-    })
+    }).catch((error) => {
+      if (error.status === 401) {
+        dispatch({ type: AUTH_ERROR });
+      } else {
+        dispatch({ type: ERROR });
+      }
+    });
   }
 }
 
@@ -182,29 +153,25 @@ export function getJourney(authToken, client, uid, journeyId) {
         client: client,
         uid: uid
       }
-    }).then((response) => {
-      if (response.status >= 200 && response.status < 300) {
-        response.json().then((body) => {
-          dispatch({
-            type: GET_JOURNEY_RESPONSE,
-            journey: body
-          })
-        });
-      } else {
-        console.log(response.status)
-      }
-    }).catch((error) => {
-      console.log(error)
+    }).then(apiResponseHandler).then((response) => {
+      let { body, headers } = response;
       dispatch({
-        type: ERROR
+        type: GET_JOURNEY_RESPONSE,
+        journey: body
       });
-    })
+    }).catch((error) => {
+      if (error.status === 401) {
+        dispatch({ type: AUTH_ERROR });
+      } else {
+        dispatch({ type: ERROR });
+      }
+    });
   }
 }
 
 export function createJourney(authToken, client, uid, title, missionStatement) {
   return dispatch => {
-    dispatch({ type: CREATE_JOURNEY_FETCH })
+    dispatch({ type: FETCH })
     
     fetch(BASE_URL + '/journeys', {
       method: 'post',
@@ -218,28 +185,24 @@ export function createJourney(authToken, client, uid, title, missionStatement) {
         title: title,
         mission_statement: missionStatement
       })
-    }).then((response) => {
-      if (response.status >= 200 && response.status < 300) {
-        response.json().then((body) => {
-          dispatch({
-            type: CREATE_JOURNEY_RESPONSE
-          });
-        });
-      } else {
-        console.log(response.status)
-      }
-    }).catch((error) => {
-      console.log(error)
+    }).then(apiResponseHandler).then((response) => {
+      let { body, headers } = response;
       dispatch({
-        type: CREATE_JOURNEY_ERROR
+        type: CREATE_JOURNEY_RESPONSE
       });
-    })
+    }).catch((error) => {
+      if (error.status === 401) {
+        dispatch({ type: AUTH_ERROR });
+      } else {
+        dispatch({ type: ERROR });
+      }
+    });
   }
 }
 
 export function createJourneyLog(authToken, client, uid, journeyId, log, image) {
   return dispatch => {
-    dispatch({ type: CREATE_JOURNEY_LOG_FETCH })
+    dispatch({ type: FETCH })
 
     let body = { log: log };
     if (image) body.image = image;
@@ -253,17 +216,17 @@ export function createJourneyLog(authToken, client, uid, journeyId, log, image) 
         uid: uid
       },
       body: JSON.stringify(body)
-    }).then((response) => {
-      if (response.status >= 200 && response.status < 300) {
-        response.json().then((body) => {
-          dispatch({
-            type: CREATE_JOURNEY_LOG_RESPONSE
-          });
-        });
+    }).then(apiResponseHandler).then((response) => {
+      dispatch({
+        type: CREATE_JOURNEY_LOG_RESPONSE
+      });
+    }).catch((error) => {
+      if (error.status === 401) {
+        dispatch({ type: AUTH_ERROR });
       } else {
-        console.log(response.status)
+        dispatch({ type: ERROR });
       }
-    }).catch((error) => dispatch({type: ERROR}));
+    });
   }
 }
 
@@ -282,22 +245,17 @@ export function createCommits(authToken, client, uid, journeyId, commitPeriodId,
       body: JSON.stringify({
         commits: commits
       })
-    }).then((response) => {
-      if (response.status >= 200 && response.status < 300) {
-        response.json().then((body) => {
-          dispatch({
-            type: CREATE_COMMITS_RESPONSE
-          });
-        });
-      } else {
-        console.log(response.status)
-      }
-    }).catch((error) => {
-      console.log(error)
+    }).then(apiResponseHandler).then((response) => {
       dispatch({
-        type: ERROR
+        type: CREATE_COMMITS_RESPONSE
       });
-    })
+    }).catch((error) => {
+      if (error.status === 401) {
+        dispatch({ type: AUTH_ERROR });
+      } else {
+        dispatch({ type: ERROR });
+      }
+    });
   }
 }
 
@@ -313,26 +271,23 @@ export function editCommit(authToken, client, uid, journeyId, commitId) {
         client: client,
         uid: uid
       }
-    }).then((response) => {
-      if (response.status >= 200 && response.status < 300) {
-        response.json().then((body) => {
-          dispatch({
-            type: EDIT_COMMIT_RESPONSE
-          });
-        });
-      } else {
-        console.log(response.status)
-      }
+    }).then(apiResponseHandler).then((response) => {
+      dispatch({
+        type: EDIT_COMMIT_RESPONSE
+      });
     }).catch((error) => {
-      console.log(error)
-      dispatch({ type: ERROR });
-    })
+      if (error.status === 401) {
+        dispatch({ type: AUTH_ERROR });
+      } else {
+        dispatch({ type: ERROR });
+      }
+    });
   }
 }
 
 export function signup(email, password, confirm_password, nickname) {
   return dispatch => {
-    dispatch({ type: SIGNUP_FETCH })
+    dispatch({ type: FETCH })
     
     fetch(BASE_URL + '/users', {
       method: 'post',
@@ -345,34 +300,23 @@ export function signup(email, password, confirm_password, nickname) {
         password_confirmation: confirm_password,
         nickname: nickname
       })
-    }).then((response) => {
-      response.json().then((body) => {
-        if (response.status >= 200 && response.status < 300) {
-          const authToken = response.headers.get("access-token");
-          const client = response.headers.get("client");
-          const uid = response.headers.get("uid");
-          
-          setStore(authToken, client, uid, body.data);
-          dispatch({
-            type: SIGNUP_RESPONSE,
-            authToken: authToken,
-            client: client,
-            uid: uid,
-            user: body.data
-          });
-        } else {
-          dispatch({
-            type: SIGNUP_RESPONSE,
-            signupError: body.errors.full_messages
-          });
-        }
+    }).then(apiResponseHandler).then((response) => {
+      let { body, headers } = response;
+      setStore(headers.authToken, headers.client, headers.uid, body);
+      dispatch({
+        type: SIGNUP_RESPONSE,
+        authToken: headers.authToken,
+        client: headers.client,
+        uid: headers.uid,
+        user: body.data
       });
     }).catch((error) => {
-      console.log(error)
-      dispatch({
-        type: SIGNUP_ERROR
-      });
-    })
+      if (error.status === 422) {
+        dispatch({ type: SIGNUP_RESPONSE, signupError: error.body.errors.full_messages });
+      } else {
+        dispatch({ type: ERROR });
+      }
+    });
   }
 }
 
@@ -391,23 +335,20 @@ export function uploadProfilePicture(authToken, client, uid, image) {
       body: JSON.stringify({
         image: image
       })
-    }).then((response) => {
-      if (response.status >= 200 && response.status < 300) {
-        response.json().then((body) => {
-          setStore(authToken, client, uid, body);
-          dispatch({
-            type: UPLOAD_PROFILE_PICTURE_RESPONSE,
-            user: body
-          });
-        });
+    }).then(apiResponseHandler).then((response) => {
+      let { body, headers } = response;
+      setStore(authToken, client, uid, body);
+      dispatch({
+        type: UPLOAD_PROFILE_PICTURE_RESPONSE,
+        user: body
+      });
+    }).catch((error) => {
+      if (error.status === 401) {
+        dispatch({ type: AUTH_ERROR });
       } else {
-        console.log(response.status)
         dispatch({ type: ERROR });
       }
-    }).catch((error) => {
-      console.log(error)
-      dispatch({ type: ERROR });
-    })
+    });
   }
 }
 
@@ -423,15 +364,15 @@ export function deleteJourney(authToken, client, uid, id) {
         client: client,
         uid: uid
       }
-    })
-      .then(apiResponseHandler)
-      .then((body) => {
-        dispatch({ type: EDIT_JOURNEY_RESPONSE });
-      })
-      .catch((error) => {
-        console.log(error)
+    }).then(apiResponseHandler).then((response) => {
+      dispatch({ type: EDIT_JOURNEY_RESPONSE });
+    }).catch((error) => {
+      if (error.status === 401) {
+        dispatch({ type: AUTH_ERROR });
+      } else {
         dispatch({ type: ERROR });
-      })
+      }
+    });
   }
 }
 
@@ -447,15 +388,15 @@ export function deleteJourneyLog(authToken, client, uid, jid, id) {
         client: client,
         uid: uid
       }
-    })
-      .then(apiResponseHandler)
-      .then((body) => {
+    }).then(apiResponseHandler).then((response) => {
         dispatch({ type: RESPONSE });
-      })
-      .catch((error) => {
-        console.log(error)
+    }).catch((error) => {
+      if (error.status === 401) {
+        dispatch({ type: AUTH_ERROR });
+      } else {
         dispatch({ type: ERROR });
-      })
+      }
+    });
   }
 }
 
@@ -474,15 +415,15 @@ export function editJourney(authToken, client, uid, id, ms) {
       body: JSON.stringify({
         mission_statement: ms
       })
-    })
-      .then(apiResponseHandler)
-      .then((body) => {
-        dispatch({ type: EDIT_JOURNEY_RESPONSE  });
-      })
-      .catch((error) => {
-        console.log(error)
+    }).then(apiResponseHandler).then((response) => {
+      dispatch({ type: EDIT_JOURNEY_RESPONSE  });
+    }).catch((error) => {
+      if (error.status === 401) {
+        dispatch({ type: AUTH_ERROR });
+      } else {
         dispatch({ type: ERROR });
-      })
+      }
+    });
   }
 }
 

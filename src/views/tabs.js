@@ -15,12 +15,20 @@ import MyJourneys from './my_journeys';
 import NewJourney from './new_journey';
 import Quotes from './quotes';
 import AllJourneys from './all_journeys';
+import { logout } from '../actions';
 
 class Tabs extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedTab: 'all_journeys',
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.authError) {
+      this.props.logout();
+      Actions.replace('login');
     }
   }
   
@@ -93,9 +101,12 @@ const style = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
+    authError: state.authError
   };
 };
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(logout())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tabs);
