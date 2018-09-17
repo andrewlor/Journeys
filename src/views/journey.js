@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, View, StyleSheet, TouchableOpacity, Switch, Image } from 'react-native';
+import { Text, ScrollView, View, StyleSheet, TouchableOpacity, Switch, Image, RefreshControl } from 'react-native';
 import { connect } from 'react-redux';
 import { Title2, Headline, Body, DefaultTheme, Button, Icon } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
@@ -12,9 +12,13 @@ import { Topbar, Spinner } from './ui';
 
 class Journey extends Component {
 
+  _getJourney = () => {
+    this.props.getJourney(this.props.authToken, this.props.client, this.props.uid, this.props.journeyId);
+  }
+
   componentDidMount() {
     if (!this.props.journeyCache[String(this.props.journeyId)]) {
-      this.props.getJourney(this.props.authToken, this.props.client, this.props.uid, this.props.journeyId);
+      this._getJourney();
     }
   }
 
@@ -99,7 +103,15 @@ class Journey extends Component {
       return (
         <View style={{flex: 1}}>
           {this.renderTopBar()}
-          <ScrollView contentContainerStyle={{padding: 0, margin: 0}}>
+          <ScrollView
+            contentContainerStyle={{padding: 0, margin: 0}}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.props.isLoading}
+                           onRefresh={this._getJourney}
+              />
+            }
+          >
             <View style={style.journey}>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <ProfilePicture uri={journey.user_image} size={50}/>
