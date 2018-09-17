@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://2c6be983.ngrok.io/api/v1';
+export const BASE_URL = 'http://localhost:3000/api/v1';
 
 export const FETCH = 'FETCH';
 export const ERROR = 'ERROR';

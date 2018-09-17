@@ -62,7 +62,7 @@ export function login(email, password) {
       })
     }).then(apiResponseHandler).then((response) => {
       let { body, headers } = response;
-      setStore(headers.authToken, headers.client, headers.uid, body);
+      setStore(headers.authToken, headers.client, headers.uid, body.data);
       dispatch({
         type: LOGIN_RESPONSE,
         authToken: headers.authToken,
@@ -302,7 +302,7 @@ export function signup(email, password, confirm_password, nickname) {
       })
     }).then(apiResponseHandler).then((response) => {
       let { body, headers } = response;
-      setStore(headers.authToken, headers.client, headers.uid, body);
+      setStore(headers.authToken, headers.client, headers.uid, body.data);
       dispatch({
         type: SIGNUP_RESPONSE,
         authToken: headers.authToken,

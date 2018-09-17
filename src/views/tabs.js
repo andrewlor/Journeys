@@ -29,6 +29,7 @@ class Tabs extends Component {
     if (nextProps.authError) {
       this.props.logout();
       Actions.replace('login');
+      alert('There was an authentication error. Please log in and try again.');
     }
   }
   
