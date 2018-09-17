@@ -48,7 +48,7 @@ const initialState = {
   uid: null,
   indexJourneys: [],
   myJourneys: [],
-  journeyCache: {}
+  journeyCache: {},
   //newMember: true
 };
 

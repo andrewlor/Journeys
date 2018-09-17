@@ -6,7 +6,8 @@ import {
   Image
 } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { Title1, Title2, Body, Button, DefaultTheme, PageControlView } from 'react-native-ios-kit';
+import { Title1, Title2, Body, Button, DefaultTheme } from 'react-native-ios-kit';
+import Carousel from 'react-native-carousel-view';
 import { Actions } from 'react-native-router-flux';
 
 import { clearNewMember } from '../actions';
@@ -52,7 +53,13 @@ class Welcome extends Component {
     
     return (
       <View style={style.background}>
-        <PageControlView defaultPage={1}>
+        <View style={style.topBar}/>
+        <Carousel
+          animate={false}
+          indicatorSize={10}
+          height={600}
+          indicatorOffset={20}
+        >
           {pages.map((page, index) => (
             <View style={style.page} key={index}>
               <Title1 style={style.text}>{page.bigTitle}</Title1>
@@ -68,7 +75,7 @@ class Welcome extends Component {
                : null }
             </View>
           ))}
-        </PageControlView>
+        </Carousel>
       </View>
     );
   }
@@ -94,10 +101,9 @@ const style = StyleSheet.create({
     marginVertical: 20
   },
   page: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 1,
     padding: 20,
-    flex: 1
+    alignItems: 'center',
   }
 });
 
