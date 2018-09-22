@@ -9,9 +9,9 @@ import {
 import { Headline, Body, Button } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
 
-import { CLEAR_EDITED_JOURNEY } from '../constants';
-import { editJourney, getJourney } from '../actions';
-import { Spinner } from './ui';
+import { CLEAR_EDITED_JOURNEY } from '../../constants';
+import { editJourney, getJourney } from '../../actions';
+import { Spinner } from '../../ui';
 
 class EditJourneyScreen extends Component {
   constructor(props) {

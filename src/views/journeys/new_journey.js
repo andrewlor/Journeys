@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { Button, Title2, Headline, Body, Icon } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
 
-import { CLEAR_CREATED_JOURNEY } from '../constants';
-import { Topbar, Spinner, InfoBubble } from './ui';
-import { createJourney, index, myJourneys } from '../actions';
+import { CLEAR_CREATED_JOURNEY } from '../../constants';
+import { Topbar, Spinner, InfoBubble } from '../../ui';
+import { createJourney, index, myJourneys } from '../../actions';
 
 class NewJourney extends Component {
   constructor(props) {

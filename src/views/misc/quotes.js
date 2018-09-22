@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Title2, Headline, Body, DefaultTheme, Button } from 'react-native-ios-kit';
-import { Topbar } from './ui';
+import { Topbar } from '../../ui';
 
 const quotes = [
   {

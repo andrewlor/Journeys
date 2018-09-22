@@ -13,8 +13,8 @@ import {
 import { Title1, Button } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
 
-import { Spinner, Topbar } from './ui';
-import { signup, clearSignUpError } from '../actions';
+import { Spinner, Topbar } from '../../ui';
+import { signup, clearSignUpError } from '../../actions';
 
 class Signup extends Component {
   constructor(props) {

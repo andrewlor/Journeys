@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { DefaultTheme, Button, Body, Headline, Icon, Title2 } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
 
-import { CLEAR_EDITED_COMMIT } from '../constants';
-import { Topbar, Spinner, InfoBubble } from './ui';
-import { editCommit, getJourney } from '../actions';
+import { CLEAR_EDITED_COMMIT } from '../../constants';
+import { Topbar, Spinner, InfoBubble } from '../../ui';
+import { editCommit, getJourney } from '../../actions';
 
 class CommitPeriods extends Component {
   constructor(props) {

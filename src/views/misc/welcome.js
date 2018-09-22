@@ -10,7 +10,7 @@ import { Title1, Title2, Body, Button, DefaultTheme } from 'react-native-ios-kit
 import Carousel from 'react-native-carousel-view';
 import { Actions } from 'react-native-router-flux';
 
-import { clearNewMember } from '../actions';
+import { clearNewMember } from '../../actions';
 
 class Welcome extends Component {
 
@@ -22,28 +22,28 @@ class Welcome extends Component {
   render() {
     let pages = [
       {
-        image: require('../../assets/images/sail.png'),
+        image: require('../../../assets/images/sail.png'),
         imageStyle: { width: 256, height: 180 },
         bigTitle: "Welcome to Journeys",
         title: "Your journey starts here.",
         body: "Journeys is the self help app that will help you discipline yourself and improve your life."
       },
       {
-        image: require('../../assets/images/work.png'),
+        image: require('../../../assets/images/work.png'),
         imageStyle: { width: 256, height: 180 },
         bigTitle: "How it works",
         title: "Set your aim.",
         body: "Envision what you want to accomplish in the long term. This is your long term goal for 2 - 5 years. You should be overly ambitious."
       },
       {
-        image: require('../../assets/images/workout.png'),
+        image: require('../../../assets/images/workout.png'),
         imageStyle: { width: 255, height: 167 },
         bigTitle: "How it works",
         title: "Commit.",
         body: "Commit to taking specific actions that lead you towards your goal. These are short term goals that you are going to do tomorrow and should be easy enough that you will actually stick to the plan."
       },
       {
-        image: require('../../assets/images/peace.png'),
+        image: require('../../../assets/images/peace.png'),
         imageStyle: { width: 246, height: 173 },
         bigTitle: "How it works",
         title: "Make Progress.",

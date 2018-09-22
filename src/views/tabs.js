@@ -7,15 +7,13 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Actions } from 'react-native-router-flux';
 import { ifIphoneX } from 'react-native-iphone-x-helper';
 
-import Spinner from './ui/spinner';
-import Topbar from './ui/topbar';
-import { index } from '../actions';
-import Settings from './settings';
-import MyJourneys from './my_journeys';
-import NewJourney from './new_journey';
-import Quotes from './quotes';
-import AllJourneys from './all_journeys';
-import { logout } from '../actions';
+import { Spinner, Topbar } from '../ui';
+import { index, logout } from '../actions';
+import Settings from './account/settings';
+import MyJourneys from './journeys/my_journeys';
+import NewJourney from './journeys/new_journey';
+import Quotes from './misc/quotes';
+import AllJourneys from './journeys/all_journeys';
 
 class Tabs extends Component {
   constructor(props) {

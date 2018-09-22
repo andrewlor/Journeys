@@ -14,9 +14,9 @@ import { Button, Title2, Headline, Body, Icon } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
 import NumericInput from 'react-native-numeric-input';
 
-import { CLEAR_CREATED_COMMITS } from '../constants';
-import { createCommits, getJourney } from '../actions';
-import { Spinner, InfoBubble } from './ui';
+import { CLEAR_CREATED_COMMITS } from '../../constants';
+import { createCommits, getJourney } from '../../actions';
+import { Spinner, InfoBubble } from '../../ui';
 
 class NewCommitment extends Component {
   constructor(props) {

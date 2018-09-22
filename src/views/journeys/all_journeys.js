@@ -3,12 +3,11 @@ import { Text, ScrollView, View, StyleSheet, TouchableOpacity, RefreshControl } 
 import { connect } from 'react-redux';
 import { Title2, Headline, Body, Button, Icon, DefaultTheme } from 'react-native-ios-kit';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import Journey from './journey';
 import { Actions } from 'react-native-router-flux';
 import Dimensions from 'Dimensions';
 
-import { index } from '../actions';
-import { Spinner, ProfilePicture } from './ui';
+import { index } from '../../actions';
+import { Spinner, ProfilePicture } from '../../ui';
 
 class AllJourneys extends Component {
 

@@ -5,8 +5,8 @@ import { Headline, Body, Button } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
 import { ImagePicker, Permissions } from 'expo';
 
-import { logout, uploadProfilePicture } from '../actions';
-import { Spinner, ProfilePicture } from './ui';
+import { logout, uploadProfilePicture } from '../../actions';
+import { Spinner, ProfilePicture } from '../../ui';
 
 class Settings extends Component {
 

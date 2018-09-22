@@ -7,9 +7,9 @@ import Journey from './journey';
 import { Actions } from 'react-native-router-flux';
 import Swipeout from 'react-native-swipeout';
 
-import { CLEAR_ACTION_COMPLETED_FLAG } from '../constants';
-import { myJourneys, deleteJourney } from '../actions';
-import { Spinner } from './ui';
+import { CLEAR_ACTION_COMPLETED_FLAG } from '../../constants';
+import { myJourneys, deleteJourney } from '../../actions';
+import { Spinner } from '../../ui';
 
 class MyJourneys extends Component {
 

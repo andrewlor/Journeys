@@ -6,9 +6,9 @@ import { Actions } from 'react-native-router-flux';
 import FlexImage from 'react-native-flex-image';
 import Swipeout from 'react-native-swipeout';
 
-import { CLEAR_ACTION_COMPLETED_FLAG } from '../constants';
-import { getJourney, deleteJourneyLog } from '../actions';
-import { Topbar, Spinner } from './ui';
+import { CLEAR_ACTION_COMPLETED_FLAG } from '../../constants';
+import { getJourney, deleteJourneyLog } from '../../actions';
+import { Topbar, Spinner } from '../../ui';
 
 class Journey extends Component {
 

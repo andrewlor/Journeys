@@ -5,17 +5,17 @@ import { connect } from 'react-redux';
 import { Router, Scene } from 'react-native-router-flux';
 
 import { reauth } from './actions';
-import Login from './views/login';
+import Login from './views/title/login';
 import Tabs from './views/tabs';
-import Journey from './views/journey';
-import Settings from './views/settings';
-import Signup from './views/signup';
-import Welcome from './views/welcome';
-import NewJourneyLog from './views/new_journey_log';
-import NewJourney from './views/new_journey';
-import NewCommitment from './views/new_commitment';
-import CommitPeriods from './views/commit_periods';
-import EditJourneyScreen from './views/edit_journey_screen';
+import Journey from './views/journeys/journey';
+import Settings from './views/account/settings';
+import Signup from './views/title/signup';
+import Welcome from './views/misc/welcome';
+import NewJourneyLog from './views/journey_logs/new_journey_log';
+import NewJourney from './views/journeys/new_journey';
+import NewCommitment from './views/commits/new_commitment';
+import CommitPeriods from './views/commits/commit_periods';
+import EditJourneyScreen from './views/journeys/edit_journey_screen';
 
 class AppRoot extends Component {
   constructor(props) {

@@ -15,9 +15,9 @@ import { connect } from 'react-redux';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Actions } from 'react-native-router-flux';
 
-import { login, clearAuthError } from '../actions';
-import Tabs from './tabs';
-import { Spinner } from './ui';
+import { login, clearAuthError } from '../../actions';
+import Tabs from '../tabs';
+import { Spinner } from '../../ui';
 
 class Login extends React.Component {
   constructor(props) {
@@ -133,7 +133,7 @@ class Login extends React.Component {
       <ImageBackground
         style={{ flex: 1, width: null, height: null }}
         blurRadius={2}
-        source={require('../../assets/images/alberta.jpg')}
+        source={require('../../../assets/images/alberta.jpg')}
       >
         {this.renderMainContent()}
       </ImageBackground>
