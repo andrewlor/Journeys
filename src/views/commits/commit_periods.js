@@ -184,7 +184,8 @@ class CommitPeriods extends Component {
 
 const style = StyleSheet.create({
   journey: {
-    padding: 20,
+    padding: 15,
+    paddingHorizontal: 10,
     borderBottomWidth: 1,
     borderBottomColor: DefaultTheme.dividerColor,
     backgroundColor: 'white'

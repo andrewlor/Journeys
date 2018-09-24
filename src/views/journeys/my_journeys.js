@@ -89,7 +89,8 @@ class MyJourneys extends Component {
 
 const style = StyleSheet.create({
   journey: {
-    padding: 20,
+    padding: 10,
+    paddingVertical: 15,
     borderBottomWidth: 1,
     borderBottomColor: DefaultTheme.dividerColor,
     backgroundColor: 'white'

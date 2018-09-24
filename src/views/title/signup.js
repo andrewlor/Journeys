@@ -8,9 +8,11 @@ import {
   TextInput,
   Alert,
   Image,
-  Platform
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native';
-import { Title1, Button } from 'react-native-ios-kit';
+import { Title2, Button, DefaultTheme } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
 
 import { Spinner, Topbar } from '../../ui';
@@ -75,89 +77,86 @@ class Signup extends Component {
   render() {
     if (this.props.isLoading) return <Spinner />;
     return (
-      <View style={{ flex: 1 }}>
-        <Topbar back style={{ zIndex: 100}}/>
-        <View style={[style.element, {padding: 20}]}>
-          <Title1 style={{ textAlign: 'center' }}>Sign up for Journeys today to start your self improvement journey.</Title1>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={{ flex: 1 }}>
+          <Topbar back style={{ zIndex: 100}}/>
+          <View style={[style.element, {padding: 10}]}>
+            <Title2 style={{ textAlign: 'center' }}>Sign up for Journeys today to start your self improvement journey.</Title2>
+          </View>
+          <View style={{flex: 1}}></View>
+          <KeyboardAvoidingView behavior={(Platform.OS === 'ios') ? "position" : 'padding'}>
+            <View style={style.element}>
+              <TextInput
+                style={style.input}
+                placeholder={"Email"}
+                autoCapitalize='none'
+                onChangeText={(t) => this.setState({ email: t })}
+                underlineColorAndroid={'rgba(0,0,0,0)'}
+              />
+            </View>
+            <View style={style.element}>
+              <TextInput
+                style={style.input}
+                placeholder={"Username"}
+                autoCapitalize='none'
+                onChangeText={(t) => this.setState({ nickname: t })}
+                underlineColorAndroid={'rgba(0,0,0,0)'}
+              />
+            </View>
+            <View style={style.element}>
+              <TextInput
+                style={style.input}
+                placeholder={"Password"}
+                autoCapitalize='none'
+                secureTextEntry
+                onChangeText={(t) => this.setState({ password: t })}
+                underlineColorAndroid={'rgba(0,0,0,0)'}
+              />
+            </View>
+            <View style={style.element}>
+              <TextInput
+                style={style.input}
+                placeholder={"Confirm Password"}
+                autoCapitalize='none'
+                secureTextEntry
+                onChangeText={(t) => this.setState({ confirm_password: t })}
+                underlineColorAndroid={'rgba(0,0,0,0)'}
+              />
+            </View>
+            <View style={[style.element, { paddingBottom: 10}]}>
+              <Button
+                rounded
+                inverted
+                style={style.button}
+                onPress={this._submit}
+              >
+                Sign up
+              </Button>
+            </View>
+          </KeyboardAvoidingView>
         </View>
-        <View style={{flex: 1}}></View>
-        <KeyboardAvoidingView behavior={(Platform.OS === 'ios') ? "position" : 'padding'}>
-          <View style={style.element}>
-            <TextInput
-              style={style.input}
-              placeholder={"Email"}
-              autoCapitalize='none'
-              onChangeText={(t) => this.setState({ email: t })}
-              underlineColorAndroid={'rgba(0,0,0,0)'}
-            />
-          </View>
-          <View style={style.element}>
-            <TextInput
-              style={style.input}
-              placeholder={"Username"}
-              autoCapitalize='none'
-              onChangeText={(t) => this.setState({ nickname: t })}
-              underlineColorAndroid={'rgba(0,0,0,0)'}
-            />
-          </View>
-          <View style={style.element}>
-            <TextInput
-              style={style.input}
-              placeholder={"Password"}
-              autoCapitalize='none'
-              secureTextEntry
-              onChangeText={(t) => this.setState({ password: t })}
-              underlineColorAndroid={'rgba(0,0,0,0)'}
-            />
-          </View>
-          <View style={style.element}>
-            <TextInput
-              style={style.input}
-              placeholder={"Confirm Password"}
-              autoCapitalize='none'
-              secureTextEntry
-              onChangeText={(t) => this.setState({ confirm_password: t })}
-              underlineColorAndroid={'rgba(0,0,0,0)'}
-            />
-          </View>
-          <View style={[style.element, { paddingBottom: 10}]}>
-            <Button
-              rounded
-              inverted
-              style={style.button}
-              onPress={this._submit}
-            >
-              Sign up
-            </Button>
-          </View>
-        </KeyboardAvoidingView>
-        <View style={{height: 30}}></View>
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
 
 const style = StyleSheet.create({
-  image: {
-    width: 252,
-    height: 210
-  },
   element: {
     padding: 5,
-    paddingHorizontal: 30,
+    paddingHorizontal: 10,
     justifyContent: 'center',
     alignItems: 'center'
   },
   input: {
     width: '100%',
-    padding: 15,
+    padding: 10,
     fontSize: 15,
     backgroundColor: 'white',
     borderRadius: 5
   },
   button: {
     width: '100%',
-    padding: 15
+    padding: 10
   }
 });
 

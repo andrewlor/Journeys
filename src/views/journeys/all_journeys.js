@@ -51,7 +51,7 @@ class AllJourneys extends Component {
                    <View style={style.journey} key={journey.id}>
                      <View style={{flexDirection: 'row', alignItems: 'center', flex: 1}}>
                        <ProfilePicture uri={journey.user_image} size={50}/>
-                       <View style={{paddingHorizontal: 20, paddingRight: 40}}>
+                       <View style={{paddingLeft: 10, paddingRight: 40}}>
                          <Title2>{journey.title}</Title2>
                          <Body><Headline>{journey.username}</Headline> {journey.created_at}</Body>
                        </View>
@@ -83,7 +83,8 @@ class AllJourneys extends Component {
 
 const style = StyleSheet.create({
   journey: {
-    padding: 20,
+    padding: 10,
+    paddingVertical: 15,
     borderBottomWidth: 1,
     borderBottomColor: DefaultTheme.dividerColor,
     backgroundColor: 'white'

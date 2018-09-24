@@ -1,5 +1,15 @@
 import React, { Component } from 'react';
-import { Alert, TextInput, Text, ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  Alert,
+  TextInput,
+  Text,
+  ScrollView,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Keyboard,
+  TouchableWithoutFeedback
+} from 'react-native';
 import { connect } from 'react-redux';
 import { Button, Title2, Headline, Body, Icon } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
@@ -51,43 +61,44 @@ class NewJourney extends Component {
   render() {
     if (this.props.isLoading) return <Spinner />;
     return (
-      <View style={{flex: 1}}>
-        <Topbar down />
-        <ScrollView>
-          <View style={{ height: 10 }}/>
-          <View style={style.element}>
-            <Headline>My Journey to ...</Headline>
-            <TextInput
-              placeholder='learn Ruby'
-              autoCapitalize='none'
-              onChangeText={(t) => this.setState({title: t})}
-              style={style.input}
-              underlineColorAndroid={'rgba(0,0,0,0)'} 
-            />
-          </View>
-          <View style={style.element}>
-            <Headline>Misson statement:</Headline>
-            <TextInput
-              multiline
-              placeholder='I want to learn to develop and maintain Ruby web apps.'
-              autoCapitalize='none'
-              onChangeText={(t) => this.setState({missionStatement: t})}
-              style={[style.input, { height: 150, padding: 5 }]}
-              underlineColorAndroid={'rgba(0,0,0,0)'}
-            />
-          </View>
-          <View style={style.element}>
-            <Button
-              rounded
-              inverted
-              onPress={this._submit}
-            >
-              Start Journey
-            </Button>
-          </View>
-        </ScrollView>
-        <InfoBubble text='Summarize your journey in a short title. Your mission statement should outline what you want to accomplish in the long term and why.' />
-      </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={{flex: 1}}>
+          <Topbar down />
+          <ScrollView onScrollBeginDrag={Keyboard.dismiss}>
+            <View style={style.element}>
+              <Headline>My Journey to ...</Headline>
+              <TextInput
+                placeholder='learn Ruby'
+                autoCapitalize='none'
+                onChangeText={(t) => this.setState({title: t})}
+                style={style.input}
+                underlineColorAndroid={'rgba(0,0,0,0)'} 
+              />
+            </View>
+            <View style={style.element}>
+              <Headline>Misson statement:</Headline>
+              <TextInput
+                multiline
+                placeholder='I want to learn to develop and maintain Ruby web apps.'
+                autoCapitalize='none'
+                onChangeText={(t) => this.setState({missionStatement: t})}
+                style={[style.input, { height: 150, paddingTop: 10 }]}
+                underlineColorAndroid={'rgba(0,0,0,0)'}
+              />
+            </View>
+            <View style={style.element}>
+              <Button
+                rounded
+                inverted
+                onPress={this._submit}
+              >
+                Start Journey
+              </Button>
+            </View>
+          </ScrollView>
+          <InfoBubble text='Summarize your journey in a short title. Your mission statement should outline what you want to accomplish in the long term and why.' />
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
@@ -95,7 +106,7 @@ class NewJourney extends Component {
 const style = StyleSheet.create({
   input: {
     width: '100%',
-    padding: 15,
+    padding: 10,
     fontSize: 15,
     backgroundColor: 'white',
     borderRadius: 5,
@@ -103,9 +114,8 @@ const style = StyleSheet.create({
     textAlignVertical: 'top'
   },
   element: {
-    padding: 10,
-    paddingHorizontal: 20
-  },
+    padding: 10
+  }
 });
 
 const mapStateToProps = state => {

@@ -63,12 +63,12 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    padding: 20
+    padding: 10
   },
   button: {
     alignSelf: 'stretch',
-    padding: 15,
-    margin: 20
+    padding: 10,
+    margin: 10
   }
 });
 

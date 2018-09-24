@@ -13,6 +13,7 @@ export default Topbar = props => {
     leftButton = (
       <TouchableOpacity
         onPress={Actions.pop}
+        style={{ paddingRight: 10 }}
       >
         <Icon
           name={props.back ? 'ios-arrow-back' : 'ios-arrow-down'}
@@ -37,6 +38,7 @@ export default Topbar = props => {
     rightButton = (
       <TouchableOpacity
         onPress={props.rightButtonPress}
+        style={{ paddingLeft: 10 }}
       >
         <Icon
           name={props.rightButtonIcon}
@@ -71,16 +73,15 @@ const style = StyleSheet.create({
   topBar: {
     borderTopWidth: getStatusBarHeight(),
     borderTopColor: 'white',
-    minHeight: 40,
     justifyContent: 'center',
     borderBottomWidth: 1,
     borderBottomColor: DefaultTheme.dividerColor,
-    padding: 10,
-    paddingHorizontal: 20,
+    padding: 5,
+    paddingHorizontal: 10,
     backgroundColor: 'white',
   },
   title: {
-    fontSize: 30,
+    fontSize: 25,
     color: 'black',
     fontFamily: 'pacifico'
   }

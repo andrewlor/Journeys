@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Body, Headline, Icon, DefaultTheme } from 'react-native-ios-kit';
+import Dimensions from 'Dimensions';
 
 export default class InfoBubble extends Component {
   constructor() {
     super();
     this.state = {
-      render: true
+      render: false
     };
   }
 
   render () {
     if (this.state.render) {
       return (
-        <View style={style.bubble}>
+        <View style={[style.bubble, { width: Dimensions.get('window').width - 20 } ]}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Headline style={style.text}>Tip</Headline>
             <View style={{ flex: 1 }}/>
@@ -28,7 +29,14 @@ export default class InfoBubble extends Component {
         </View>
       );
     } else {
-      return null;
+      return (
+        <TouchableOpacity
+          onPress={() => this.setState({ render: true })}
+          style={[style.bubble, {width: 50, height: 50, justifyContent: 'center', alignItems: 'center'}]}
+        >
+          <Icon size={40} name='ios-help' style={style.text} />
+        </TouchableOpacity>
+      );
     }
   }
 }
@@ -37,10 +45,12 @@ const style = StyleSheet.create({
   bubble: {
     backgroundColor: DefaultTheme.primaryColor,
     borderRadius: 10,
-    padding: 15,
+    padding: 10,
     paddingTop: 5,
-    margin: 15,
-    marginTop: 0
+    margin: 5,
+    position: 'absolute',
+    bottom: 5,
+    right: 5
   },
   text: {
     color: 'white'

@@ -7,7 +7,9 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Picker
+  Picker,
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Button, Title2, Headline, Body, Icon } from 'react-native-ios-kit';
@@ -121,34 +123,36 @@ class NewCommitment extends Component {
   render() {
     if (this.props.isLoading) return <Spinner />;
     return (
-      <View style={{ flex: 1 }}>
-        <Topbar down />
-        <ScrollView>
-          <View style={style.element}>
-            <Title2>Commits for {this.props.commitPeriod.startdate} - {this.props.commitPeriod.enddate}</Title2>
-          </View>
-          {this.renderCommitFields()}
-          <View style={style.element}>
-            <Button
-              rounded
-              inverted
-              onPress={() => {this.addCommit()}}
-            >
-              Add Commitment
-            </Button>
-          </View>
-          <View style={style.element}>
-            <Button
-              rounded
-              inverted
-              onPress={this._submit}
-            >
-              Make Commitments
-            </Button>
-          </View>
-        </ScrollView>
-        <InfoBubble text='Make sure you aim low with your commitments, you will not beable to delete them after, but you can always add more later.' />
-      </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={{ flex: 1 }}>
+          <Topbar down />
+          <ScrollView onScrollBeginDrag={Keyboard.dismiss}>
+            <View style={style.element}>
+              <Title2>Commits for {this.props.commitPeriod.startdate} - {this.props.commitPeriod.enddate}</Title2>
+            </View>
+            {this.renderCommitFields()}
+            <View style={style.element}>
+              <Button
+                rounded
+                inverted
+                onPress={() => {this.addCommit()}}
+              >
+                Add Commitment
+              </Button>
+            </View>
+            <View style={style.element}>
+              <Button
+                rounded
+                inverted
+                onPress={this._submit}
+              >
+                Make Commitments
+              </Button>
+            </View>
+          </ScrollView>
+          <InfoBubble text='Make sure you aim low with your commitments, you will not beable to delete them after, but you can always add more later.' />
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
@@ -156,15 +160,14 @@ class NewCommitment extends Component {
 const style = StyleSheet.create({
   input: {
     width: '100%',
-    padding: 15,
+    padding: 10,
     fontSize: 15,
     backgroundColor: 'white',
     borderRadius: 5,
     marginVertical: 5
   },
   element: {
-    padding: 10,
-    paddingHorizontal: 20
+    padding: 10
   },
 });
 

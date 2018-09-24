@@ -8,7 +8,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   Picker,
-  Image
+  Image,
+  Keyboard,
+  TouchableWithoutFeedback
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Button, Title2, Headline, Body, Icon } from 'react-native-ios-kit';
@@ -108,68 +110,66 @@ class NewJourneyLog extends Component {
   render() {
     if (this.props.isLoading) return <Spinner />;
     return (
-      <View style={{ flex: 1 }}>
-        <Topbar down />
-        <ScrollView>
-          <View style={{ height: 10 }}/>
-          <View style={style.element}>
-            <TextInput
-              multiline
-              placeholder='Today I did ...'
-              autoCapitalize='none'
-              onChangeText={(t) => this.setState({log: t})}
-              style={[style.input, { height: 150, padding: 5 }]}
-              underlineColorAndroid={'rgba(0,0,0,0)'}
-            />
-          </View>
-          {this.state.imagePath ?
-           <View>
-             <View style={style.element}>
-               <FlexImage
-                 source={{uri: this.state.imagePath}}
-               />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={{ flex: 1 }}>
+          <Topbar down />
+          <ScrollView onScrollBeginDrag={Keyboard.dismiss}>
+            <View style={style.element}>
+              <TextInput
+                multiline
+                placeholder='Today I did ...'
+                autoCapitalize='none'
+                onChangeText={(t) => this.setState({log: t})}
+                style={[style.input, { height: 150 }]}
+                underlineColorAndroid={'rgba(0,0,0,0)'}
+              />
+            </View>
+            {this.state.imagePath ?
+             <View>
+               <View style={style.element}>
+                 <FlexImage
+                   source={{uri: this.state.imagePath}}
+                 />
+               </View>
+               <View style={style.element}>
+                 <Button
+                   onPress={this._pickPhoto}
+                 >Edit Photo</Button>
+               </View>
              </View>
+             :
              <View style={style.element}>
                <Button
                  onPress={this._pickPhoto}
-               >Edit Photo</Button>
-             </View>
-           </View>
-           :
-           <View style={style.element}>
-             <Button
-               onPress={this._pickPhoto}
-             >Add Photo</Button>
-           </View>}
-          <View style={style.element}>
-            <Button
-              rounded
-              inverted
-              onPress={this._submit}
-            >
-              Submit Journey Log
-            </Button>
-          </View>
-        </ScrollView>
-        <InfoBubble text='Write a short description of any experiences you are having along your journey. This can include the completing of commitments, making progress or challanges you are facing.' />
-      </View>
+               >Add Photo</Button>
+             </View>}
+            <View style={style.element}>
+              <Button
+                rounded
+                inverted
+                onPress={this._submit}
+              >
+                Submit Journey Log
+              </Button>
+            </View>
+          </ScrollView>
+          <InfoBubble text='Write a short description of any experiences you are having along your journey. This can include the completing of commitments, making progress or challanges you are facing.' />
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
 
 const style = StyleSheet.create({
   input: {
-    width: '100%',
-    padding: 15,
+    padding: 10,
     fontSize: 15,
     backgroundColor: 'white',
     borderRadius: 5,
-    marginVertical: 5,
     textAlignVertical: 'top'
   },
   element: {
-    padding: 10,
-    paddingHorizontal: 20
+    padding: 10
   },
 });
 

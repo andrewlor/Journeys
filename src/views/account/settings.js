@@ -34,18 +34,18 @@ class Settings extends Component {
     return (
       <View style={{flex: 1}}>
         {this.props.user ?
-         <View style={{padding: 20, alignItems: 'center'}}>
+         <View style={{padding: 15, alignItems: 'center'}}>
            <ProfilePicture uri={this.props.user.image.url}/>
            <Button
              onPress={this._pickPhoto}
              style={{marginTop: 5}}
            >Edit</Button>
-           <View style={{height: 20}}/>
+           <View style={{height: 15}}/>
            <Headline>{this.props.user.nickname}</Headline>
            <Body>{this.props.user.email}</Body>
          </View>
            : null }
-        <View style={{paddingHorizontal: 20}}>
+        <View style={{paddingHorizontal: 10}}>
           <Button
             onPress={() => this.props.logout()}
             centered

@@ -115,7 +115,7 @@ class Journey extends Component {
             <View style={style.journey}>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <ProfilePicture uri={journey.user_image} size={50}/>
-                <View style={{paddingHorizontal: 20, paddingRight: 40}}>
+                <View style={{paddingHorizontal: 10, paddingRight: 40}}>
                   <Title2>{journey.title}</Title2>
                   <Body>{journey.created_at} <Headline>{journey.username}</Headline></Body>
                 </View>
@@ -147,7 +147,8 @@ class Journey extends Component {
 
 const style = StyleSheet.create({
   journey: {
-    padding: 20,
+    padding: 10,
+    paddingVertical: 15,
     borderBottomWidth: 1,
     borderBottomColor: DefaultTheme.dividerColor,
     backgroundColor: 'white'

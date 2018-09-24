@@ -4,7 +4,10 @@ import {
   View,
   StyleSheet,
   TextInput,
-  Alert
+  Alert,
+  ScrollView,
+  Keyboard,
+  TouchableWithoutFeedback
 } from 'react-native';
 import { Headline, Body, Button } from 'react-native-ios-kit';
 import { Actions } from 'react-native-router-flux';
@@ -53,30 +56,34 @@ class EditJourneyScreen extends Component {
   render() {
     if (this.props.isLoading) return <Spinner />;
     return (
-      <View style={style.background}>
-        <Topbar down />
-        <View style={style.element}>
-          <Headline>Misson statement:</Headline>
-          <TextInput
-            multiline
-            placeholder='I want to learn to develop and maintain Ruby web apps.'
-            autoCapitalize='none'
-            value={this.state.missionStatement}
-            onChangeText={(t) => this.setState({missionStatement: t})}
-            style={[style.input, { height: 150, padding: 5 }]}
-            underlineColorAndroid={'rgba(0,0,0,0)'}
-          />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={{flex: 1}}>
+          <Topbar down />
+          <ScrollView onScrollBeginDrag={Keyboard.dismiss}>
+            <View style={style.element}>
+              <Headline>Misson statement:</Headline>
+              <TextInput
+                multiline
+                placeholder='I want to learn to develop and maintain Ruby web apps.'
+                autoCapitalize='none'
+                value={this.state.missionStatement}
+                onChangeText={(t) => this.setState({missionStatement: t})}
+                style={[style.input, { height: 150 }]}
+                underlineColorAndroid={'rgba(0,0,0,0)'}
+              />
+            </View>
+            <View style={style.element}>
+              <Button
+                rounded
+                inverted
+                onPress={this._submit}
+              >
+                Update Journey
+              </Button>
+            </View>
+          </ScrollView>
         </View>
-        <View style={style.element}>
-          <Button
-            rounded
-            inverted
-            onPress={this._submit}
-          >
-            Update Journey
-          </Button>
-        </View>
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
@@ -85,7 +92,7 @@ class EditJourneyScreen extends Component {
 const style = StyleSheet.create({
   input: {
     width: '100%',
-    padding: 15,
+    padding: 10,
     fontSize: 15,
     backgroundColor: 'white',
     borderRadius: 5,
@@ -93,8 +100,7 @@ const style = StyleSheet.create({
     textAlignVertical: 'top'
   },
   element: {
-    padding: 10,
-    paddingHorizontal: 20
+    padding: 10
   },
 });
 
