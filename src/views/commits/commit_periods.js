@@ -62,6 +62,24 @@ class CommitPeriods extends Component {
     return this.props.uid === this.journey().user_email;
   }
 
+  commitPeriodFailed(commit_period) {
+    if (commit_period.commits.length == 0) return false;
+    let endDate = new Date(commit_period.enddate);
+    endDate.setYear(2018);
+    let now = new Date();
+    if (!this.commitPeriodComplete(commit_period) && now > endDate) {
+      return true;
+    }
+    return false;
+  }
+
+  commitPeriodComplete(commit_period) {
+    if (commit_period.commits.length == 0) return false;
+    return commit_period.commits.reduce((acc, curr) => {
+      return acc && curr.repetitions == curr.repetitions_completed;
+    }, true);
+  }
+
   renderAddCommitsLink(commitPeriod) {
     if (this.canEditJourney()) {
       return <Button onPress={() => { Actions.newCommitment({ commitPeriod: commitPeriod, journeyId: this.props.journeyId }) }}>Add commitments</Button>;
@@ -135,13 +153,22 @@ class CommitPeriods extends Component {
       return (
         <View>
           {journey.commit_periods.map((commit_period, index) => {
+             let completed = this.commitPeriodComplete(commit_period);
+             let failed = this.commitPeriodFailed(commit_period);
              return (
                <View key={commit_period.id}>
                  <TouchableOpacity onPress={() => this.toggleExpansion(index)}>
-                   <View style={[style.journey, {flexDirection: 'row', alignItems: 'center'}]}>
-                     <Headline>{commit_period.startdate} to {commit_period.enddate}</Headline>
+                   <View style={[
+                     style.journey,
+                     {flexDirection: 'row', alignItems: 'center'},
+                     (completed ? style.completed : {}),
+                     (failed ? style.failed : {})
+                   ]}>
+                     <Headline style={(completed || failed ? {color: 'white'} : {})}>{commit_period.startdate} to {commit_period.enddate}</Headline>
                      <View style={{flex: 1}}/>
-                     {this.state.expandedIndex == index ? <Icon size={30} name='ios-arrow-down' /> : <Icon size={30} name='ios-arrow-up' />}
+                     {this.state.expandedIndex == index ?
+                      <Icon size={30} name='ios-arrow-down' style={(completed || failed ? {color: 'white'} : {})} /> :
+                      <Icon size={30} name='ios-arrow-up' style={(completed || failed ? {color: 'white'} : {})} />}
                    </View>
                  </TouchableOpacity>
                  {this.state.expandedIndex == index ? 
@@ -172,7 +199,7 @@ class CommitPeriods extends Component {
           <ScrollView>
             <View style={[style.journey, {backgroundColor: DefaultTheme.footnoteBackgroundColor}]}>
               <Title2>Weekly Commitments</Title2>
-            </View>
+            </View> 
             {this.renderCommitPeriods(journey)}
           </ScrollView>
           {this.canEditJourney() ? <InfoBubble text='Your weekly commitments are the tasks that you pledge to doing at the beginning of each week. Once you write these tasks down, you owe it to yourself to complete them.' /> : null }
@@ -189,6 +216,12 @@ const style = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: DefaultTheme.dividerColor,
     backgroundColor: 'white'
+  },
+  completed: {
+    backgroundColor: DefaultTheme.positiveColor
+  },
+  failed: {
+    backgroundColor: 'red'
   }
 });
 
