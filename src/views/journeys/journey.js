@@ -53,7 +53,7 @@ class Journey extends Component {
                }
              ];
              return (
-               <Swipeout key={journeyLog.id} right={swipeoutBtns} disable={!this.canEditJourney()}>
+               <Swipeout key={journeyLog.id} right={swipeoutBtns} disabled={!this.canEditJourney()}>
                  <View style={style.journey}>
                    <Headline>{journeyLog.created_at}</Headline>
                    <Body>{journeyLog.log}</Body>

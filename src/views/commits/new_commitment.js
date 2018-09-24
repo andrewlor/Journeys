@@ -150,7 +150,7 @@ class NewCommitment extends Component {
               </Button>
             </View>
           </ScrollView>
-          <InfoBubble text='Make sure you aim low with your commitments, you will not beable to delete them after, but you can always add more later.' />
+          <InfoBubble text='Make sure you aim low with your commitments, you will not be able to delete them after, but you can always add more later.' />
         </View>
       </TouchableWithoutFeedback>
     );
